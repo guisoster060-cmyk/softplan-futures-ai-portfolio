@@ -56,3 +56,34 @@ Completar a estrutura documental do projeto e realizar pesquisa de mercado e val
 Este documento deverá ser atualizado sempre que uma etapa importante for concluída, uma decisão for aprovada ou o planejamento mudar.
  
 Nunca marcar tarefas como concluídas sem evidências verificáveis.
+
+## Atualização — 05/11/2026
+
+### Organização inicial concluída
+
+- [x] Criar o projeto BusinessMind AI no Claude.
+- [x] Criar os documentos de contexto e gestão.
+- [x] Criar as cinco definições de Skills.
+- [x] Transferir os oito documentos principais para o GitHub.
+- [x] Transferir as cinco Skills para a estrutura do projeto.
+
+### Skills organizadas
+
+1. Business Analysis
+2. Software Architecture
+3. Feature Development
+4. Code Review
+5. Quality Assurance
+
+### Próximas etapas
+
+- [ ] Conferir a estrutura e os arquivos no GitHub.
+- [ ] Revisar os documentos de contexto.
+- [ ] Atualizar PROMPT_LOG.md e CHATGPT_PROMPT_HISTORY.md.
+- [ ] Configurar e validar o uso das Skills no ambiente Claude.
+- [ ] Planejar e desenvolver o MVP.
+- [ ] Executar testes e documentar resultados.
+
+### Observação
+
+As Skills foram organizadas como arquivos no repositório. Sua ativação e utilização no ambiente Claude ainda precisam ser configuradas e verificadas.
