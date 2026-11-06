@@ -216,3 +216,39 @@ Este registro é uma reconstrução resumida da interação. Não representa a t
 
 ### Próxima etapa
 Conferir a estrutura no GitHub, validar a utilização das Skills no Claude e iniciar o planejamento técnico do MVP.
+
+---
+
+## CHATGPT-013 — Configuração, ativação e validação das Skills
+
+**Data:** 05/11/2026  
+**Ferramenta:** ChatGPT — GPT-6  
+**Projeto:** BusinessMind AI
+
+### Objetivo
+
+Concluir a configuração das cinco Skills especializadas do projeto e validar sua disponibilidade no Claude.
+
+### Contribuições do ChatGPT
+
+- Orientou a inclusão dos metadados YAML nas cinco Skills.
+- Orientou a preparação dos arquivos ZIP.
+- Acompanhou o upload e a ativação das cinco Skills no Claude.
+- Preparou um teste para verificar o acesso às habilidades.
+- Analisou a resposta do Claude e identificou pontos de atenção na documentação.
+- Preparou a atualização do PROJECT_STATUS.md para a versão 1.1.
+- Preparou o registro PROMPT-008 no PROMPT_LOG.md.
+
+### Resultado
+
+As cinco Skills foram ativadas no Claude e o acesso a elas foi confirmado pelo próprio Claude.
+
+O documento PROJECT_STATUS.md foi atualizado e o PROMPT_LOG.md recebeu o registro das atividades.
+
+### Participação do usuário
+
+O usuário executou as operações no GitHub e no Claude, realizou os uploads, confirmou as ativações e aprovou as atualizações documentais.
+
+### Observação sobre rastreabilidade
+
+Este registro é um resumo reconstruído das atividades, não uma transcrição literal de todas as mensagens ou prompts utilizados.
