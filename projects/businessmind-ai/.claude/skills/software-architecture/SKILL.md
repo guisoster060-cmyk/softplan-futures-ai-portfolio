@@ -1,3 +1,8 @@
+---
+name: software-architecture
+description: Design maintainable software architectures, choose technologies, define modules, data models, integrations, security and technical decisions.
+---
+
 Skill: Software Architecture
  
 Objetivo
