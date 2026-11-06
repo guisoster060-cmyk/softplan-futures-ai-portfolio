@@ -1,3 +1,8 @@
+---
+name: quality-assurance
+description: Plan and execute software tests, validate requirements, document defects and confirm fixes with evidence.
+---
+
 Skill: Quality Assurance
  
 Objetivo
