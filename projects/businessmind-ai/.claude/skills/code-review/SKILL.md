@@ -1,3 +1,8 @@
+---
+name: code-review
+description: Review code for bugs, security risks, maintainability, performance and architectural consistency; report findings with severity and evidence.
+---
+
 Skill: Code Review
  
 Objetivo
