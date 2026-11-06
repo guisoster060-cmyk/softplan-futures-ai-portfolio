@@ -1,3 +1,8 @@
+---
+name: feature-development
+description: Implement software features according to requirements and architecture, maintain code quality, run relevant tests and document changes.
+---
+
 Skill: Feature Development
  
 Objetivo
