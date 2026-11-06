@@ -1,89 +1,140 @@
-BUSINESSMIND AI — PROJECT STATUS
- 
+# BUSINESSMIND AI — PROJECT STATUS
+
 Última atualização: 05/11/2026
-Versão: 1.0
-Fase atual: Estruturação e planejamento
- 
-1. Situação geral
- 
-O projeto está na fase inicial de organização, definição de contexto e preparação do ambiente de desenvolvimento.
- 
+Versão: 1.1
+Fase atual: Estruturação documental e planejamento do produto
+
+## 1. Situação geral
+
+O projeto está na fase de estruturação, organização documental, preparação do ambiente de trabalho e planejamento do produto.
+
+A estrutura inicial de documentação e as Skills de apoio ao desenvolvimento foram criadas, transferidas para o GitHub e ativadas no Claude.
+
 Nenhuma implementação do produto foi iniciada.
- 
-2. Etapas concluídas
- 
-- [x] Criação do projeto BusinessMind AI no Claude.
-- [x] Configuração da descrição inicial do projeto.
-- [x] Configuração das instruções personalizadas.
-- [x] Criação do documento PROJECT_BRIEF.md.
-- [x] Definição inicial dos objetivos e funcionalidades propostas.
- 
-3. Etapas pendentes
- 
-- [ ] Criar PROJECT_STATUS.md.
-- [ ] Criar DEVELOPMENT_RULES.md.
-- [ ] Criar TECHNICAL_DECISIONS.md.
-- [ ] Criar PROMPT_LOG.md.
-- [ ] Pesquisar soluções semelhantes no mercado.
-- [ ] Validar o problema e o público-alvo.
-- [ ] Definir requisitos funcionais e não funcionais.
-- [ ] Pesquisar e escolher tecnologias.
-- [ ] Definir arquitetura.
-- [ ] Planejar o MVP.
-- [ ] Preparar repositório GitHub.
-- [ ] Iniciar implementação.
- 
-4. Decisões já estabelecidas
- 
-- Claude será o principal parceiro de desenvolvimento.
-- ChatGPT e Gemini poderão atuar como ferramentas auxiliares.
-- O GitHub será utilizado para versionamento e documentação.
-- Os projetos terão contextos e ambientes separados.
-- Os prompts relevantes e contribuições das IAs serão documentados.
-- O desenvolvimento será incremental.
-- O usuário deverá compreender e validar as entregas.
- 
-5. Decisões ainda não estabelecidas
- 
-Nenhuma tecnologia ou arquitetura deve ser tratada como definitiva antes da pesquisa e avaliação.
- 
-6. Próxima prioridade
- 
-Completar a estrutura documental do projeto e realizar pesquisa de mercado e validação da solução antes de iniciar a programação.
- 
-7. Regra de atualização
- 
-Este documento deverá ser atualizado sempre que uma etapa importante for concluída, uma decisão for aprovada ou o planejamento mudar.
- 
-Nunca marcar tarefas como concluídas sem evidências verificáveis.
 
-## Atualização — 05/11/2026
+## 2. Etapas concluídas
 
-### Organização inicial concluída
+### Organização do projeto
 
 - [x] Criar o projeto BusinessMind AI no Claude.
-- [x] Criar os documentos de contexto e gestão.
-- [x] Criar as cinco definições de Skills.
-- [x] Transferir os oito documentos principais para o GitHub.
-- [x] Transferir as cinco Skills para a estrutura do projeto.
+- [x] Configurar a descrição inicial do projeto.
+- [x] Configurar as instruções personalizadas.
+- [x] Criar o repositório GitHub.
+- [x] Preparar a estrutura inicial do repositório.
+- [x] Criar README.md e .gitignore.
 
-### Skills organizadas
+### Documentação
 
-1. Business Analysis
-2. Software Architecture
-3. Feature Development
-4. Code Review
-5. Quality Assurance
+- [x] Criar PROJECT_BRIEF.md.
+- [x] Criar PROJECT_STATUS.md.
+- [x] Criar DEVELOPMENT_RULES.md.
+- [x] Criar TECHNICAL_DECISIONS.md.
+- [x] Criar PROMPT_LOG.md.
+- [x] Criar CHATGPT_PROMPT_HISTORY.md.
+- [x] Criar AGENTS.md.
+- [x] Criar CLAUDE.md.
+- [x] Transferir os documentos para o GitHub.
 
-### Próximas etapas
+### Skills
 
-- [ ] Conferir a estrutura e os arquivos no GitHub.
-- [ ] Revisar os documentos de contexto.
-- [ ] Atualizar PROMPT_LOG.md e CHATGPT_PROMPT_HISTORY.md.
-- [ ] Configurar e validar o uso das Skills no ambiente Claude.
-- [ ] Planejar e desenvolver o MVP.
-- [ ] Executar testes e documentar resultados.
+- [x] Criar Business Analysis.
+- [x] Criar Software Architecture.
+- [x] Criar Feature Development.
+- [x] Criar Code Review.
+- [x] Criar Quality Assurance.
+- [x] Adicionar metadados YAML às cinco Skills.
+- [x] Transferir as cinco Skills para o GitHub.
+- [x] Enviar as cinco Skills para o Claude.
+- [x] Ativar as cinco Skills no Claude.
+- [x] Realizar teste de acesso e identificação das cinco Skills.
+- [x] Confirmar com Claude a finalidade e o fluxo de utilização de cada Skill.
 
-### Observação
+## 3. Etapas pendentes
 
-As Skills foram organizadas como arquivos no repositório. Sua ativação e utilização no ambiente Claude ainda precisam ser configuradas e verificadas.
+### Pesquisa e validação
+
+- [ ] Pesquisar soluções semelhantes no mercado.
+- [ ] Identificar concorrentes e alternativas.
+- [ ] Validar o problema que o produto pretende resolver.
+- [ ] Validar o público-alvo.
+- [ ] Identificar necessidades reais dos usuários.
+- [ ] Separar fatos, hipóteses e dúvidas.
+
+### Requisitos e planejamento
+
+- [ ] Definir requisitos funcionais.
+- [ ] Definir requisitos não funcionais.
+- [ ] Priorizar funcionalidades.
+- [ ] Definir critérios de aceitação.
+- [ ] Planejar o escopo do MVP.
+
+### Arquitetura e tecnologia
+
+- [ ] Pesquisar e comparar tecnologias.
+- [ ] Avaliar provedores de inteligência artificial.
+- [ ] Definir arquitetura.
+- [ ] Definir banco de dados.
+- [ ] Definir hospedagem e infraestrutura.
+- [ ] Registrar decisões aprovadas em TECHNICAL_DECISIONS.md.
+
+### Desenvolvimento e validação
+
+- [ ] Iniciar implementação do MVP após aprovação dos requisitos e arquitetura.
+- [ ] Implementar funcionalidades incrementalmente.
+- [ ] Executar Code Review.
+- [ ] Executar testes de Quality Assurance.
+- [ ] Documentar resultados e correções.
+- [ ] Preparar demonstração funcional do produto.
+
+### Documentação e rastreabilidade
+
+- [ ] Atualizar PROMPT_LOG.md com as interações recentes.
+- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md.
+- [ ] Registrar as contribuições das diferentes IAs.
+- [ ] Revisar periodicamente os documentos de contexto.
+
+## 4. Decisões já estabelecidas
+
+- Claude será o principal parceiro de desenvolvimento.
+- ChatGPT e Gemini poderão atuar como ferramentas auxiliares.
+- GitHub será utilizado para versionamento e documentação.
+- Os projetos terão contextos e ambientes separados.
+- Os prompts relevantes e as contribuições das IAs serão documentados.
+- O desenvolvimento será incremental.
+- O usuário deverá compreender, acompanhar e validar as entregas.
+- Nenhuma tecnologia ou arquitetura será considerada definitiva antes de pesquisa e aprovação.
+- As cinco Skills serão utilizadas conforme a necessidade de cada etapa.
+
+## 5. Skills disponíveis
+
+1. Business Analysis — análise de problemas, público-alvo, requisitos e MVP.
+2. Software Architecture — arquitetura, tecnologias e decisões técnicas.
+3. Feature Development — implementação de funcionalidades.
+4. Code Review — revisão de código, segurança e qualidade técnica.
+5. Quality Assurance — planejamento e execução de testes.
+
+As cinco Skills foram ativadas no Claude e tiveram seu acesso confirmado em uma conversa de validação.
+
+## 6. Fluxo de trabalho previsto
+
+Business Analysis
+→ Software Architecture
+→ Feature Development
+→ Code Review
+→ Quality Assurance
+
+O ciclo será repetido para cada funcionalidade, com correções e novos testes quando necessário.
+
+## 7. Próxima prioridade
+
+Iniciar a fase de Business Analysis, começando pela pesquisa de mercado, identificação de concorrentes, validação do público-alvo e levantamento de requisitos.
+
+Nenhuma implementação deverá começar antes da validação dos requisitos e da aprovação da arquitetura.
+
+## 8. Regra de atualização
+
+Este documento deverá ser atualizado sempre que uma etapa importante for concluída, uma decisão for aprovada ou o planejamento mudar.
+
+Nunca marcar tarefas como concluídas sem evidências verificáveis.
+
+O status do projeto deverá refletir o estado real do desenvolvimento, sem antecipar resultados ou considerar hipóteses como decisões aprovadas.
