@@ -1,6 +1,11 @@
-Skill: Business Analysis
+---
+name: business-analysis
+description: Analyze business problems, identify user needs, map processes, define software requirements, prioritize MVP features and establish acceptance criteria.
+---
+
+# Skill: Business Analysis
  
-Objetivo
+## Objetivo
  
 Analisar problemas reais de empresas e transformar necessidades em requisitos claros para soluções de software, inteligência artificial e automação.
  
