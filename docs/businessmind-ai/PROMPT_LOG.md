@@ -222,3 +222,45 @@ Conferir os arquivos no GitHub e verificar a ativação efetiva das Skills no am
 
 **Observação sobre os registros:**
 Este registro é um resumo das atividades realizadas nesta etapa, não uma transcrição literal de todos os prompts e respostas. Os textos originais devem ser preservados quando disponíveis.
+
+---
+
+## PROMPT-008 — Configuração e validação das Skills
+
+**Data:** 05/11/2026  
+**Ferramentas:** ChatGPT e Claude  
+**Categoria:** Organização, configuração e validação do ambiente de IA
+
+### Objetivo
+
+Organizar as cinco Skills especializadas do BusinessMind AI, disponibilizá-las no GitHub e ativá-las no ambiente Claude.
+
+### Atividades realizadas
+
+- Criação das definições das cinco Skills.
+- Adição dos metadados YAML obrigatórios.
+- Transferência dos arquivos SKILL.md para o GitHub.
+- Preparação dos arquivos ZIP para upload.
+- Upload e ativação das cinco Skills no Claude.
+- Teste de acesso e identificação das habilidades.
+- Validação das responsabilidades e do fluxo de utilização.
+
+### Resultado
+
+As cinco Skills foram ativadas e o Claude confirmou acesso a todas elas.
+
+### Decisões e aprendizados
+
+- Business Analysis será utilizada antes da definição da arquitetura.
+- Software Architecture será utilizada após a validação dos requisitos.
+- Feature Development será utilizada para implementação incremental.
+- Code Review verificará a qualidade técnica do código.
+- Quality Assurance verificará o comportamento do sistema.
+
+### Participação humana
+
+O usuário acompanhou as etapas, realizou os uploads, organizou os arquivos no GitHub e validou a ativação das Skills.
+
+### Observação
+
+Este registro é um resumo reconstruído das atividades realizadas, não uma transcrição literal de todos os prompts.
