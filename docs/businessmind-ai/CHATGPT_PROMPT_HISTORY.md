@@ -183,3 +183,36 @@ O ChatGPT atuou como ferramenta auxiliar de planejamento, organização, documen
 O usuário participou das decisões, criou os ambientes, inseriu os documentos e validou as etapas.
  
 As contribuições do Claude e de outras ferramentas serão registradas separadamente.
+
+## CHATGPT-012 — Organização documental e Skills
+
+**Data:** 05/11/2026  
+**Ferramenta:** ChatGPT — GPT-6  
+**Projeto:** BusinessMind AI
+
+### Objetivo
+Organizar a documentação do projeto, definir funções especializadas para agentes de IA e preparar a estrutura do GitHub.
+
+### Atividades orientadas pelo ChatGPT
+- Estruturação de oito documentos principais.
+- Definição de cinco Skills especializadas.
+- Orientação passo a passo para criar documentos no Claude.
+- Orientação para transferir os arquivos ao GitHub.
+- Organização dos diretórios das Skills.
+- Atualização do status do projeto.
+- Atualização do registro geral de prompts.
+
+### Decisões e ações humanas
+- O usuário criou os documentos no Claude.
+- O usuário aprovou as cinco Skills.
+- O usuário realizou os commits no GitHub.
+- O usuário confirmou as etapas concluídas.
+
+### Resultado
+Documentação inicial e estrutura de Skills organizadas no repositório `softplan-futures-ai-portfolio`.
+
+### Limitações do registro
+Este registro é uma reconstrução resumida da interação. Não representa a transcrição literal de todos os prompts. Os prompts originais devem ser preservados quando disponíveis.
+
+### Próxima etapa
+Conferir a estrutura no GitHub, validar a utilização das Skills no Claude e iniciar o planejamento técnico do MVP.
