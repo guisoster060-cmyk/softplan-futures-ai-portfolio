@@ -1,6 +1,6 @@
 BUSINESSMIND AI — PROMPT LOG
 
-Versão: 1.3
+Versão: 1.4
 Última atualização: 07/11/2026
 Início do registro: 05/11/2026
 Status: Em andamento
@@ -332,9 +332,7 @@ Commit relacionado
 
 Atualização publicada na branch "new-branch" em 06/11/2026.
 
-Status
-
-Concluído.
+Status: Concluído.
 
 ---
 
@@ -386,9 +384,7 @@ Commit relacionado
 
 Criação do MARKET_VALIDATION.md na branch "new-branch", em 06/11/2026.
 
-Status
-
-Concluído.
+Status: Concluído.
 
 ---
 
@@ -433,9 +429,7 @@ Commit relacionado
 
 Os registros de execução deverão ser associados aos respectivos commits após a publicação deste documento.
 
-Status
-
-Em andamento.
+Status: Em andamento.
 
 ---
 
@@ -473,9 +467,7 @@ Commit relacionado
 
 "docs: add market validation to documentation index"
 
-Status
-
-Concluído.
+Status: Concluído.
 
 ---
 
@@ -502,35 +494,52 @@ Resultado produzido
 - Atualização do PROJECT_BRIEF.md para a versão 1.1.
 - Alinhamento do documento de visão ao estágio de planejamento e validação exploratória.
 - Reforço da distinção entre hipóteses, propostas e decisões aprovadas.
-- Atualização do PROJECT_STATUS.md para a versão 1.4.
+- Atualização do PROJECT_STATUS.md para as versões 1.4, 1.5, 1.6 e 1.7.
 - Reorganização das prioridades documentais e de validação.
-- Preparação da atualização do CHATGPT_PROMPT_HISTORY.md com o registro CHATGPT-018.
-- Preparação da atualização do PROMPT_LOG.md para a versão 1.3.
+- Atualização do README.md da raiz para destacar exclusivamente o BusinessMind AI como foco atual do portfólio.
+- Atualização do README.md interno de docs/businessmind-ai para funcionar como índice da documentação específica do projeto.
+- Atualização do CHATGPT_PROMPT_HISTORY.md com o registro CHATGPT-019.
+- Preparação desta atualização do PROMPT_LOG.md para a versão 1.4.
+
+Mudança de foco do portfólio
+
+Durante a revisão, o usuário definiu que o foco atual do portfólio será exclusivamente o BusinessMind AI.
+
+Essa mudança atual de prioridade não apaga o histórico de planejamento inicial, no qual foram considerados BusinessMind AI, DocMind AI e FlowDesk AI. O registro histórico foi preservado.
 
 Alterações aceitas
 
-O usuário realizou as substituições dos documentos no GitHub e confirmou a publicação das versões atualizadas do PROJECT_BRIEF.md e do PROJECT_STATUS.md.
+O usuário realizou as substituições dos documentos no GitHub e confirmou as publicações das versões atualizadas. As publicações do PROJECT_STATUS.md, dos READMEs e do CHATGPT_PROMPT_HISTORY.md foram conferidas na branch "new-branch".
 
 Validação humana
 
-As versões publicadas foram consultadas e conferidas na branch "new-branch".
+O usuário realizou as edições e os commits no GitHub. O conteúdo publicado foi consultado para verificar a preservação dos registros e a coerência das informações.
 
 Arquivos relacionados
 
 - PROJECT_BRIEF.md
 - PROJECT_STATUS.md
+- README.md
+- docs/businessmind-ai/README.md
 - CHATGPT_PROMPT_HISTORY.md
 - PROMPT_LOG.md
-- README.md
 
 Commits relacionados
 
-Os commits deverão ser associados individualmente após a confirmação de cada publicação. Não registrar identificadores ou mensagens de commit não verificados.
+As atualizações foram publicadas individualmente na branch "new-branch". Os identificadores dos commits devem ser registrados somente quando consultados e confirmados.
 
 Limitação do registro
 
 Este registro é um resumo reconstruído das atividades, não uma transcrição literal dos prompts utilizados.
 
-Status
+Status: Em andamento, até a publicação e conferência desta atualização e a conclusão da revisão documental final.
 
-Em andamento, até a publicação e conferência deste registro e a conclusão da revisão documental.
+---
+
+8. Histórico de versões do PROMPT_LOG.md
+
+Versão| Data| Alteração
+1.3| 07/11/2026| Registro do PROMPT-013 e atualização do histórico até a etapa anterior da revisão documental.
+1.4| 07/11/2026| Atualização do PROMPT-013 para incluir as revisões documentais recentes, a mudança de foco do portfólio e o registro CHATGPT-019.
+
+Observação: A revisão de escrita, formatação Markdown e padronização visual dos documentos do repositório ficará para uma etapa posterior, sem interromper a revisão de consistência das informações.
