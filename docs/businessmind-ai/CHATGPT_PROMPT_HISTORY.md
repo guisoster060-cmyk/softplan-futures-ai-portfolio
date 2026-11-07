@@ -369,6 +369,21 @@ Concluído.
 - Preparar documentação para apresentação à Softplan.
 - Atualizar os registros de prompts e contribuições ao longo do projeto.
 
-## 5. Regras de integridade do histórico
+## ## 5. Regras de integridade do histórico
 
-- Não inventar
+- Não inventar prompts, respostas, decisões, resultados, datas ou atividades.
+- Diferenciar transcrições literais de reconstruções e resumos elaborados a partir do histórico disponível.
+- Preservar o sentido original das solicitações do usuário, utilizando linguagem profissional e adequada à documentação do projeto.
+- Não atribuir ao usuário decisões que tenham sido apenas sugeridas por ferramentas de IA.
+- Identificar claramente as decisões humanas, as contribuições das ferramentas e os resultados efetivamente verificados.
+- Registrar limitações, pendências e incertezas quando não houver informações suficientes.
+- Manter a ordem cronológica dos registros e atualizar o histórico conforme o projeto evoluir.
+- Preservar os registros anteriores durante as atualizações, evitando substituições que provoquem perda de conteúdo.
+
+## 6. Observações sobre autoria
+
+Este documento registra a participação do ChatGPT no planejamento, na organização, na documentação e no acompanhamento do BusinessMind AI.
+
+As decisões de escopo, prioridades, aprovações e direcionamentos do projeto pertencem ao usuário. As contribuições do ChatGPT devem ser identificadas como apoio, análise, pesquisa, organização ou produção documental, conforme a atividade efetivamente realizada.
+
+As contribuições do Claude e de outras ferramentas serão registradas separadamente.
