@@ -8,6 +8,7 @@ Este diretório reúne a documentação, as decisões, as instruções de desenv
 - PROJECT_STATUS.md — situação atual e progresso.
 - DEVELOPMENT_RULES.md — regras de desenvolvimento.
 - TECHNICAL_DECISIONS.md — decisões técnicas.
+- MARKET_VALIDATION.md — documentação da pesquisa documental e da etapa inicial de validação com formulário.
 - PROMPT_LOG.md — histórico geral de prompts.
 - CHATGPT_PROMPT_HISTORY.md — histórico de contribuições do ChatGPT.
 - AGENTS.md — orientações para agentes de IA.
