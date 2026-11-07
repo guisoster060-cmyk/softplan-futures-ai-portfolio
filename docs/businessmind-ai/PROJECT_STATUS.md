@@ -1,14 +1,20 @@
 # BUSINESSMIND AI — PROJECT STATUS
 
-Última atualização: 05/11/2026
-Versão: 1.1
-Fase atual: Estruturação documental e planejamento do produto
+Última atualização: 06/11/2026
+Versão: 1.2
+Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 ## 1. Situação geral
 
-O projeto está na fase de estruturação, organização documental, preparação do ambiente de trabalho e planejamento do produto.
+O projeto está na fase de estruturação, organização documental, pesquisa exploratória de mercado e planejamento do produto.
 
 A estrutura inicial de documentação e as Skills de apoio ao desenvolvimento foram criadas, transferidas para o GitHub e ativadas no Claude.
+
+Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de mercado, datado de 05/11/2026. A auditoria integral do documento e a conferência de suas fontes ainda estão pendentes.
+
+Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”, que foi compartilhado pelo responsável pelo projeto com algumas pessoas que possuem empresas. A coleta tem caráter exploratório e a análise das respostas permanece pendente.
+
+Essas atividades não significam que a validação de mercado esteja concluída.
 
 Nenhuma implementação do produto foi iniciada.
 
@@ -49,16 +55,24 @@ Nenhuma implementação do produto foi iniciada.
 - [x] Realizar teste de acesso e identificação das cinco Skills.
 - [x] Confirmar com Claude a finalidade e o fluxo de utilização de cada Skill.
 
+### Pesquisa exploratória inicial
+
+- [x] Elaborar uma etapa inicial de pesquisa documental de mercado com apoio do Claude, registrada em relatório datado de 05/11/2026.
+- [x] Criar o formulário exploratório “BusinessMind AI — Pesquisa sobre pequenos negócios”.
+- [x] Compartilhar o formulário com algumas pessoas que possuem empresas, conforme informado pelo responsável pelo projeto.
+
 ## 3. Etapas pendentes
 
 ### Pesquisa e validação
 
-- [ ] Pesquisar soluções semelhantes no mercado.
-- [ ] Identificar concorrentes e alternativas.
+- [ ] Auditar integralmente o relatório de pesquisa e conferir suas fontes.
+- [ ] Consultar e analisar as respostas recebidas no formulário.
+- [ ] Registrar a quantidade de respostas e o perfil agregado dos participantes após conferência.
+- [ ] Identificar concorrentes e alternativas com base em pesquisa documentada.
 - [ ] Validar o problema que o produto pretende resolver.
 - [ ] Validar o público-alvo.
 - [ ] Identificar necessidades reais dos usuários.
-- [ ] Separar fatos, hipóteses e dúvidas.
+- [ ] Separar fatos, hipóteses, evidências e dúvidas.
 
 ### Requisitos e planejamento
 
@@ -103,6 +117,7 @@ Nenhuma implementação do produto foi iniciada.
 - O desenvolvimento será incremental.
 - O usuário deverá compreender, acompanhar e validar as entregas.
 - Nenhuma tecnologia ou arquitetura será considerada definitiva antes de pesquisa e aprovação.
+- Java, HTML, CSS e JavaScript foram discutidos como tecnologias candidatas; nenhuma delas foi aprovada como stack do produto.
 - As cinco Skills serão utilizadas conforme a necessidade de cada etapa.
 
 ## 5. Skills disponíveis
@@ -127,7 +142,7 @@ O ciclo será repetido para cada funcionalidade, com correções e novos testes 
 
 ## 7. Próxima prioridade
 
-Iniciar a fase de Business Analysis, começando pela pesquisa de mercado, identificação de concorrentes, validação do público-alvo e levantamento de requisitos.
+Dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização e rastreabilidade dos requisitos.
 
 Nenhuma implementação deverá começar antes da validação dos requisitos e da aprovação da arquitetura.
 
