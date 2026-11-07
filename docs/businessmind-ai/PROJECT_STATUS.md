@@ -1,7 +1,7 @@
 BUSINESSMIND AI — PROJECT STATUS
 
 Última atualização: 07/11/2026
-Versão: 1.5
+Versão: 1.6
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 1. Situação geral
@@ -16,13 +16,13 @@ Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de merc
 
 Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”, que foi compartilhado pelo responsável pelo projeto com algumas pessoas que possuem empresas. A coleta tem caráter exploratório e a análise das respostas permanece pendente.
 
-A documentação inicial da validação de mercado está organizada em MARKET_VALIDATION.md.
+A documentação inicial da validação de mercado está organizada em "MARKET_VALIDATION.md".
 
-O PROJECT_BRIEF.md foi revisado e atualizado para a versão 1.1, alinhando a descrição do produto ao estágio atual de planejamento e validação. As funcionalidades permanecem como hipóteses, o público prioritário ainda não foi definido e o MVP não está aprovado.
+O "PROJECT_BRIEF.md" foi revisado e atualizado para a versão 1.1, alinhando a descrição do produto ao estágio atual de planejamento e validação. As funcionalidades permanecem como hipóteses, o público prioritário ainda não foi definido e o MVP não está aprovado.
 
 Foi realizada uma revisão de consistência entre os documentos do projeto. As atualizações identificadas estão sendo executadas progressivamente, com conferência das publicações no GitHub.
 
-O README.md da raiz do repositório foi atualizado para apresentar o BusinessMind AI como foco exclusivo do portfólio. Ainda são necessários ajustes de formatação e revisão dos documentos de apresentação.
+O "README.md" da raiz do repositório foi atualizado para apresentar o BusinessMind AI como foco exclusivo do portfólio. Ainda são necessários ajustes de formatação e revisão dos documentos de apresentação.
 
 Essas atividades não significam que a validação de mercado esteja concluída.
 
@@ -37,28 +37,29 @@ Organização do projeto
 - [x] Configurar as instruções personalizadas.
 - [x] Criar o repositório GitHub.
 - [x] Preparar a estrutura inicial do repositório.
-- [x] Criar README.md e .gitignore.
+- [x] Criar "README.md" e ".gitignore".
 - [x] Definir o BusinessMind AI como foco exclusivo do portfólio atual.
 
 Documentação
 
-- [x] Criar PROJECT_BRIEF.md.
-- [x] Criar PROJECT_STATUS.md.
-- [x] Criar DEVELOPMENT_RULES.md.
-- [x] Criar TECHNICAL_DECISIONS.md.
-- [x] Criar PROMPT_LOG.md.
-- [x] Criar CHATGPT_PROMPT_HISTORY.md.
-- [x] Criar AGENTS.md.
-- [x] Criar CLAUDE.md.
+- [x] Criar "PROJECT_BRIEF.md".
+- [x] Criar "PROJECT_STATUS.md".
+- [x] Criar "DEVELOPMENT_RULES.md".
+- [x] Criar "TECHNICAL_DECISIONS.md".
+- [x] Criar "PROMPT_LOG.md".
+- [x] Criar "CHATGPT_PROMPT_HISTORY.md".
+- [x] Criar "AGENTS.md".
+- [x] Criar "CLAUDE.md".
 - [x] Transferir os documentos para o GitHub.
-- [x] Criar MARKET_VALIDATION.md.
-- [x] Atualizar README.md para incluir MARKET_VALIDATION.md no índice de documentação.
-- [x] Atualizar PROJECT_BRIEF.md para a versão 1.1, alinhando o documento à fase atual de planejamento e validação.
+- [x] Criar "MARKET_VALIDATION.md".
+- [x] Atualizar "README.md" para incluir "MARKET_VALIDATION.md" no índice de documentação.
+- [x] Atualizar "PROJECT_BRIEF.md" para a versão 1.1, alinhando o documento à fase atual de planejamento e validação.
 - [x] Revisar a consistência geral dos documentos e identificar os ajustes necessários.
-- [x] Atualizar PROJECT_STATUS.md para a versão 1.4.
-- [x] Atualizar CHATGPT_PROMPT_HISTORY.md com o registro CHATGPT-018.
-- [x] Atualizar PROMPT_LOG.md para a versão 1.3, incluindo PROMPT-013.
-- [x] Atualizar o README.md da raiz para apresentar o BusinessMind AI como foco exclusivo do portfólio.
+- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.4.
+- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.5 e conferir sua publicação.
+- [x] Atualizar "CHATGPT_PROMPT_HISTORY.md" com o registro CHATGPT-018.
+- [x] Atualizar "PROMPT_LOG.md" para a versão 1.3, incluindo PROMPT-013.
+- [x] Atualizar o "README.md" da raiz para apresentar o BusinessMind AI como foco exclusivo do portfólio.
 
 Skills
 
@@ -84,13 +85,13 @@ Pesquisa exploratória inicial
 
 Documentação e rastreabilidade
 
-- [ ] Atualizar e conferir a publicação da versão 1.5 de PROJECT_STATUS.md.
-- [ ] Corrigir a estrutura dos títulos e seções de CHATGPT_PROMPT_HISTORY.md.
-- [ ] Revisar e atualizar CHATGPT_PROMPT_HISTORY.md com a mudança de foco do portfólio.
-- [ ] Revisar e atualizar PROMPT_LOG.md com a mudança de foco do portfólio.
+- [ ] Atualizar e conferir a publicação da versão 1.6 de "PROJECT_STATUS.md".
+- [ ] Corrigir a estrutura dos títulos e seções de "CHATGPT_PROMPT_HISTORY.md".
+- [ ] Revisar e atualizar "CHATGPT_PROMPT_HISTORY.md" com a mudança de foco do portfólio.
+- [ ] Revisar e atualizar "PROMPT_LOG.md" com a mudança de foco do portfólio.
 - [ ] Registrar as contribuições das diferentes IAs, conforme forem realizadas e verificadas.
-- [ ] Corrigir a formatação Markdown do README.md da raiz.
-- [ ] Revisar docs/businessmind-ai/README.md e corrigir seus links e sua relação com o README principal.
+- [ ] Corrigir a formatação Markdown do "README.md" da raiz.
+- [ ] Revisar "docs/businessmind-ai/README.md" e corrigir seus links e sua relação com o README principal.
 - [ ] Realizar revisão final de consistência entre todos os documentos.
 
 Pesquisa e validação
@@ -119,7 +120,7 @@ Arquitetura e tecnologia
 - [ ] Definir arquitetura.
 - [ ] Definir banco de dados.
 - [ ] Definir hospedagem e infraestrutura.
-- [ ] Registrar decisões aprovadas em TECHNICAL_DECISIONS.md.
+- [ ] Registrar decisões aprovadas em "TECHNICAL_DECISIONS.md".
 
 Desenvolvimento e validação
 
@@ -168,7 +169,7 @@ O início do fluxo de desenvolvimento depende da conclusão da validação e da 
 
 7. Próxima prioridade
 
-Concluir a revisão documental e a atualização dos registros de rastreabilidade, incluindo PROJECT_STATUS.md, README.md, CHATGPT_PROMPT_HISTORY.md e PROMPT_LOG.md.
+Concluir a revisão documental e a atualização dos registros de rastreabilidade, incluindo "PROJECT_STATUS.md", "README.md", "CHATGPT_PROMPT_HISTORY.md" e "PROMPT_LOG.md".
 
 Em seguida, dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização dos requisitos.
 
