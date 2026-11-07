@@ -29,7 +29,7 @@ Atuação do ChatGPT:
 - Definiu os nomes iniciais BusinessMind AI, DocMind AI e FlowDesk AI.
 - Estruturou a finalidade de cada solução.
 
-Decisão humana: O usuário aprovou a estratégia de três projetos independentes.
+Decisão humana: O usuário aprovou inicialmente a estratégia de três projetos independentes.
 
 Resultado: Estrutura inicial do portfólio.
 
@@ -438,9 +438,60 @@ Status
 
 Em atualização, até a publicação e conferência dos registros de rastreabilidade.
 
+CHATGPT-019 — Continuidade da revisão documental e atualização do portfólio
+
+Data: 07/11/2026
+Ferramenta: ChatGPT — GPT-6
+Etapa: Governança documental, organização do portfólio e rastreabilidade
+
+Objetivo
+
+Dar continuidade à revisão documental do BusinessMind AI, atualizar o acompanhamento das atividades e alinhar os documentos de apresentação ao foco atual do portfólio.
+
+Atuação do ChatGPT
+
+- Consultou as versões existentes dos arquivos no GitHub antes de preparar novas substituições.
+- Preparou a atualização do PROJECT_STATUS.md para a versão 1.5.
+- Preparou a atualização do PROJECT_STATUS.md para a versão 1.6.
+- Preparou a atualização do PROJECT_STATUS.md para a versão 1.7.
+- Preparou a revisão do README.md da raiz do repositório para destacar exclusivamente o BusinessMind AI.
+- Preparou a simplificação de "docs/businessmind-ai/README.md", transformando-o em um índice da documentação interna.
+- Orientou a preservação do histórico de decisões anteriores, distinguindo a estratégia inicial de três projetos do foco atual em um único projeto prioritário.
+- Orientou a conferência das publicações no GitHub antes de avançar para cada arquivo seguinte.
+
+Participação humana
+
+O usuário realizou as substituições e os commits diretamente no GitHub, confirmou as etapas e decidiu deixar ajustes de formatação e escrita dos documentos para uma revisão posterior, evitando interrupções desnecessárias no fluxo de trabalho.
+
+Arquivos relacionados
+
+- PROJECT_STATUS.md
+- README.md
+- docs/businessmind-ai/README.md
+- CHATGPT_PROMPT_HISTORY.md
+- PROMPT_LOG.md
+
+Resultados confirmados
+
+- PROJECT_STATUS.md atualizado para a versão 1.7, com publicação conferida.
+- README.md da raiz atualizado para destacar o BusinessMind AI como foco exclusivo do portfólio.
+- "docs/businessmind-ai/README.md" simplificado para funcionar como índice interno da documentação.
+- Links internos do índice preparados com caminhos relativos à própria pasta.
+
+Limitações do registro
+
+Este registro é um resumo reconstruído das atividades. Não representa a transcrição literal de todos os prompts ou mensagens utilizados.
+
+A formatação Markdown dos documentos atualizados ainda precisa de revisão posterior. A atualização deste histórico e do PROMPT_LOG.md também faz parte da continuidade da revisão documental.
+
+Status
+
+Em andamento, até a atualização e conferência deste histórico e do registro geral de prompts.
+
 3. Decisões humanas importantes
 
-- Escolha de trabalhar com três projetos.
+- Inicialmente, escolha de trabalhar com três projetos independentes.
+- Posteriormente, mudança de foco do portfólio para exclusivamente o BusinessMind AI. Os outros projetos deixaram de ser prioridades ativas, sem apagar o histórico da estratégia inicial.
 - Escolha do Claude como principal parceiro de desenvolvimento.
 - Decisão de utilizar uma única conta central.
 - Separação dos projetos em ambientes independentes.
@@ -449,6 +500,8 @@ Em atualização, até a publicação e conferência dos registros de rastreabil
 - Aprovação da estrutura inicial de cinco Skills.
 - Aprovação da atualização documental do BusinessMind AI.
 - Decisão de manter tecnologias como candidatas até a etapa de avaliação e aprovação técnica.
+- Decisão de priorizar validação, análise de negócios e organização dos requisitos antes de iniciar a implementação.
+- Decisão de realizar as alterações documentais diretamente no GitHub, com conferência de cada publicação antes de avançar.
 
 4. Próximas atividades do ChatGPT
 
@@ -460,6 +513,7 @@ Em atualização, até a publicação e conferência dos registros de rastreabil
 - Auxiliar na validação e nos testes.
 - Preparar documentação para apresentação à Softplan.
 - Atualizar os registros de prompts e contribuições ao longo do projeto.
+- Apoiar a revisão final de consistência dos documentos e links do repositório.
 
 5. Regras de integridade do histórico
 
@@ -471,6 +525,8 @@ Em atualização, até a publicação e conferência dos registros de rastreabil
 - Registrar limitações, pendências e incertezas quando não houver informações suficientes.
 - Manter a ordem cronológica dos registros e atualizar o histórico conforme o projeto evoluir.
 - Preservar os registros anteriores durante as atualizações, evitando substituições que provoquem perda de conteúdo.
+- Não apresentar uma atividade como concluída ou publicada sem confirmação verificável.
+- Distinguir decisões históricas de decisões atualmente vigentes.
 
 6. Observações sobre autoria
 
