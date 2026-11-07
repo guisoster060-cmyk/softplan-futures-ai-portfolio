@@ -1,83 +1,36 @@
-BusinessMind AI
+BusinessMind AI — Documentação
 
-Plataforma de inteligência de negócios com apoio de Inteligência Artificial.
+Esta pasta reúne os documentos de planejamento, análise, validação, decisões técnicas e orientações de trabalho do projeto BusinessMind AI.
 
-O BusinessMind AI é um projeto de produto digital que busca investigar como pequenos negócios podem utilizar dados e Inteligência Artificial para compreender melhor seus resultados, identificar oportunidades e tomar decisões mais fundamentadas.
+O projeto busca investigar e desenvolver uma plataforma de inteligência de negócios com apoio de Inteligência Artificial, voltada a ajudar gestores e proprietários de pequenos e médios negócios a compreender informações empresariais e tomar decisões mais fundamentadas.
 
-O projeto está sendo estruturado a partir de pesquisa, análise de negócios, levantamento de necessidades e validação de hipóteses. Seu desenvolvimento técnico será iniciado somente após a definição e aprovação dos requisitos e das decisões de arquitetura.
+Situação do projeto
 
-Objetivo do projeto
+Fase atual: planejamento e validação exploratória.
 
-Investigar e desenvolver uma solução que ajude gestores e proprietários de pequenos negócios a transformar informações empresariais em análises compreensíveis e úteis para a tomada de decisão.
+O produto ainda não está em desenvolvimento. As funcionalidades, os requisitos, o público prioritário e a arquitetura permanecem em análise e validação.
 
-A proposta é reduzir dificuldades relacionadas à organização, interpretação e utilização de informações na gestão empresarial.
-
-Áreas funcionais em estudo
-
-A estrutura conceitual atualmente considera quatro áreas principais:
-
-- Visão geral: apresentação de informações relevantes, alertas e possíveis recomendações.
-- Indicadores: acompanhamento e interpretação de indicadores de desempenho.
-- Inteligência: análises apoiadas por IA, identificação de padrões e apoio à tomada de decisão.
-- Configurações: gerenciamento de informações, preferências e permissões de acesso.
-
-Essas áreas representam uma estrutura inicial em investigação. Seus requisitos e funcionalidades ainda precisam ser validados.
-
-Etapa atual
-
-Planejamento e validação exploratória.
-
-Atividades realizadas ou em andamento:
-
-- Estruturação da proposta e dos objetivos do produto.
-- Pesquisa documental inicial sobre o mercado.
-- Criação e divulgação de formulário exploratório para pessoas que possuem empresas.
-- Levantamento e organização de hipóteses funcionais.
-- Documentação de requisitos, regras e decisões pendentes.
-- Organização do ambiente de trabalho com ferramentas de IA e Skills especializadas.
-- Versionamento e documentação do projeto no GitHub.
-
-A validação de mercado ainda não foi concluída. A pesquisa exploratória, a análise das respostas e a investigação de concorrentes permanecem como atividades importantes.
-
-Princípios do projeto
-
-- Decisões baseadas em dados disponíveis e evidências.
-- Transparência sobre limitações e insuficiência de informações.
-- Supervisão humana nas decisões relevantes.
-- Proteção de dados e controle de permissões.
-- Desenvolvimento incremental e documentado.
-- Separação entre hipóteses, propostas e decisões aprovadas.
-- Nenhuma conclusão deve ser inventada pela Inteligência Artificial quando não houver dados suficientes.
-
-Tecnologias e arquitetura
-
-As tecnologias e alternativas técnicas ainda estão em avaliação.
-
-Java, HTML, CSS e JavaScript são tecnologias candidatas, não decisões definitivas. A arquitetura, o banco de dados, os serviços de IA, as integrações e a infraestrutura serão definidos após a validação dos requisitos.
-
-Documentação
-
-A documentação do projeto está centralizada em "docs/businessmind-ai/".
+Índice de documentos
 
 Documento| Finalidade
-"PROJECT_BRIEF.md" (docs/businessmind-ai/PROJECT_BRIEF.md)| Visão, objetivos e escopo inicial
-"PROJECT_STATUS.md" (docs/businessmind-ai/PROJECT_STATUS.md)| Situação atual e próximas etapas
-"MARKET_VALIDATION.md" (docs/businessmind-ai/MARKET_VALIDATION.md)| Pesquisa e validação de mercado
-"TECHNICAL_DECISIONS.md" (docs/businessmind-ai/TECHNICAL_DECISIONS.md)| Registro de decisões técnicas
-"DEVELOPMENT_RULES.md" (docs/businessmind-ai/DEVELOPMENT_RULES.md)| Regras de desenvolvimento
-"PROMPT_LOG.md" (docs/businessmind-ai/PROMPT_LOG.md)| Histórico de prompts relevantes
-"CHATGPT_PROMPT_HISTORY.md" (docs/businessmind-ai/CHATGPT_PROMPT_HISTORY.md)| Histórico de utilização do ChatGPT
-"AGENTS.md" (docs/businessmind-ai/AGENTS.md)| Orientações para agentes de IA
-"CLAUDE.md" (docs/businessmind-ai/CLAUDE.md)| Instruções do ambiente Claude
+"PROJECT_BRIEF.md" (PROJECT_BRIEF.md)| Visão, objetivos e escopo inicial do produto
+"PROJECT_STATUS.md" (PROJECT_STATUS.md)| Situação atual, atividades concluídas e próximas etapas
+"MARKET_VALIDATION.md" (MARKET_VALIDATION.md)| Pesquisa exploratória e validação de mercado
+"TECHNICAL_DECISIONS.md" (TECHNICAL_DECISIONS.md)| Registro de decisões e avaliações técnicas
+"DEVELOPMENT_RULES.md" (DEVELOPMENT_RULES.md)| Regras e critérios para o trabalho de desenvolvimento
+"PROMPT_LOG.md" (PROMPT_LOG.md)| Registro de prompts relevantes utilizados no projeto
+"CHATGPT_PROMPT_HISTORY.md" (CHATGPT_PROMPT_HISTORY.md)| Histórico de atividades e contribuições do ChatGPT
+"AGENTS.md" (AGENTS.md)| Orientações para agentes de Inteligência Artificial
+"CLAUDE.md" (CLAUDE.md)| Instruções específicas do ambiente Claude
 
-Desenvolvimento e colaboração
+Organização do trabalho
 
-O projeto utiliza Git e GitHub para versionamento e organização documental, além de ferramentas de Inteligência Artificial como apoio à pesquisa, planejamento, análise e, futuramente, desenvolvimento.
+A documentação deve manter separadas as hipóteses, as evidências, as propostas e as decisões efetivamente aprovadas.
 
-A participação humana permanece essencial na avaliação das propostas, aprovação das decisões e validação dos resultados.
+As atualizações devem ser registradas de maneira rastreável, preservando o histórico do projeto e evitando apresentar possibilidades ainda em avaliação como decisões definitivas.
 
-Autor
+Repositório
 
-Guilherme Soster Santeti
+O código e a documentação do projeto são versionados no GitHub.
 
-GitHub: "@guisoster060-cmyk" (https://github.com/guisoster060-cmyk)
+"Repositório BusinessMind AI — softplan-futures-ai-portfolio" (https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio)
