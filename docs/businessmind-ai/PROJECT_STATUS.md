@@ -1,28 +1,28 @@
 BUSINESSMIND AI — PROJECT STATUS
 
 Última atualização: 07/11/2026
-Versão: 1.7
+Versão: 1.8
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 1. Situação geral
 
 O BusinessMind AI está na fase de estruturação, organização documental, pesquisa exploratória de mercado e planejamento do produto.
 
-O foco atual do portfólio é exclusivamente o BusinessMind AI. Os outros projetos inicialmente considerados não fazem parte das prioridades ativas do portfólio neste momento. Essa mudança de foco não apaga o histórico das atividades anteriores.
+O foco atual do portfólio é exclusivamente o BusinessMind AI. Os outros projetos inicialmente considerados não fazem parte das prioridades ativas do portfólio neste momento. Essa mudança de foco não apaga o histórico da estratégia inicial.
 
-A estrutura inicial de documentação e as cinco Skills de apoio ao desenvolvimento foram criadas, transferidas para o GitHub e ativadas no Claude.
+A estrutura inicial de documentação e as cinco Skills de apoio ao trabalho com IA foram criadas, transferidas para o GitHub e ativadas no Claude.
 
 Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de mercado, datado de 05/11/2026. A auditoria integral do documento e a conferência de suas fontes ainda estão pendentes.
 
-Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”, que foi compartilhado pelo responsável pelo projeto com algumas pessoas que possuem empresas. A coleta tem caráter exploratório e a análise das respostas permanece pendente.
+Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”. O responsável pelo projeto informou que compartilhou o formulário com algumas pessoas que possuem empresas. A coleta tem caráter exploratório. A quantidade de respostas e os resultados ainda não foram confirmados e analisados.
 
 A documentação inicial da validação de mercado está organizada em "MARKET_VALIDATION.md".
 
 O "PROJECT_BRIEF.md" foi revisado e atualizado para a versão 1.1, alinhando a descrição do produto ao estágio atual de planejamento e validação. As funcionalidades permanecem como hipóteses, o público prioritário ainda não foi definido e o MVP não está aprovado.
 
-Foi realizada uma revisão de consistência entre os documentos do projeto. As atualizações identificadas estão sendo executadas progressivamente, com conferência das publicações no GitHub.
+Foi concluída uma revisão de conteúdo e consistência dos documentos do projeto. Os principais registros de acompanhamento e rastreabilidade foram atualizados e conferidos no GitHub.
 
-O "README.md" da raiz do repositório foi atualizado para apresentar o BusinessMind AI como foco exclusivo do portfólio. Ainda são necessários ajustes de formatação e revisão dos documentos de apresentação.
+A revisão de formatação Markdown e padronização visual dos documentos permanece pendente para uma etapa posterior.
 
 Essas atividades não significam que a validação de mercado esteja concluída.
 
@@ -38,9 +38,9 @@ Organização do projeto
 - [x] Criar o repositório GitHub.
 - [x] Preparar a estrutura inicial do repositório.
 - [x] Criar "README.md" e ".gitignore".
-- [x] Definir o BusinessMind AI como foco exclusivo do portfólio atual.
+- [x] Definir o BusinessMind AI como foco exclusivo do portfólio atual, preservando o histórico da estratégia inicial.
 
-Documentação
+Documentação e rastreabilidade
 
 - [x] Criar "PROJECT_BRIEF.md".
 - [x] Criar "PROJECT_STATUS.md".
@@ -52,15 +52,18 @@ Documentação
 - [x] Criar "CLAUDE.md".
 - [x] Transferir os documentos para o GitHub.
 - [x] Criar "MARKET_VALIDATION.md".
-- [x] Atualizar "README.md" para incluir "MARKET_VALIDATION.md" no índice de documentação.
-- [x] Atualizar "PROJECT_BRIEF.md" para a versão 1.1, alinhando o documento à fase atual de planejamento e validação.
-- [x] Revisar a consistência geral dos documentos e identificar os ajustes necessários.
-- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.4.
-- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.5 e conferir sua publicação.
-- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.6 e conferir sua publicação.
-- [x] Atualizar "CHATGPT_PROMPT_HISTORY.md" com o registro CHATGPT-018.
-- [x] Atualizar "PROMPT_LOG.md" para a versão 1.3, incluindo PROMPT-013.
+- [x] Incluir "MARKET_VALIDATION.md" no índice de documentação.
+- [x] Atualizar "PROJECT_BRIEF.md" para a versão 1.1.
+- [x] Atualizar "PROJECT_STATUS.md" para as versões 1.4, 1.5, 1.6 e 1.7.
 - [x] Atualizar o "README.md" da raiz para apresentar o BusinessMind AI como foco exclusivo do portfólio.
+- [x] Simplificar "docs/businessmind-ai/README.md", transformando-o em índice da documentação interna.
+- [x] Conferir os links internos do índice de documentação.
+- [x] Atualizar "PROMPT_LOG.md" para a versão 1.5 e conferir sua publicação.
+- [x] Atualizar "CHATGPT_PROMPT_HISTORY.md" para a versão 1.1 e conferir sua publicação.
+- [x] Registrar a mudança de foco do portfólio nos históricos de atividades e prompts.
+- [x] Concluir a revisão de conteúdo e consistência documental dos arquivos centrais.
+
+A revisão de conteúdo e consistência não representa a conclusão da revisão de formatação Markdown.
 
 Skills
 
@@ -84,27 +87,25 @@ Pesquisa exploratória inicial
 
 3. Etapas pendentes
 
-Documentação e rastreabilidade
+Documentação e apresentação
 
-- [ ] Atualizar e conferir a publicação da versão 1.7 de "PROJECT_STATUS.md".
-- [ ] Corrigir a estrutura dos títulos e seções de "CHATGPT_PROMPT_HISTORY.md".
-- [ ] Revisar e atualizar "CHATGPT_PROMPT_HISTORY.md" com a mudança de foco do portfólio.
-- [ ] Revisar e atualizar "PROMPT_LOG.md" com a mudança de foco do portfólio.
-- [ ] Registrar as contribuições das diferentes IAs, conforme forem realizadas e verificadas.
-- [ ] Corrigir a formatação Markdown do "README.md" da raiz.
-- [ ] Revisar "docs/businessmind-ai/README.md" e corrigir seus links e sua relação com o README principal.
-- [ ] Realizar revisão final de consistência entre todos os documentos.
+- [ ] Revisar a formatação Markdown dos documentos.
+- [ ] Padronizar títulos, subtítulos, listas, tabelas e links.
+- [ ] Realizar conferência visual dos READMEs após os ajustes de formatação.
+- [ ] Continuar registrando as contribuições das diferentes ferramentas de IA conforme forem realizadas e verificadas.
+- [ ] Atualizar os documentos quando novas decisões forem efetivamente aprovadas.
 
 Pesquisa e validação
 
-- [ ] Auditar integralmente o relatório de pesquisa e conferir suas fontes.
-- [ ] Consultar e analisar as respostas recebidas no formulário.
+- [ ] Auditar integralmente o relatório de pesquisa documental e conferir suas fontes.
+- [ ] Consultar e analisar as respostas recebidas no formulário quando disponíveis.
 - [ ] Registrar a quantidade de respostas e o perfil agregado dos participantes após conferência.
 - [ ] Identificar concorrentes e alternativas com base em pesquisa documentada.
 - [ ] Validar o problema que o produto pretende resolver.
-- [ ] Validar o público-alvo.
+- [ ] Validar o público-alvo prioritário.
 - [ ] Identificar necessidades reais dos usuários.
 - [ ] Separar fatos, hipóteses, evidências e dúvidas.
+- [ ] Avaliar se o recorte inicial em pequenos negócios representa adequadamente o mercado pretendido.
 
 Requisitos e planejamento
 
@@ -112,7 +113,7 @@ Requisitos e planejamento
 - [ ] Definir requisitos não funcionais.
 - [ ] Priorizar funcionalidades.
 - [ ] Definir critérios de aceitação.
-- [ ] Planejar o escopo do MVP.
+- [ ] Planejar e validar o escopo do MVP.
 
 Arquitetura e tecnologia
 
@@ -125,26 +126,27 @@ Arquitetura e tecnologia
 
 Desenvolvimento e validação
 
-- [ ] Iniciar implementação do MVP após aprovação dos requisitos e arquitetura.
+- [ ] Iniciar a implementação do MVP somente após a validação dos requisitos e a aprovação da arquitetura.
 - [ ] Implementar funcionalidades incrementalmente.
 - [ ] Executar Code Review.
 - [ ] Executar testes de Quality Assurance.
 - [ ] Documentar resultados e correções.
 - [ ] Preparar demonstração funcional do produto.
 
-4. Decisões já estabelecidas
+4. Diretrizes e decisões vigentes
 
+- O BusinessMind AI é o foco exclusivo do portfólio neste momento.
 - Claude será o principal parceiro de desenvolvimento.
 - ChatGPT e Gemini poderão atuar como ferramentas auxiliares.
 - GitHub será utilizado para versionamento e documentação.
-- Os projetos terão contextos e ambientes separados.
+- Os projetos inicialmente considerados tiveram seus contextos organizados separadamente; a mudança de foco atual não elimina esse histórico.
 - Os prompts relevantes e as contribuições das IAs serão documentados.
-- O desenvolvimento será incremental.
+- O desenvolvimento, quando autorizado, deverá ser incremental.
 - O usuário deverá compreender, acompanhar e validar as entregas.
 - Nenhuma tecnologia ou arquitetura será considerada definitiva antes de pesquisa e aprovação.
 - Java, HTML, CSS e JavaScript foram discutidos como tecnologias candidatas; nenhuma delas foi aprovada como stack do produto.
 - As cinco Skills serão utilizadas conforme a necessidade de cada etapa.
-- O portfólio terá o BusinessMind AI como foco exclusivo neste momento.
+- A validação de mercado e a definição dos requisitos devem preceder a implementação.
 
 5. Skills disponíveis
 
@@ -168,13 +170,21 @@ O ciclo será repetido para cada funcionalidade, com correções e novos testes 
 
 O início do fluxo de desenvolvimento depende da conclusão da validação e da aprovação dos requisitos e da arquitetura.
 
-7. Próxima prioridade
+7. Próximas prioridades
 
-Concluir a revisão documental e a atualização dos registros de rastreabilidade, incluindo "PROJECT_STATUS.md", "README.md", "CHATGPT_PROMPT_HISTORY.md" e "PROMPT_LOG.md".
+A próxima prioridade é avançar na validação de mercado e na Business Analysis, sem antecipar decisões de produto ou tecnologia.
 
-Em seguida, dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização dos requisitos.
+Ordem de trabalho:
 
-A revisão documental deverá garantir consistência entre os arquivos de contexto, as regras de trabalho e os registros de atividades.
+1. Auditar o relatório de pesquisa documental e verificar suas fontes.
+2. Acompanhar a coleta do formulário e analisar as respostas quando estiverem disponíveis.
+3. Investigar concorrentes e alternativas.
+4. Avaliar as hipóteses sobre problema, público-alvo e necessidades dos pequenos negócios.
+5. Organizar e priorizar requisitos com base nas evidências coletadas.
+6. Avaliar o escopo do MVP.
+7. Somente depois, avançar para a avaliação e aprovação da arquitetura e das tecnologias.
+
+A revisão de formatação Markdown dos documentos permanece como atividade documental posterior e não deve interromper a etapa de validação.
 
 Nenhuma implementação deverá começar antes da validação dos requisitos e da aprovação da arquitetura.
 
@@ -184,4 +194,13 @@ Este documento deverá ser atualizado sempre que uma etapa importante for conclu
 
 Nunca marcar tarefas como concluídas sem evidências verificáveis.
 
-O status do projeto deverá refletir o estado real do desenvolvimento, sem antecipar resultados ou considerar hipóteses como decisões aprovadas.
+O status do projeto deverá refletir o estado real do trabalho, sem antecipar resultados ou considerar hipóteses como decisões aprovadas.
+
+9. Histórico de versões
+
+Versão| Data| Alteração
+1.4| 07/11/2026| Versão anterior do acompanhamento do projeto.
+1.5| 07/11/2026| Atualização do status e das atividades do projeto.
+1.6| 07/11/2026| Continuidade da atualização do acompanhamento.
+1.7| 07/11/2026| Atualização do status e registro do foco atual do portfólio.
+1.8| 07/11/2026| Alinhamento das etapas concluídas e pendentes com as publicações verificadas dos READMEs e dos históricos de prompts; atualização das próximas prioridades de validação e registro da formatação Markdown como pendência posterior.
