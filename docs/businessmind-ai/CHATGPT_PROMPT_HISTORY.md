@@ -1,8 +1,8 @@
 # CHATGPT PROMPT HISTORY — BUSINESSMIND AI
 
-Projeto: BusinessMind AI
-Ferramenta: ChatGPT
-Período inicial: 05/11/2026
+Projeto: BusinessMind AI  
+Ferramenta: ChatGPT  
+Período inicial: 05/11/2026  
 Status: Em andamento
 
 ## 1. Objetivo
@@ -341,50 +341,4 @@ O usuário realizou as substituições e os commits no GitHub.
 
 PROMPT_LOG.md atualizado e conferido na branch `new-branch`.
 
-A atualização do CHATGPT_PROMPT_HISTORY.md está concluido.
-
-#### Status
-
-Em andamento.
-
-## 3. Decisões humanas importantes
-
-- Escolha de trabalhar com três projetos.
-- Escolha do Claude como principal parceiro de desenvolvimento.
-- Decisão de utilizar uma única conta central.
-- Separação dos projetos em ambientes independentes.
-- Aprovação dos documentos de contexto.
-- Decisão de preservar os prompts e as contribuições das IAs no portfólio.
-- Aprovação da estrutura inicial de cinco Skills.
-- Aprovação da atualização documental do BusinessMind AI.
-- Decisão de manter tecnologias como candidatas até a etapa de avaliação e aprovação técnica.
-
-## 4. Próximas atividades do ChatGPT
-
-- Revisar a arquitetura proposta pelo Claude.
-- Pesquisar alternativas tecnológicas quando chegar a etapa apropriada.
-- Avaliar requisitos e funcionalidades.
-- Revisar entregas de desenvolvimento.
-- Auxiliar na validação e nos testes.
-- Preparar documentação para apresentação à Softplan.
-- Atualizar os registros de prompts e contribuições ao longo do projeto.
-
-## 5. Regras de integridade do histórico
-
-- Não inventar prompts originais.
-- Não atribuir ao ChatGPT ações executadas pelo Claude.
-- Não atribuir ao usuário código ou decisões que não realizou.
-- Diferenciar recomendações de decisões aprovadas.
-- Preservar os textos originais sempre que disponíveis.
-- Registrar resultados efetivamente confirmados.
-- Atualizar este arquivo ao longo do desenvolvimento.
-- Identificar claramente resumos e reconstruções.
-- Não transformar solicitações resumidas em citações literais.
-
-## 6. Observação sobre autoria
-
-O ChatGPT atuou como ferramenta auxiliar de planejamento, organização, documentação e orientação técnica.
-
-O usuário participou das decisões, criou os ambientes, inseriu os documentos e validou as etapas.
-
-As contribuições do Claude e de outras ferramentas serão registradas separadamente.
+CHATGPT_PROMPT_HISTORY.md atualizado, com os registros anteriores preservados e
