@@ -2,13 +2,13 @@ BusinessMind AI
 
 Plataforma de inteligência de negócios com apoio de Inteligência Artificial.
 
-O BusinessMind AI é um projeto de produto digital que busca investigar como pequenos negócios podem utilizar dados e Inteligência Artificial para compreender melhor seus resultados, identificar oportunidades e tomar decisões mais fundamentadas.
+O BusinessMind AI é um projeto de produto digital que busca investigar como pequenos e médios negócios podem utilizar dados e Inteligência Artificial para compreender melhor seus resultados, identificar oportunidades e tomar decisões mais fundamentadas.
 
 O projeto está sendo estruturado a partir de pesquisa, análise de negócios, levantamento de necessidades e validação de hipóteses. Seu desenvolvimento técnico será iniciado somente após a definição e aprovação dos requisitos e das decisões de arquitetura.
 
 Objetivo do projeto
 
-Investigar e desenvolver uma solução que ajude gestores e proprietários de pequenos negócios a transformar informações empresariais em análises compreensíveis e úteis para a tomada de decisão.
+Investigar e desenvolver uma solução que ajude gestores e proprietários de pequenos e médios negócios a transformar informações empresariais em análises compreensíveis e úteis para a tomada de decisão.
 
 A proposta é reduzir dificuldades relacionadas à organização, interpretação e utilização de informações na gestão empresarial.
 
@@ -31,7 +31,7 @@ Atividades realizadas ou em andamento:
 
 - Estruturação da proposta e dos objetivos do produto.
 - Pesquisa documental inicial sobre o mercado.
-- Criação e divulgação de formulário exploratório para pessoas que possuem empresas.
+- Criação e divulgação de formulário exploratório voltado a pessoas que possuem empresas, com foco em pequenos negócios.
 - Levantamento e organização de hipóteses funcionais.
 - Documentação de requisitos, regras e decisões pendentes.
 - Organização do ambiente de trabalho com ferramentas de IA e Skills especializadas.
@@ -57,7 +57,7 @@ Java, HTML, CSS e JavaScript são tecnologias candidatas, não decisões definit
 
 Documentação
 
-A documentação do projeto está centralizada em "docs/businessmind-ai/".
+A documentação do projeto está centralizada em ""docs/businessmind-ai/"" (docs/businessmind-ai/).
 
 Documento| Finalidade
 "PROJECT_BRIEF.md" (docs/businessmind-ai/PROJECT_BRIEF.md)| Visão, objetivos e escopo inicial
