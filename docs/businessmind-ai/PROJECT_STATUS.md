@@ -1,14 +1,16 @@
 BUSINESSMIND AI — PROJECT STATUS
 
 Última atualização: 07/11/2026
-Versão: 1.4
+Versão: 1.5
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 1. Situação geral
 
-O projeto está na fase de estruturação, organização documental, pesquisa exploratória de mercado e planejamento do produto.
+O BusinessMind AI está na fase de estruturação, organização documental, pesquisa exploratória de mercado e planejamento do produto.
 
-A estrutura inicial de documentação e as Skills de apoio ao desenvolvimento foram criadas, transferidas para o GitHub e ativadas no Claude.
+O foco atual do portfólio é exclusivamente o BusinessMind AI. Os outros projetos inicialmente considerados não fazem parte das prioridades ativas do portfólio neste momento. Essa mudança de foco não apaga o histórico das atividades anteriores.
+
+A estrutura inicial de documentação e as cinco Skills de apoio ao desenvolvimento foram criadas, transferidas para o GitHub e ativadas no Claude.
 
 Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de mercado, datado de 05/11/2026. A auditoria integral do documento e a conferência de suas fontes ainda estão pendentes.
 
@@ -18,7 +20,9 @@ A documentação inicial da validação de mercado está organizada em MARKET_VA
 
 O PROJECT_BRIEF.md foi revisado e atualizado para a versão 1.1, alinhando a descrição do produto ao estágio atual de planejamento e validação. As funcionalidades permanecem como hipóteses, o público prioritário ainda não foi definido e o MVP não está aprovado.
 
-Foi realizada uma revisão de consistência entre os documentos do projeto. Foram identificadas atualizações necessárias nos registros de atividades e no status, que serão executadas de forma progressiva.
+Foi realizada uma revisão de consistência entre os documentos do projeto. As atualizações identificadas estão sendo executadas progressivamente, com conferência das publicações no GitHub.
+
+O README.md da raiz do repositório foi atualizado para apresentar o BusinessMind AI como foco exclusivo do portfólio. Ainda são necessários ajustes de formatação e revisão dos documentos de apresentação.
 
 Essas atividades não significam que a validação de mercado esteja concluída.
 
@@ -34,6 +38,7 @@ Organização do projeto
 - [x] Criar o repositório GitHub.
 - [x] Preparar a estrutura inicial do repositório.
 - [x] Criar README.md e .gitignore.
+- [x] Definir o BusinessMind AI como foco exclusivo do portfólio atual.
 
 Documentação
 
@@ -50,7 +55,10 @@ Documentação
 - [x] Atualizar README.md para incluir MARKET_VALIDATION.md no índice de documentação.
 - [x] Atualizar PROJECT_BRIEF.md para a versão 1.1, alinhando o documento à fase atual de planejamento e validação.
 - [x] Revisar a consistência geral dos documentos e identificar os ajustes necessários.
-- [x] Atualizar os registros de prompts e histórico de participação do ChatGPT até as atividades documentadas em 06/11/2026.
+- [x] Atualizar PROJECT_STATUS.md para a versão 1.4.
+- [x] Atualizar CHATGPT_PROMPT_HISTORY.md com o registro CHATGPT-018.
+- [x] Atualizar PROMPT_LOG.md para a versão 1.3, incluindo PROMPT-013.
+- [x] Atualizar o README.md da raiz para apresentar o BusinessMind AI como foco exclusivo do portfólio.
 
 Skills
 
@@ -76,13 +84,14 @@ Pesquisa exploratória inicial
 
 Documentação e rastreabilidade
 
-- [ ] Atualizar PROJECT_STATUS.md e conferir sua publicação.
-- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md com as atividades posteriores a 06/11/2026.
-- [ ] Corrigir e conferir a estrutura dos títulos e seções do CHATGPT_PROMPT_HISTORY.md.
-- [ ] Atualizar PROMPT_LOG.md com as atividades posteriores a 06/11/2026.
-- [ ] Registrar as contribuições das diferentes IAs.
-- [ ] Revisar README.md e confirmar se o índice da documentação está completo.
-- [ ] Realizar revisão final de consistência entre os documentos.
+- [ ] Atualizar e conferir a publicação da versão 1.5 de PROJECT_STATUS.md.
+- [ ] Corrigir a estrutura dos títulos e seções de CHATGPT_PROMPT_HISTORY.md.
+- [ ] Revisar e atualizar CHATGPT_PROMPT_HISTORY.md com a mudança de foco do portfólio.
+- [ ] Revisar e atualizar PROMPT_LOG.md com a mudança de foco do portfólio.
+- [ ] Registrar as contribuições das diferentes IAs, conforme forem realizadas e verificadas.
+- [ ] Corrigir a formatação Markdown do README.md da raiz.
+- [ ] Revisar docs/businessmind-ai/README.md e corrigir seus links e sua relação com o README principal.
+- [ ] Realizar revisão final de consistência entre todos os documentos.
 
 Pesquisa e validação
 
@@ -133,6 +142,7 @@ Desenvolvimento e validação
 - Nenhuma tecnologia ou arquitetura será considerada definitiva antes de pesquisa e aprovação.
 - Java, HTML, CSS e JavaScript foram discutidos como tecnologias candidatas; nenhuma delas foi aprovada como stack do produto.
 - As cinco Skills serão utilizadas conforme a necessidade de cada etapa.
+- O portfólio terá o BusinessMind AI como foco exclusivo neste momento.
 
 5. Skills disponíveis
 
@@ -154,9 +164,11 @@ Business Analysis
 
 O ciclo será repetido para cada funcionalidade, com correções e novos testes quando necessário.
 
+O início do fluxo de desenvolvimento depende da conclusão da validação e da aprovação dos requisitos e da arquitetura.
+
 7. Próxima prioridade
 
-Concluir a atualização e a conferência dos documentos de acompanhamento e rastreabilidade, incluindo PROJECT_STATUS.md, CHATGPT_PROMPT_HISTORY.md e PROMPT_LOG.md.
+Concluir a revisão documental e a atualização dos registros de rastreabilidade, incluindo PROJECT_STATUS.md, README.md, CHATGPT_PROMPT_HISTORY.md e PROMPT_LOG.md.
 
 Em seguida, dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização dos requisitos.
 
