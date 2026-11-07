@@ -1,7 +1,7 @@
 BUSINESSMIND AI — PROJECT STATUS
 
 Última atualização: 07/11/2026
-Versão: 1.3
+Versão: 1.4
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 1. Situação geral
@@ -14,7 +14,11 @@ Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de merc
 
 Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”, que foi compartilhado pelo responsável pelo projeto com algumas pessoas que possuem empresas. A coleta tem caráter exploratório e a análise das respostas permanece pendente.
 
-A documentação inicial da validação de mercado foi organizada em MARKET_VALIDATION.md.
+A documentação inicial da validação de mercado está organizada em MARKET_VALIDATION.md.
+
+O PROJECT_BRIEF.md foi revisado e atualizado para a versão 1.1, alinhando a descrição do produto ao estágio atual de planejamento e validação. As funcionalidades permanecem como hipóteses, o público prioritário ainda não foi definido e o MVP não está aprovado.
+
+Foi realizada uma revisão de consistência entre os documentos do projeto. Foram identificadas atualizações necessárias nos registros de atividades e no status, que serão executadas de forma progressiva.
 
 Essas atividades não significam que a validação de mercado esteja concluída.
 
@@ -44,6 +48,8 @@ Documentação
 - [x] Transferir os documentos para o GitHub.
 - [x] Criar MARKET_VALIDATION.md.
 - [x] Atualizar README.md para incluir MARKET_VALIDATION.md no índice de documentação.
+- [x] Atualizar PROJECT_BRIEF.md para a versão 1.1, alinhando o documento à fase atual de planejamento e validação.
+- [x] Revisar a consistência geral dos documentos e identificar os ajustes necessários.
 - [x] Atualizar os registros de prompts e histórico de participação do ChatGPT até as atividades documentadas em 06/11/2026.
 
 Skills
@@ -67,6 +73,16 @@ Pesquisa exploratória inicial
 - [x] Compartilhar o formulário com algumas pessoas que possuem empresas, conforme informado pelo responsável pelo projeto.
 
 3. Etapas pendentes
+
+Documentação e rastreabilidade
+
+- [ ] Atualizar PROJECT_STATUS.md e conferir sua publicação.
+- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md com as atividades posteriores a 06/11/2026.
+- [ ] Corrigir e conferir a estrutura dos títulos e seções do CHATGPT_PROMPT_HISTORY.md.
+- [ ] Atualizar PROMPT_LOG.md com as atividades posteriores a 06/11/2026.
+- [ ] Registrar as contribuições das diferentes IAs.
+- [ ] Revisar README.md e confirmar se o índice da documentação está completo.
+- [ ] Realizar revisão final de consistência entre os documentos.
 
 Pesquisa e validação
 
@@ -105,13 +121,6 @@ Desenvolvimento e validação
 - [ ] Documentar resultados e correções.
 - [ ] Preparar demonstração funcional do produto.
 
-Documentação e rastreabilidade
-
-- [ ] Atualizar PROMPT_LOG.md com as interações posteriores a 06/11/2026.
-- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md com as atividades posteriores a 06/11/2026.
-- [ ] Registrar as contribuições das diferentes IAs.
-- [ ] Revisar periodicamente os documentos de contexto.
-
 4. Decisões já estabelecidas
 
 - Claude será o principal parceiro de desenvolvimento.
@@ -147,9 +156,11 @@ O ciclo será repetido para cada funcionalidade, com correções e novos testes 
 
 7. Próxima prioridade
 
-Dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização e rastreabilidade dos requisitos.
+Concluir a atualização e a conferência dos documentos de acompanhamento e rastreabilidade, incluindo PROJECT_STATUS.md, CHATGPT_PROMPT_HISTORY.md e PROMPT_LOG.md.
 
-Também deverá ser realizada a revisão dos documentos de governança e instruções dos agentes, garantindo consistência entre as regras de trabalho.
+Em seguida, dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização dos requisitos.
+
+A revisão documental deverá garantir consistência entre os arquivos de contexto, as regras de trabalho e os registros de atividades.
 
 Nenhuma implementação deverá começar antes da validação dos requisitos e da aprovação da arquitetura.
 
