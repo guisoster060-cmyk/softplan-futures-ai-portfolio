@@ -1,10 +1,10 @@
-# BUSINESSMIND AI — PROJECT STATUS
+BUSINESSMIND AI — PROJECT STATUS
 
-Última atualização: 06/11/2026
-Versão: 1.2
+Última atualização: 07/11/2026
+Versão: 1.3
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
-## 1. Situação geral
+1. Situação geral
 
 O projeto está na fase de estruturação, organização documental, pesquisa exploratória de mercado e planejamento do produto.
 
@@ -14,13 +14,15 @@ Foi elaborado, com apoio do Claude, um relatório de pesquisa documental de merc
 
 Também foi criado o formulário “BusinessMind AI — Pesquisa sobre pequenos negócios”, que foi compartilhado pelo responsável pelo projeto com algumas pessoas que possuem empresas. A coleta tem caráter exploratório e a análise das respostas permanece pendente.
 
+A documentação inicial da validação de mercado foi organizada em MARKET_VALIDATION.md.
+
 Essas atividades não significam que a validação de mercado esteja concluída.
 
 Nenhuma implementação do produto foi iniciada.
 
-## 2. Etapas concluídas
+2. Etapas concluídas
 
-### Organização do projeto
+Organização do projeto
 
 - [x] Criar o projeto BusinessMind AI no Claude.
 - [x] Configurar a descrição inicial do projeto.
@@ -29,7 +31,7 @@ Nenhuma implementação do produto foi iniciada.
 - [x] Preparar a estrutura inicial do repositório.
 - [x] Criar README.md e .gitignore.
 
-### Documentação
+Documentação
 
 - [x] Criar PROJECT_BRIEF.md.
 - [x] Criar PROJECT_STATUS.md.
@@ -40,8 +42,11 @@ Nenhuma implementação do produto foi iniciada.
 - [x] Criar AGENTS.md.
 - [x] Criar CLAUDE.md.
 - [x] Transferir os documentos para o GitHub.
+- [x] Criar MARKET_VALIDATION.md.
+- [x] Atualizar README.md para incluir MARKET_VALIDATION.md no índice de documentação.
+- [x] Atualizar os registros de prompts e histórico de participação do ChatGPT até as atividades documentadas em 06/11/2026.
 
-### Skills
+Skills
 
 - [x] Criar Business Analysis.
 - [x] Criar Software Architecture.
@@ -55,15 +60,15 @@ Nenhuma implementação do produto foi iniciada.
 - [x] Realizar teste de acesso e identificação das cinco Skills.
 - [x] Confirmar com Claude a finalidade e o fluxo de utilização de cada Skill.
 
-### Pesquisa exploratória inicial
+Pesquisa exploratória inicial
 
 - [x] Elaborar uma etapa inicial de pesquisa documental de mercado com apoio do Claude, registrada em relatório datado de 05/11/2026.
 - [x] Criar o formulário exploratório “BusinessMind AI — Pesquisa sobre pequenos negócios”.
 - [x] Compartilhar o formulário com algumas pessoas que possuem empresas, conforme informado pelo responsável pelo projeto.
 
-## 3. Etapas pendentes
+3. Etapas pendentes
 
-### Pesquisa e validação
+Pesquisa e validação
 
 - [ ] Auditar integralmente o relatório de pesquisa e conferir suas fontes.
 - [ ] Consultar e analisar as respostas recebidas no formulário.
@@ -74,7 +79,7 @@ Nenhuma implementação do produto foi iniciada.
 - [ ] Identificar necessidades reais dos usuários.
 - [ ] Separar fatos, hipóteses, evidências e dúvidas.
 
-### Requisitos e planejamento
+Requisitos e planejamento
 
 - [ ] Definir requisitos funcionais.
 - [ ] Definir requisitos não funcionais.
@@ -82,7 +87,7 @@ Nenhuma implementação do produto foi iniciada.
 - [ ] Definir critérios de aceitação.
 - [ ] Planejar o escopo do MVP.
 
-### Arquitetura e tecnologia
+Arquitetura e tecnologia
 
 - [ ] Pesquisar e comparar tecnologias.
 - [ ] Avaliar provedores de inteligência artificial.
@@ -91,7 +96,7 @@ Nenhuma implementação do produto foi iniciada.
 - [ ] Definir hospedagem e infraestrutura.
 - [ ] Registrar decisões aprovadas em TECHNICAL_DECISIONS.md.
 
-### Desenvolvimento e validação
+Desenvolvimento e validação
 
 - [ ] Iniciar implementação do MVP após aprovação dos requisitos e arquitetura.
 - [ ] Implementar funcionalidades incrementalmente.
@@ -100,14 +105,14 @@ Nenhuma implementação do produto foi iniciada.
 - [ ] Documentar resultados e correções.
 - [ ] Preparar demonstração funcional do produto.
 
-### Documentação e rastreabilidade
+Documentação e rastreabilidade
 
-- [ ] Atualizar PROMPT_LOG.md com as interações recentes.
-- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md.
+- [ ] Atualizar PROMPT_LOG.md com as interações posteriores a 06/11/2026.
+- [ ] Atualizar CHATGPT_PROMPT_HISTORY.md com as atividades posteriores a 06/11/2026.
 - [ ] Registrar as contribuições das diferentes IAs.
 - [ ] Revisar periodicamente os documentos de contexto.
 
-## 4. Decisões já estabelecidas
+4. Decisões já estabelecidas
 
 - Claude será o principal parceiro de desenvolvimento.
 - ChatGPT e Gemini poderão atuar como ferramentas auxiliares.
@@ -120,7 +125,7 @@ Nenhuma implementação do produto foi iniciada.
 - Java, HTML, CSS e JavaScript foram discutidos como tecnologias candidatas; nenhuma delas foi aprovada como stack do produto.
 - As cinco Skills serão utilizadas conforme a necessidade de cada etapa.
 
-## 5. Skills disponíveis
+5. Skills disponíveis
 
 1. Business Analysis — análise de problemas, público-alvo, requisitos e MVP.
 2. Software Architecture — arquitetura, tecnologias e decisões técnicas.
@@ -130,7 +135,7 @@ Nenhuma implementação do produto foi iniciada.
 
 As cinco Skills foram ativadas no Claude e tiveram seu acesso confirmado em uma conversa de validação.
 
-## 6. Fluxo de trabalho previsto
+6. Fluxo de trabalho previsto
 
 Business Analysis
 → Software Architecture
@@ -140,13 +145,15 @@ Business Analysis
 
 O ciclo será repetido para cada funcionalidade, com correções e novos testes quando necessário.
 
-## 7. Próxima prioridade
+7. Próxima prioridade
 
 Dar continuidade à fase de Business Analysis, priorizando a auditoria do relatório de pesquisa documental, a análise das respostas do formulário quando disponíveis, a avaliação das hipóteses de público-alvo e problema e a organização e rastreabilidade dos requisitos.
 
+Também deverá ser realizada a revisão dos documentos de governança e instruções dos agentes, garantindo consistência entre as regras de trabalho.
+
 Nenhuma implementação deverá começar antes da validação dos requisitos e da aprovação da arquitetura.
 
-## 8. Regra de atualização
+8. Regra de atualização
 
 Este documento deverá ser atualizado sempre que uma etapa importante for concluída, uma decisão for aprovada ou o planejamento mudar.
 
