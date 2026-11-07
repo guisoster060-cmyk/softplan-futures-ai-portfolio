@@ -25,7 +25,7 @@ Essas áreas representam uma estrutura inicial em investigação. Seus requisito
 
 Etapa atual
 
-<ins>Planejamento e validação exploratória.</ins>
+Planejamento e validação exploratória.
 
 Atividades realizadas ou em andamento:
 
