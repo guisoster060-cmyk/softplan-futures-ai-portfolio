@@ -3,7 +3,7 @@
 Projeto: BusinessMind AI
 Ferramenta: ChatGPT
 Período inicial: 05/11/2026
-Status: Concluído
+Status: Em andamento
 
 ## 1. Objetivo
 
@@ -341,7 +341,7 @@ O usuário realizou as substituições e os commits no GitHub.
 
 PROMPT_LOG.md atualizado e conferido na branch `new-branch`.
 
-A atualização do CHATGPT_PROMPT_HISTORY.md está em andamento.
+A atualização do CHATGPT_PROMPT_HISTORY.md está concluido.
 
 #### Status
 
