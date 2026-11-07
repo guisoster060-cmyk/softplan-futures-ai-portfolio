@@ -389,6 +389,55 @@ Status
 
 Concluído.
 
+CHATGPT-018 — Revisão de consistência e atualização dos documentos centrais
+
+Data: 07/11/2026
+Ferramenta: ChatGPT — GPT-6
+Etapa: Governança documental, planejamento e rastreabilidade
+
+Objetivo
+
+Revisar a consistência dos documentos do BusinessMind AI e alinhar os registros centrais ao estágio atual de planejamento e validação exploratória.
+
+Atuação do ChatGPT
+
+- Consultou os documentos existentes na branch "new-branch".
+- Realizou uma revisão de consistência entre os arquivos de contexto, governança e acompanhamento.
+- Identificou a necessidade de alinhar o PROJECT_BRIEF.md ao estágio exploratório do projeto.
+- Preparou a atualização integral do PROJECT_BRIEF.md para a versão 1.1.
+- Reforçou a distinção entre hipóteses, propostas e decisões aprovadas.
+- Preservou como pendentes a definição do público prioritário, dos requisitos e do MVP.
+- Preparou a atualização do PROJECT_STATUS.md para a versão 1.4.
+- Reorganizou as prioridades documentais e de validação sem antecipar resultados.
+- Preparou a atualização deste histórico, incluindo correções de estrutura e continuidade cronológica.
+
+Participação humana
+
+O usuário realizou as substituições e os commits dos documentos no GitHub, acompanhando e confirmando as etapas.
+
+Arquivos relacionados
+
+- PROJECT_BRIEF.md
+- PROJECT_STATUS.md
+- CHATGPT_PROMPT_HISTORY.md
+- PROMPT_LOG.md
+- README.md
+
+Resultados confirmados
+
+- PROJECT_BRIEF.md atualizado para a versão 1.1 e conferido no GitHub.
+- PROJECT_STATUS.md atualizado para a versão 1.4 e conferido no GitHub.
+
+A atualização do CHATGPT_PROMPT_HISTORY.md e do PROMPT_LOG.md faz parte da continuidade desta revisão documental.
+
+Limitação do registro
+
+Este registro é um resumo reconstruído das atividades, não uma transcrição literal das mensagens ou prompts utilizados.
+
+Status
+
+Em atualização, até a publicação e conferência dos registros de rastreabilidade.
+
 3. Decisões humanas importantes
 
 - Escolha de trabalhar com três projetos.
@@ -403,15 +452,16 @@ Concluído.
 
 4. Próximas atividades do ChatGPT
 
-- Revisar a arquitetura proposta pelo Claude.
-- Pesquisar alternativas tecnológicas quando chegar a etapa apropriada.
-- Avaliar requisitos e funcionalidades.
-- Revisar entregas de desenvolvimento.
+- Apoiar a auditoria do relatório de pesquisa documental.
+- Auxiliar na análise das respostas do formulário quando disponíveis.
+- Apoiar a investigação de concorrentes e alternativas.
+- Avaliar requisitos e funcionalidades durante a etapa de Business Analysis.
+- Revisar entregas de desenvolvimento quando essa etapa for autorizada.
 - Auxiliar na validação e nos testes.
 - Preparar documentação para apresentação à Softplan.
 - Atualizar os registros de prompts e contribuições ao longo do projeto.
 
-## 5. Regras de integridade do histórico
+5. Regras de integridade do histórico
 
 - Não inventar prompts, respostas, decisões, resultados, datas ou atividades.
 - Diferenciar transcrições literais de reconstruções e resumos elaborados a partir do histórico disponível.
