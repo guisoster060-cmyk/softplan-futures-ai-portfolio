@@ -1,7 +1,7 @@
 BUSINESSMIND AI — PROJECT STATUS
 
 Última atualização: 07/11/2026
-Versão: 1.6
+Versão: 1.7
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
 
 1. Situação geral
@@ -57,6 +57,7 @@ Documentação
 - [x] Revisar a consistência geral dos documentos e identificar os ajustes necessários.
 - [x] Atualizar "PROJECT_STATUS.md" para a versão 1.4.
 - [x] Atualizar "PROJECT_STATUS.md" para a versão 1.5 e conferir sua publicação.
+- [x] Atualizar "PROJECT_STATUS.md" para a versão 1.6 e conferir sua publicação.
 - [x] Atualizar "CHATGPT_PROMPT_HISTORY.md" com o registro CHATGPT-018.
 - [x] Atualizar "PROMPT_LOG.md" para a versão 1.3, incluindo PROMPT-013.
 - [x] Atualizar o "README.md" da raiz para apresentar o BusinessMind AI como foco exclusivo do portfólio.
@@ -85,7 +86,7 @@ Pesquisa exploratória inicial
 
 Documentação e rastreabilidade
 
-- [ ] Atualizar e conferir a publicação da versão 1.6 de "PROJECT_STATUS.md".
+- [ ] Atualizar e conferir a publicação da versão 1.7 de "PROJECT_STATUS.md".
 - [ ] Corrigir a estrutura dos títulos e seções de "CHATGPT_PROMPT_HISTORY.md".
 - [ ] Revisar e atualizar "CHATGPT_PROMPT_HISTORY.md" com a mudança de foco do portfólio.
 - [ ] Revisar e atualizar "PROMPT_LOG.md" com a mudança de foco do portfólio.
