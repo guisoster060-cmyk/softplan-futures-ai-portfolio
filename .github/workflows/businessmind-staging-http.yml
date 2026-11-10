@@ -25,6 +25,9 @@ jobs:
         working-directory: projects/businessmind-ai
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 61837d49150abea0f873558c14addfb82c5cba8d
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
