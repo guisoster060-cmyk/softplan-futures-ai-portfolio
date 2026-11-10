@@ -131,3 +131,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Resultados e limites:** sem exceções JavaScript; persistência simulada após recarga; RLS real, SMTP e Supabase remoto não foram testados.
 - **Contribuição:** critérios e limites definidos pelo responsável; teste e registro assistidos por IA.
 - **Referência:** PR #4, commit desta etapa.
+
+## ENG-010 — Preparação de validação Supabase isolada
+
+- **Objetivo:** tornar reproduzível a validação real de Auth, onboarding, CRUD e RLS.
+- **Necessidade:** testes locais usam mocks e não provam policies no PostgreSQL remoto.
+- **Aceite:** projeto separado, duas contas fictícias, bloqueio explícito da referência publicada, critérios de aprovação e limpeza.
+- **Solução:** script REST/Auth com guard de URL, ref e confirmação; testes unitários do guard; roteiro para painel web/mobile.
+- **Arquivos:** `scripts/supabase-test-guard.mjs`, `scripts/verify-supabase-test.mjs`, `tests/supabase-test-guard.test.js`, `docs/SUPABASE_TEST_PLAN.md` e documentação de evidências.
+- **Tecnologias:** Node.js, Supabase Auth, PostgREST e PostgreSQL/RLS.
+- **Decisão:** contas pré-criadas e confirmadas pelo responsável; o script não usa chave administrativa e limpa apenas movimentações que criou.
+- **Testes executados:** `npm run verify` em 10/11/2026: 29 aprovados, 0 falhas; 26 arquivos documentais verificados. Nenhuma chamada remota foi autorizada ou executada.
+- **Limitações:** não comprova RLS até execução no projeto isolado; limpeza de contas/empresas é humana e explícita.
+- **Contribuição:** escopo e restrições definidos pelo responsável; scripts e documentação assistidos por IA.
+- **Referência:** PR #4, commits da Etapa 4A.

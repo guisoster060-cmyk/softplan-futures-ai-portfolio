@@ -65,6 +65,10 @@ O mock implementa a regra de isolamento para exercitar a interface; **não valid
 
 Usar exclusivamente um projeto Supabase separado de produção, com schema equivalente e duas contas de teste criadas por pessoa autorizada. As permissões necessárias são: acesso de teste ao Auth, leitura/escrita de movimentações das duas empresas e, para o teste SQL de policies, acesso administrativo somente ao projeto isolado. O executor deve receber credenciais efêmeras por secret local/CI, nunca por commit ou conversa. Executar cadastro/confirmar e-mail, login, onboarding, CRUD e tentativas cruzadas via cliente público + JWT de cada conta. Registrar identificador do ambiente, data, comandos, resultados e limpeza das contas fictícias. Não executar esse procedimento no projeto publicado sem autorização explícita.
 
+O roteiro reproduzível e a opção de execução pelo celular estão em [SUPABASE_TEST_PLAN.md](SUPABASE_TEST_PLAN.md). O script `scripts/verify-supabase-test.mjs` está preparado, mas não foi executado contra qualquer serviço nesta etapa.
+
+Na Etapa 4A, `npm run verify` executou 29 testes (29 aprovados, 0 falhas), incluindo quatro testes do bloqueio de ambiente de teste; 26 documentos foram verificados. Nenhum teste remoto foi executado.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
