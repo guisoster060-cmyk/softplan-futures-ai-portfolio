@@ -49,6 +49,12 @@ Em 10/11/2026, após a implementação local do Hermes, `npm run verify` executo
 
 Essas verificações não substituem um teste de integração da função em runtime Deno nem um teste remoto contra Supabase/Gemini.
 
+### Validação Deno da Edge Function — Etapa 2
+
+Em 10/11/2026, `deno check index.ts index_test.ts` concluiu sem erros e `deno test --allow-env index_test.ts` executou **9 testes aprovados, 0 falhas**. O ambiente usou Deno 2.5.6 e mocks em memória, com dados fictícios. A primeira tentativa de `deno check` falhou por ausência de configuração npm; após `deno.json`, a aquisição de dependências exigiu contorno local de certificado do proxy apenas na primeira descarga. A checagem final e os testes rodaram sem desabilitar TLS.
+
+Foram simulados JWT ausente/inválido, empresa não autorizada, RLS via mock de associação, dados completos e truncados, CORS, resposta inválida, indisponibilidade e timeout do Gemini, resposta válida e ausência de descrição individual no payload. Não houve acesso a serviços remotos. A RLS real continua dependente de teste em ambiente Supabase autorizado.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.

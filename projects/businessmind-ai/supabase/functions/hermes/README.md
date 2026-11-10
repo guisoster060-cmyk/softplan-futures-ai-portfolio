@@ -22,6 +22,19 @@ Esta função valida o JWT, confirma no servidor a associação entre usuário e
 
 O rate limit em memória reduz abuso casual, mas não é global entre instâncias. Um limite distribuído exigirá infraestrutura aprovada antes de produção.
 
+A consulta solicita até 5.001 linhas e rejeita resultados que excedam 5.000: o assistente não apresenta totais parciais como totais da empresa. A proteção depende também do limite de 5.000 movimentações existente no schema; se a API truncar antes de 5.001 linhas, é necessária agregação/paginação controlada.
+
+## Validação local
+
+Na pasta desta função, com Deno 2.5.6:
+
+```bash
+deno check index.ts index_test.ts
+deno test --allow-env index_test.ts
+```
+
+Os testes substituem cliente Supabase e requisição Gemini por mocks. Usam somente dados financeiros fictícios e não fazem chamadas remotas.
+
 ## Ativação controlada
 
 O código não foi implantado e nenhum secret foi configurado. Antes de usar dados reais:

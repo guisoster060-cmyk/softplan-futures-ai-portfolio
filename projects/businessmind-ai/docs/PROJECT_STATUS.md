@@ -54,7 +54,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e in
 ## Riscos e limitações
 
 - `app.js` ainda concentra UI, estado e acesso remoto.
-- A Edge Function não pôde ser validada em runtime Deno neste ambiente.
+- A Edge Function passou em `deno check` e 9 testes locais com mocks; RLS real e integração remota continuam pendentes.
 - O limite em memória atua por instância e não é garantia global.
 - E2E autenticado, SMTP, dispositivos físicos e matriz cross-browser permanecem pendentes.
 - O teste SQL de 34 casos continua sendo resultado manual informado, não reproduzido nesta branch.

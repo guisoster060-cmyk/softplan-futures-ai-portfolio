@@ -103,3 +103,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Resultados e limitações:** implementação pronta para revisão/configuração; rate limit em memória não é distribuído e a política de dados requer decisão humana.
 - **Contribuição:** arquitetura-alvo e limites de autorização definidos pelo responsável; pesquisa oficial, código, testes e documentação produzidos com assistência de IA.
 - **Referência:** branch `codex/businessmind-hermes-gemini`; commit e PR desta entrega.
+
+## ENG-008 — Validação local Deno do Hermes
+
+- **Objetivo:** validar a função em runtime Deno e impedir totais baseados em leitura truncada.
+- **Problema:** a consulta limitada a 5.000 linhas podia apresentar resultados parciais como totais; a CI cobria apenas Node.
+- **Aceite:** `deno check`, testes simulados de autenticação/autorização/falhas, rejeição de conjunto incompleto e CI sem secrets.
+- **Solução:** `deno.json`, função exportada para testes, dependências substituíveis, busca de até 5.001 linhas com rejeição de excesso e testes Deno com mocks.
+- **Arquivos:** `supabase/functions/hermes/index.ts`, `index_test.ts`, `deno.json`, workflow e documentação.
+- **Tecnologias:** Deno 2.5.6, TypeScript, Supabase JS e GitHub Actions.
+- **Decisão:** falhar de modo explícito ao detectar truncamento; RLS segue como autoridade no banco.
+- **Testes executados:** `deno check index.ts index_test.ts` sem erros; `deno test --allow-env index_test.ts` com 9 aprovados e 0 falhas; `npm run verify` será registrado após execução final.
+- **Limites:** mocks não provam RLS do Supabase remoto nem disponibilidade da API Gemini para uma conta.
+- **Contribuição:** critérios e restrições definidos pelo responsável; correção, testes e documentação assistidos por IA.
+- **Referência:** PR #4, commits adicionais desta etapa.
