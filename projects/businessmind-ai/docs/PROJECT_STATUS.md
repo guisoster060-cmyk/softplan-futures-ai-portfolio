@@ -4,7 +4,7 @@ Atualizado em: 10/11/2026
 
 ## Resumo executivo
 
-As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` não foi alterada. O Hermes com Gemini está implementado em branch própria, mas permanece desativado, sem deploy, secrets ou uso de dados reais.
+As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` recebeu somente o workflow manual de staging pelo PR #5. O Hermes com Gemini está implementado em branch própria, mas permanece desativado, sem deploy, secrets da função ou uso de dados reais pelo provedor. A correção P0 de paginação e preview isolado está local, ainda não commitada nem publicada.
 
 ## Entregas concluídas
 
@@ -18,6 +18,8 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e in
 - [x] Cliente Hermes preparado para Edge Function com fallback.
 - [x] Edge Function Gemini com JWT, validação de empresa, agregação, timeout e limites.
 - [x] Gate de consentimento e ativação desabilitado por padrão.
+- [x] 33 verificações HTTP reais com JWTs no staging, sem falhas; duas empresas fictícias remanescentes e zero movimentações.
+- [x] Implementação local de paginação completa e build separado de staging, com teste E2E local em Chromium e mocks.
 
 ## Evidências Git
 
@@ -38,7 +40,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e in
 | Modelo | `gemini-3.5-flash-lite` selecionado |
 | Chave Gemini | Não configurada |
 | Consentimento para agregados reais | Não concedido/configurado |
-| Teste remoto Gemini/Supabase | Não executado |
+| Teste remoto Gemini | Não executado; HTTP de Auth/CRUD/RLS no staging executado separadamente |
 
 ## Pendências para implantação
 

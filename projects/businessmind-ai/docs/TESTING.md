@@ -83,9 +83,19 @@ O script HTTP foi preparado para login de três identidades via senha/JWT: A e B
 
 Após essas mudanças, `npm run verify` executou **30 testes aprovados, 0 falhas** e verificou 26 documentos. Essa suíte é local e não comprova login HTTP ou RLS com JWT real. A execução remota aguarda credenciais em secret binding e autorização explícita para criar dados fictícios.
 
-O workflow `businessmind-staging-http.yml` foi preparado para execução exclusivamente manual com GitHub Actions Secrets e guard para staging, mas **não foi executado**. A política do GitHub exige que o arquivo exista na branch padrão para habilitar `workflow_dispatch`; como permanece apenas na branch do PR #4, ainda não está disponível na aba Actions. Nenhum resultado HTTP pode ser inferido da preparação do workflow.
+O workflow `businessmind-staging-http.yml` foi incorporado à `main` pelo PR #5 sem incorporar o Hermes. Sua execução manual única no staging está registrada abaixo; o arquivo continua na branch do PR #4 para manter o checkout fixado e os guardas ao selecionar essa branch.
 
-Na revisão de segurança posterior, `fetchWithoutRedirect` passou a rejeitar redirecionamentos de login e de chamadas com JWT. Três testes locais cobrem redirecionamento de senha, redirecionamento de JWT e resposta direta; o guard também rejeita porta alternativa e credenciais embutidas na URL. `npm run verify` executou **34 testes aprovados, 0 falhas**, com 26 documentos válidos. O workflow fixa o checkout no commit auditado `61837d49150abea0f873558c14addfb82c5cba8d` e desativa a persistência de credenciais Git. Nenhum teste HTTP remoto foi executado.
+Na revisão de segurança posterior, `fetchWithoutRedirect` passou a rejeitar redirecionamentos de login e de chamadas com JWT. Três testes locais cobrem redirecionamento de senha, redirecionamento de JWT e resposta direta; o guard também rejeita porta alternativa e credenciais embutidas na URL. `npm run verify` executou **34 testes aprovados, 0 falhas**, com 26 documentos válidos. O workflow fixa o checkout no commit auditado `61837d49150abea0f873558c14addfb82c5cba8d` e desativa a persistência de credenciais Git. Naquela revisão, o teste HTTP remoto ainda não havia sido executado.
+
+### HTTP real no staging — execução controlada
+
+Em 10/11/2026, a execução manual [42848846297](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/actions/runs/42848846297) concluiu com **33 verificações HTTP aprovadas, 0 falhas**, usando três JWTs individuais no projeto `ogypzmxnvjbomamkejkh`. Cobriu login, duas empresas criadas por RPC, CRUD, releitura, isolamento de leitura/inserção/edição/exclusão entre empresas, terceira conta sem associação e limpeza das movimentações. Consulta agregada posterior encontrou 2 empresas e 2 associações fictícias remanescentes, mas 0 movimentações. Não valida entrega de e-mail nem a Edge Function Gemini.
+
+### P0 local — paginação, seleção de empresa e build isolado
+
+Em 10/11/2026, `npm run verify` executou **40 testes aprovados, 0 falhas**, e verificou 27 documentos após a implementação local de paginação e build de staging. Os testes de paginação simulam 1.201 registros, página truncada, erro, contagem ausente/alterada, IDs repetidos e limite do schema. O teste de build confirma que a configuração da aplicação existente não é alterada, que a cópia aponta ao staging e que Gemini permanece desativado.
+
+`node tests/e2e-local.cjs` foi executado com Chromium/Playwright e mock do SDK Supabase: cenário completo aprovado após corrigir um seletor do próprio teste que encontrava uma opção oculta. Cobriu Auth, CRUD, recarga, dashboard, CSV, duas empresas da mesma conta, alternância e isolamento visual; não acessou Supabase real. O mock foi ampliado para representar `.in()`, `.range()` e contagem exata. Este E2E continua fora da CI porque Playwright/Chromium não estão declarados como dependências reproduzíveis.
 
 ## 3. Teste SQL de isolamento
 

@@ -16,6 +16,7 @@ const fmtPct = v => (v == null ? '—' : v.toLocaleString('pt-BR', { minimumFrac
 const fmtDate = s => s.split('-').reverse().join('/');
 const $ = id => document.getElementById(id);
 const domain = window.BusinessMindDomain;
+const transactionLoader = window.BusinessMindTransactionsLoader;
 
 /* ---------- Estado e armazenamento ---------- */
 let transactions = [];
@@ -23,6 +24,7 @@ let prefs = { compact: false, reduceMotion: false, showAlerts: true };
 let profile = { name: 'Empresário', company: '' };
 let currentUser = null;
 let currentCompany = null;
+let availableCompanies = [];
 let supabase = null;
 let authMode = 'login';
 let editingId = null;
@@ -60,26 +62,39 @@ function messageFor(error, fallback) {
   return fallback || 'Não foi possível concluir a operação.';
 }
 
-async function loadWorkspace() {
-  const [{ data: profileRow, error: profileError }, { data: memberships, error: membershipError }] = await Promise.all([
+async function loadCompany(companyId) {
+  const company = availableCompanies.find(item => item.id === companyId);
+  if (!company) throw Error('Empresa não associada ao usuário.');
+  const rows = await transactionLoader.loadTransactions(supabase, companyId);
+  currentCompany = company;
+  profile.company = company.name;
+  transactions = rows.map(mapTransaction);
+  const selector = $('company-select'); selector.textContent = '';
+  availableCompanies.forEach(item => { const option = el('option', '', item.name); option.value = item.id; selector.append(option); });
+  selector.value = companyId;
+  $('workspace-switch').hidden = availableCompanies.length < 2;
+  $('chat-log').textContent = '';
+  addMsg('bot', 'Olá! Sou o Hermes. Respondo com base nas movimentações reais carregadas da empresa ativa.');
+  setHermesStatus('');
+  showApp(currentUser.email);
+}
+
+async function loadWorkspace(preferredId) {
+  const [{ data: profileRow, error: profileError }, { data: memberships, count: membershipCount, error: membershipError }] = await Promise.all([
     supabase.from('profiles').select('display_name').eq('id', currentUser.id).single(),
-    supabase.from('company_members').select('company_id').eq('user_id', currentUser.id).limit(1)
+    supabase.from('company_members').select('company_id', { count: 'exact' }).eq('user_id', currentUser.id)
   ]);
   if (profileError) throw profileError;
   if (membershipError) throw membershipError;
+  if (!Array.isArray(memberships) || memberships.length !== membershipCount) throw Error('Lista de empresas incompleta.');
   profile.name = profileRow.display_name || currentUser.user_metadata?.display_name || 'Empresário';
   if (!memberships.length) { showOnboarding(); return; }
-  const companyId = memberships[0].company_id;
-  const [{ data: companyRow, error: companyError }, { data: rows, error: transactionError }] = await Promise.all([
-    supabase.from('companies').select('id,name').eq('id', companyId).single(),
-    supabase.from('transactions').select('id,type,description,category,amount,occurred_on').eq('company_id', companyId).order('occurred_on', { ascending: false })
-  ]);
+  const ids = memberships.map(item => item.company_id);
+  const { data: companies, error: companyError } = await supabase.from('companies').select('id,name').in('id', ids);
   if (companyError) throw companyError;
-  if (transactionError) throw transactionError;
-  currentCompany = companyRow;
-  profile.company = companyRow.name;
-  transactions = rows.map(mapTransaction);
-  showApp(currentUser.email);
+  if (!Array.isArray(companies) || companies.length !== ids.length) throw Error('Lista de empresas incompleta.');
+  availableCompanies = companies.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+  await loadCompany(ids.includes(preferredId) ? preferredId : availableCompanies[0].id);
 }
 
 /* ---------- Cálculos ---------- */
@@ -414,9 +429,9 @@ async function createCompany(e) {
   e.preventDefault();
   const name = $('company-name').value.trim();
   if (!name || name.length > 80) { $('company-error').textContent = 'Informe um nome de empresa com até 80 caracteres.'; return; }
-  const { error } = await withLoading('Criando seu workspace...', () => supabase.rpc('create_company', { p_name: name }));
+  const { data, error } = await withLoading('Criando seu workspace...', () => supabase.rpc('create_company', { p_name: name }));
   if (error) { $('company-error').textContent = messageFor(error, 'Não foi possível criar a empresa.'); return; }
-  await loadWorkspace();
+  await loadWorkspace(data);
 }
 function navigate(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
@@ -442,6 +457,21 @@ function bind() {
   $('login-form').addEventListener('submit', onLogin);
   $('auth-switch').addEventListener('click', () => setAuthMode(authMode === 'login' ? 'signup' : 'login'));
   $('company-form').addEventListener('submit', createCompany);
+  $('company-select').addEventListener('change', async e => {
+    const prior = currentCompany?.id;
+    try { await withLoading('Carregando empresa...', () => loadCompany(e.target.value)); }
+    catch { e.target.value = prior; toast('Não foi possível carregar todos os dados da empresa.'); }
+  });
+  $('new-company-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = $('new-company-name').value.trim();
+    if (!name || name.length > 80) { toast('Informe um nome de empresa com até 80 caracteres.'); return; }
+    const { data, error } = await withLoading('Criando empresa...', () => supabase.rpc('create_company', { p_name: name }));
+    if (error) { toast(messageFor(error, 'Não foi possível criar a empresa.')); return; }
+    $('new-company-name').value = '';
+    try { await withLoading('Carregando empresa...', () => loadWorkspace(data)); }
+    catch { toast('Empresa criada, mas não foi possível carregar todos os dados. Atualize a página.'); }
+  });
   $('onboarding-logout').addEventListener('click', logout);
   $('toggle-pw').addEventListener('click', () => { const p = $('password'), show = p.type === 'password'; p.type = show ? 'text' : 'password'; $('toggle-pw').textContent = show ? 'Ocultar' : 'Mostrar'; $('toggle-pw').setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha'); });
   $('forgot').addEventListener('click', async () => {
@@ -473,7 +503,9 @@ function bind() {
     ]));
     const error = profileResult.error || companyResult.error;
     if (error) { $('pf-error').textContent = messageFor(error, 'Não foi possível salvar o perfil.'); return; }
-    $('pf-error').textContent = ''; profile = { name, company }; currentCompany.name = company; renderAll(); toast('Perfil salvo.');
+    $('pf-error').textContent = ''; profile = { name, company }; currentCompany.name = company;
+    if ($('company-select').selectedOptions[0]) $('company-select').selectedOptions[0].textContent = company;
+    renderAll(); toast('Perfil salvo.');
   });
   [['pref-compact', 'compact'], ['pref-motion', 'reduceMotion'], ['pref-alerts', 'showAlerts']].forEach(([id, k]) => $(id).addEventListener('change', e => { prefs[k] = e.target.checked; store.set('local', KEYS.prefs, prefs); applyPrefs(); renderOverview(); }));
   $('clear-data').addEventListener('click', async () => {
@@ -497,7 +529,7 @@ async function init() {
   supabase.auth.onAuthStateChange((_event, session) => {
     window.setTimeout(async () => {
       currentUser = session?.user || null;
-      currentCompany = null; transactions = [];
+      currentCompany = null; availableCompanies = []; transactions = [];
       if (!currentUser) { showLogin(); return; }
       try { await withLoading('Carregando seu workspace...', loadWorkspace); }
       catch (error) { showLogin(); $('login-error').textContent = messageFor(error, 'Não foi possível carregar os dados da conta.'); }

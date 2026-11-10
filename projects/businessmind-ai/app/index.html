@@ -6,7 +6,7 @@
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="charts.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.84.0/dist/umd/supabase.min.js" defer></script>
-<script src="config.js" defer></script><script src="domain.js" defer></script><script src="app.js" defer></script>
+<script src="config.js" defer></script><script src="domain.js" defer></script><script src="transactions-loader.js" defer></script><script src="app.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#overview">Pular para o conteúdo</a>
@@ -61,6 +61,7 @@
     <button class="nav" data-page="settings"><svg aria-hidden="true"><use href="#icon-settings"></use></svg><span>Configurações</span></button>
   </nav>
   <div class="sidebar-spacer"></div>
+  <label class="workspace-switch" id="workspace-switch" hidden>Empresa ativa<select id="company-select" aria-label="Selecionar empresa"></select></label>
   <div class="user-box"><span class="company-avatar" aria-hidden="true" id="company-avatar">BM</span><div><b id="user-company">Empresa</b><small id="user-email"></small></div><button class="icon-action" id="logout" data-tooltip="Sair da conta" aria-label="Sair da conta"><svg aria-hidden="true"><use href="#icon-log-out"></use></svg></button></div>
 </aside>
 <main class="main">
@@ -137,6 +138,7 @@
     <label class="check-row">Reduzir animações <input type="checkbox" id="pref-motion"></label>
     <label class="check-row">Mostrar alertas na visão geral <input type="checkbox" id="pref-alerts"></label></article></div>
   <div class="settings-pane" id="data"><article class="panel detail-panel"><h3>Dados da empresa</h3><p id="data-info"></p>
+    <form id="new-company-form" class="new-company-form"><label class="field">Nova empresa<input id="new-company-name" maxlength="80" autocomplete="organization" required></label><button class="secondary-btn" type="submit">Criar empresa</button></form>
     <div class="data-actions"><button class="secondary-btn danger" id="clear-data">Apagar todas as movimentações</button></div>
     <div class="security-note">Os dados são armazenados no PostgreSQL e isolados por políticas RLS. A exclusão das movimentações não pode ser desfeita.</div></article></div>
 </section>

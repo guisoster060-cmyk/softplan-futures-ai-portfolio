@@ -31,14 +31,15 @@ const mock = `window.supabase = { createClient() {
           table === 'company_members' ? Object.values(db.companies).filter(c => c.owner === uid).map(c => ({ company_id: c.id, user_id: uid })) :
           table === 'companies' ? Object.values(db.companies).filter(c => c.owner === uid) :
           db.rows.filter(r => db.companies[r.company_id]?.owner === uid);
-        list = list.filter(r => Object.entries(q.filters).every(([k,v]) => r[k] === v));
+        list = list.filter(r => Object.entries(q.filters).every(([k,v]) => r[k] === v) && Object.entries(q.inFilters || {}).every(([k,values]) => values.includes(r[k])));
         if (q.operation === 'insert') { if (db.companies[q.payload.company_id]?.owner !== uid) return { data: null, error: { message: 'RLS' } }; const row = { ...q.payload, id: 'tx-' + db.nextId++ }; db.rows.push(row); save(); return { data: row, error: null }; }
         if (q.operation === 'update') { const row = list[0]; if (row) Object.assign(row, q.payload); save(); return { data: row || null, error: null }; }
         if (q.operation === 'delete') { for (const row of list) db.rows.splice(db.rows.indexOf(row), 1); save(); return { data: null, error: null }; }
-        return { data: list, error: null };
+        return { data: list, count: q.count ? list.length : null, error: null };
       };
       const b = {
-        select() { return b; }, eq(k,v) { q.filters[k] = v; return b; }, limit() { return b; }, order() { return b; },
+        select(_columns, options) { q.count = options?.count === 'exact'; return b; }, eq(k,v) { q.filters[k] = v; return b; }, in(k,values) { (q.inFilters ||= {})[k] = values; return b; }, limit() { return b; }, order() { return b; },
+        async range(start,end) { const result = run(); return { ...result, data: result.data?.slice(start,end + 1) }; },
         insert(v) { q.operation = 'insert'; q.payload = v; return b; }, update(v) { q.operation = 'update'; q.payload = v; return b; }, delete() { q.operation = 'delete'; return b; },
         async single() { const r = run(); return { ...r, data: Array.isArray(r.data) ? r.data[0] || null : r.data }; },
         then(ok, fail) { return Promise.resolve(run()).then(ok, fail); }
@@ -88,6 +89,20 @@ const server = createServer(async (req, res) => {
     const download = page.waitForEvent('download'); await page.locator('#export-csv').click(); assert.match((await download).suggestedFilename(), /movimentacoes/);
     page.once('dialog', dialog => dialog.accept()); await page.locator('[data-act=del]').first().click();
     await page.getByText('Custo fictício').waitFor({ state: 'hidden' });
+    await page.locator('[data-page=settings]').first().click(); await page.locator('[data-tab=data]').click();
+    await page.locator('#new-company-name').fill('Empresa A2'); await page.locator('#new-company-form button[type=submit]').click();
+    await page.locator('#user-company').filter({ hasText: 'Empresa A2' }).waitFor();
+    await page.locator('#workspace-switch').waitFor({ state: 'visible' });
+    await page.locator('#company-select').selectOption({ label: 'Empresa A' });
+    await page.locator('[data-page=indicators]').first().click(); await page.getByText('Venda editada').waitFor();
+    await page.locator('#company-select').selectOption({ label: 'Empresa A2' });
+    await page.locator('[data-page=indicators]').first().click();
+    assert.match(await page.locator('#f-count').innerText(), /0 movimentações/);
+    await page.locator('#new-tx').click(); await page.locator('#tx-desc').fill('Venda da segunda empresa'); await page.locator('#tx-amount').fill('20'); await page.locator('#tx-form button[type=submit]').click();
+    await page.getByText('Venda da segunda empresa').waitFor();
+    await page.locator('#company-select').selectOption({ label: 'Empresa A' });
+    await page.locator('[data-page=indicators]').first().click(); await page.getByText('Venda editada').waitFor();
+    assert.equal(await page.getByText('Venda da segunda empresa').count(), 0);
     await page.locator('#logout').click(); await page.locator('#login-screen').waitFor({ state: 'visible' });
     await page.locator('#email').fill('a@example.invalid'); await page.locator('#password').fill('errada1'); await page.locator('#auth-submit').click();
     await page.getByText('E-mail ou senha incorretos.').waitFor();
@@ -96,7 +111,7 @@ const server = createServer(async (req, res) => {
     await page.locator('#onboarding-screen').waitFor({ state: 'visible' }); await page.locator('#company-name').fill('Empresa B'); await page.locator('#company-form button[type=submit]').click();
     await page.locator('#app').waitFor({ state: 'visible' }); await page.locator('[data-page=indicators]').first().click();
     assert.match(await page.locator('#f-count').innerText(), /0 movimentações/);
-    assert.deepEqual(errors, []); console.log('E2E local: fluxos Auth, CRUD, recarga, filtros, KPIs, gráfico, alertas, CSV, erro de login e isolamento simulado aprovados.');
+    assert.deepEqual(errors, []); console.log('E2E local: Auth, CRUD, recarga, dashboard, CSV, alternância de empresas e isolamento simulado aprovados.');
   } catch (error) { console.error('UI:', await page.locator('#tx-error').textContent(), 'page errors:', errors); throw error; }
   finally { await browser.close(); server.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; server.close(); });

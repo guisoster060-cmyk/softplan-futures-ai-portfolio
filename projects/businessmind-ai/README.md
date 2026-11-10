@@ -5,7 +5,7 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. O produto r
 ## Capacidades atuais
 
 - Supabase Auth: cadastro, confirmação quando configurada, login, sessão, recuperação e logout;
-- onboarding da primeira empresa pela RPC `create_company`;
+- onboarding e criação de outras empresas pela RPC `create_company`, com seletor da empresa ativa;
 - leitura, criação, edição e exclusão de receitas e despesas;
 - isolamento multiempresa com PostgreSQL, constraints, grants e RLS;
 - saldo, receitas, despesas, margem, série mensal, categorias e alertas calculados sem dados fictícios;
@@ -24,7 +24,7 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. O produto r
 | Qualidade | Node.js Test Runner, verificações estáticas e GitHub Actions |
 | Preview | Cloudflare Pages |
 
-A aplicação permanece estática e sem framework porque o escopo atual não justifica uma cadeia de build. A avaliação de Apache ECharts concluiu que o gráfico SVG existente atende ao volume e às interações do MVP com menor custo de dependência.
+A aplicação permanece estática e sem framework. O build opcional de staging somente copia os arquivos para uma saída isolada com configuração pública de teste; não altera `app/config.js`. A avaliação de Apache ECharts concluiu que o gráfico SVG existente atende ao MVP com menor custo de dependência.
 
 ## Estrutura
 
@@ -56,9 +56,11 @@ Abra `http://localhost:8080`. O arquivo `app/config.js` contém apenas a URL e a
 
 1. O usuário autentica pelo Supabase Auth.
 2. O cliente restaura a sessão e recebe um JWT.
-3. No primeiro acesso, `create_company` cria empresa, perfil e vínculo de forma transacional.
+3. O trigger de Auth cria o perfil; `create_company` cria empresa e vínculo de forma transacional.
 4. Consultas e alterações em `transactions` são avaliadas pelas policies RLS.
-5. O cliente calcula e renderiza indicadores apenas com registros retornados pela consulta autorizada.
+5. O cliente pagina a consulta autorizada, valida contagem e completude e só então calcula indicadores. Falhas não são apresentadas como totais válidos.
+
+O procedimento para gerar um preview separado apontado ao Supabase staging está em [STAGING_PREVIEW.md](docs/STAGING_PREVIEW.md). Nenhum deploy é feito pelo build local.
 
 Detalhes e limites de confiança estão em [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
