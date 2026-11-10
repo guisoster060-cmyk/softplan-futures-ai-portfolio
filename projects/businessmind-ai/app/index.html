@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050d1d"><title>BusinessMind AI</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.84.0/dist/umd/supabase.min.js" defer></script>
+<script src="config.js" defer></script><script src="domain.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+
+<!-- AUTENTICAÇÃO -->
+<div class="login" id="login-screen">
+  <div class="login-card">
+    <img class="login-logo" src="assets/logo.svg" alt="BusinessMind AI">
+    <h1>Bem-vindo ao BusinessMind AI</h1>
+    <p class="login-sub">Inteligência para decisões melhores.</p>
+    <form id="login-form" novalidate>
+      <label class="field signup-only" for="display-name" hidden>Seu nome<input id="display-name" maxlength="80" autocomplete="name"></label>
+      <label class="field" for="email">E-mail<input id="email" type="email" autocomplete="username" required></label>
+      <label class="field" for="password">Senha
+        <span class="pw"><input id="password" type="password" autocomplete="current-password" required><button type="button" id="toggle-pw" aria-label="Mostrar senha">Mostrar</button></span>
+      </label>
+      <div class="login-row"><span class="keep">Sessão protegida</span><button type="button" class="text-action" id="forgot">Esqueceu sua senha?</button></div>
+      <p class="form-error" id="login-error" role="alert"></p>
+      <button class="primary-btn" id="auth-submit" type="submit">Entrar</button>
+      <button class="secondary-btn auth-switch" id="auth-switch" type="button">Criar uma conta</button>
+    </form>
+    <div class="demo-note">Autenticação protegida pelo Supabase. Use uma senha exclusiva para este projeto.</div>
+  </div>
+</div>
+
+<div class="login" id="onboarding-screen" hidden>
+  <div class="login-card">
+    <img class="login-logo" src="assets/logo.svg" alt="BusinessMind AI">
+    <h1>Cadastre sua empresa</h1>
+    <p class="login-sub">Crie o espaço onde suas movimentações serão armazenadas.</p>
+    <form id="company-form" novalidate>
+      <label class="field" for="company-name">Nome da empresa<input id="company-name" maxlength="80" autocomplete="organization" required></label>
+      <p class="form-error" id="company-error" role="alert"></p>
+      <button class="primary-btn" type="submit">Criar empresa</button>
+      <button class="secondary-btn auth-switch" id="onboarding-logout" type="button">Sair</button>
+    </form>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="#" data-page="overview" aria-label="BusinessMind AI — Visão geral"><img src="assets/logo.svg" alt="BusinessMind AI"></a>
+  <nav class="main-nav">
+    <button class="nav active" data-page="overview"><span>⌂</span>Visão geral</button>
+    <button class="nav" data-page="indicators"><span>▧</span>Indicadores</button>
+    <button class="nav" data-page="intelligence"><span>⛨</span>Inteligência</button>
+    <button class="nav" data-page="settings"><span>⚙</span>Configurações</button>
+  </nav>
+  <div class="sidebar-spacer"></div>
+  <div class="user-box"><div><b id="user-company">Empresa Exemplo</b><small id="user-email"></small></div><button class="secondary-btn" id="logout">Sair da conta</button></div>
+</aside>
+<main class="main">
+<header class="mobile-header"><a class="brand" href="#" data-page="overview" aria-label="BusinessMind AI"><img src="assets/logo.svg" alt="BusinessMind AI"></a><button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu">☰</button></header>
+
+<!-- VISÃO GERAL -->
+<section class="screen active" id="overview">
+  <header class="page-header"><div><h1>Olá, <span id="greet-name">Empresário</span>! <span class="wave">👋</span></h1><p>Resumo financeiro calculado a partir das movimentações cadastradas.</p></div><div class="header-actions"><span class="date-btn static" id="today-label"></span><button class="icon-btn" id="alerts-btn" aria-label="Ver alertas">♧<i id="alerts-dot" hidden></i></button></div></header>
+  <div class="kpi-grid" id="overview-kpis"></div>
+  <div class="overview-grid">
+    <article class="panel quick-panel"><h3>Resumo do mês</h3><div id="quick-rows"></div><small class="live"><i></i> Calculado ao abrir e a cada alteração</small></article>
+    <article class="panel revenue-panel"><div class="panel-heading"><h3>Receitas e despesas — 6 meses</h3></div><div class="legend"><span><i class="dot blue-dot"></i>Receitas</span><span><i class="dot purple-dot"></i>Despesas</span></div>
+      <div class="chart-wrap"><div class="chart-y" id="chart-y"></div><div class="line-chart"><div class="chart-grid"><i></i><i></i><i></i><i></i><i></i></div><svg id="month-chart" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Gráfico de receitas e despesas dos últimos 6 meses"></svg><div class="chart-x" id="chart-x"></div></div></div></article>
+    <article class="panel insight-panel"><div class="insight-icon">♧</div><div><h3>Leitura dos dados</h3><p id="insight-text"></p><button class="text-action" data-page="intelligence">Perguntar ao assistente →</button></div></article>
+    <article class="panel opportunity-panel"><div class="opportunity-icon">☆</div><div><h3>Ponto de atenção</h3><p id="opp-text"></p></div></article>
+  </div>
+  <article class="panel alerts-panel" id="alerts-panel"><h3>Alertas</h3><ul class="plain-list" id="alerts-list"></ul><small class="muted">Regras demonstrativas simples sobre os dados cadastrados; não substituem análise profissional.</small></article>
+</section>
+
+<!-- INDICADORES / MOVIMENTAÇÕES -->
+<section class="screen" id="indicators">
+  <header class="page-header"><div><h1>Indicadores</h1><p>Cadastre movimentações e acompanhe os indicadores do período.</p></div><div class="header-actions"><button class="export-btn" id="new-tx">＋ Nova movimentação</button><button class="date-btn" id="export-csv">⇩ Exportar CSV</button></div></header>
+  <div class="panel filters">
+    <label class="field">Período<select id="f-period"><option value="1">Mês atual</option><option value="3">Últimos 3 meses</option><option value="6" selected>Últimos 6 meses</option><option value="0">Todo o período</option></select></label>
+    <label class="field">Tipo<select id="f-type"><option value="all">Receitas e despesas</option><option value="income">Somente receitas</option><option value="expense">Somente despesas</option></select></label>
+    <span class="count" id="f-count"></span>
+  </div>
+  <div class="indicator-kpis" id="ind-kpis"></div>
+  <form class="panel tx-form" id="tx-form" hidden novalidate>
+    <h3 id="tx-form-title">Nova movimentação</h3>
+    <div class="form-grid">
+      <label class="field">Tipo<select id="tx-type"><option value="income">Receita</option><option value="expense">Despesa</option></select></label>
+      <label class="field">Descrição<input id="tx-desc" maxlength="80" autocomplete="off"></label>
+      <label class="field">Categoria<select id="tx-cat"></select></label>
+      <label class="field">Valor (R$)<input id="tx-amount" type="number" step="0.01" min="0.01" inputmode="decimal"></label>
+      <label class="field">Data<input id="tx-date" type="date"></label>
+    </div>
+    <p class="form-error" id="tx-error" role="alert"></p>
+    <div class="btn-row"><button class="primary-btn" type="submit">Salvar</button><button class="secondary-btn" type="button" id="tx-cancel">Cancelar</button></div>
+  </form>
+  <div class="tx-layout">
+    <article class="panel"><h3>Movimentações</h3>
+      <div class="tx-row head"><span>Data</span><span>Descrição</span><span>Tipo</span><span class="tx-amount">Valor</span><span></span></div>
+      <div id="tx-list"></div>
+    </article>
+    <article class="panel"><h3 id="cat-title">Receitas por categoria</h3><div class="donut-wrap"><div class="donut" id="cat-donut" aria-hidden="true"><div></div></div></div><div class="cat-legend" id="cat-legend"></div></article>
+  </div>
+</section>
+
+<!-- INTELIGÊNCIA -->
+<section class="screen" id="intelligence">
+  <header class="page-header"><div><h1>Inteligência</h1><p>Perguntas e análises simples sobre os dados cadastrados.</p></div></header>
+  <div class="tabs"><button class="tab active" data-tab="assistant">Assistente</button><button class="tab" data-tab="analysis">Análises e recomendações</button></div>
+  <div class="intel-pane active" id="assistant">
+    <div class="notice"><b>Hermes.</b> As respostas calculadas usam apenas as movimentações carregadas da sua empresa. A integração generativa é feita somente por função de servidor quando configurada.</div>
+    <article class="panel"><div class="chips" id="chips"></div><div class="chat-log" id="chat-log" aria-live="polite"></div>
+      <form class="chat-form" id="chat-form"><input id="chat-input" maxlength="200" placeholder="Pergunte sobre receitas, despesas, lucro…" aria-label="Pergunta ao assistente" autocomplete="off"><button class="primary-btn" type="submit">Enviar</button></form></article>
+  </div>
+  <div class="intel-pane" id="analysis"><div class="notice">Cada item indica se é <b>Fato</b> (calculado dos dados), <b>Estimativa</b> (projeção simples), <b>Risco</b> ou <b>Recomendação</b>, com a base usada.</div><div class="analysis-grid" id="analysis-list"></div></div>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+<section class="screen" id="settings">
+  <header class="page-header"><div><h1>Configurações</h1><p>Perfil, preferências de interface e dados da empresa.</p></div></header>
+  <div class="tabs settings-tabs"><button class="tab active" data-tab="profile">Perfil</button><button class="tab" data-tab="preferences">Preferências</button><button class="tab" data-tab="data">Dados</button></div>
+  <div class="settings-pane active" id="profile"><form class="panel detail-panel" id="profile-form" novalidate><h3>Perfil</h3><p>Nome pessoal e empresa são salvos no Supabase.</p>
+    <label class="field">Seu nome<input id="pf-name" maxlength="40" autocomplete="off"></label>
+    <label class="field">Nome da empresa<input id="pf-company" maxlength="60" autocomplete="off"></label>
+    <label class="field">E-mail da sessão<input id="pf-email" readonly></label>
+    <p class="form-error" id="pf-error" role="alert"></p><button class="save-btn" type="submit">Salvar perfil</button></form></div>
+  <div class="settings-pane" id="preferences"><article class="panel detail-panel"><h3>Preferências de interface</h3><p>Salvas automaticamente neste navegador.</p>
+    <label class="check-row">Modo compacto <input type="checkbox" id="pref-compact"></label>
+    <label class="check-row">Reduzir animações <input type="checkbox" id="pref-motion"></label>
+    <label class="check-row">Mostrar alertas na visão geral <input type="checkbox" id="pref-alerts"></label></article></div>
+  <div class="settings-pane" id="data"><article class="panel detail-panel"><h3>Dados da empresa</h3><p id="data-info"></p>
+    <div class="data-actions"><button class="secondary-btn danger" id="clear-data">Apagar todas as movimentações</button></div>
+    <div class="security-note">Os dados são armazenados no PostgreSQL e isolados por políticas RLS. A exclusão das movimentações não pode ser desfeita.</div></article></div>
+</section>
+<footer><span>BusinessMind AI · MVP</span><span>Supabase Auth · PostgreSQL · RLS</span></footer>
+</main></div>
+
+<div class="modal-backdrop" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="modal-close" aria-label="Fechar">×</button><div class="modal-symbol">✦</div><h3 id="modal-title"></h3><p id="modal-message" style="white-space:pre-line"></p><button class="save-btn" id="modal-ok">Entendi</button></div></div>
+<div id="toast" role="status"></div>
+<div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+</body></html>
