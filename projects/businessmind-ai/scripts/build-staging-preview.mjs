@@ -1,6 +1,7 @@
 import { cpSync, mkdirSync, readFileSync, rmSync, copyFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateStagingPreview } from './validate-staging-preview.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = resolve(root, 'app');
@@ -17,6 +18,12 @@ export function buildStagingPreview() {
   mkdirSync(output, { recursive: true });
   cpSync(source, output, { recursive: true });
   copyFileSync(stagingConfig, resolve(output, 'config.js'));
+  try {
+    validateStagingPreview(output);
+  } catch (error) {
+    rmSync(output, { recursive: true, force: true });
+    throw error;
+  }
   return output;
 }
 
