@@ -36,13 +36,19 @@ BM_TEST_PASSWORD_C=<senha-c>
 
 Execute `node scripts/verify-supabase-test.mjs` na pasta `projects/businessmind-ai/` somente após autorização para alterar dados de teste. O script recusa a referência de produção, URLs que não sejam a raiz HTTPS `*.supabase.co`, chave que não seja publishable, referência divergente e ausência de confirmação. Nenhuma requisição é feita antes desses controles. Não adicione essas variáveis a `.env` rastreado ou ao PR.
 
-O ambiente Codex atual não possui secret binding configurado. O menor passo manual seguro é cadastrar os seis valores de e-mail/senha das três contas como **secrets de runtime do ambiente Codex** (não como texto do chat, arquivo do repositório ou secret de GitHub Actions), usando os nomes acima. URL, ref, confirmação e publishable key também podem ser configurados nesse painel. Depois de salvar, informe apenas que os secrets estão prontos; não envie seus valores. O agente deve conferir que os bindings estão `ready` antes de executar. Caso o painel não ofereça secrets de runtime, use um gerenciador de segredos local no seu computador e execute o script lá; não copie credenciais para a conversa.
+### Workflow manual do GitHub Actions
+
+O arquivo [businessmind-staging-http.yml](../../../.github/workflows/businessmind-staging-http.yml) foi preparado **sem execução**. Ele possui somente `workflow_dispatch`, aceita apenas a branch `codex/businessmind-hermes-gemini` e exige a confirmação literal `TEST_ONLY:ogypzmxnvjbomamkejkh`. URL e ref são fixas; o guard do script bloqueia qualquer outro projeto antes da primeira requisição ao Supabase. O token do GitHub tem apenas `contents: read`. A execução cria empresas, se ainda ausentes, e movimentações fictícias; remove as movimentações que criou ao final, mas conserva empresas e contas.
+
+No celular, quando o workflow estiver disponível na aba **Actions**: abra o repositório no navegador (ative “site para computador” se necessário), acesse **Settings → Secrets and variables → Actions**, configure `BM_TEST_EMAIL_A/B/C` e `BM_TEST_PASSWORD_A/B/C` como **Repository secrets** e a publishable key do staging como **Repository variable** `BM_TEST_PUBLISHABLE_KEY`. Não use `service_role`, secret key ou credenciais de produção. Em **Actions → BusinessMind staging HTTP (manual) → Run workflow**, escolha a branch `codex/businessmind-hermes-gemini`, digite a confirmação literal e execute somente após autorização para gerar dados fictícios. O formulário e os logs não devem conter senhas ou JWTs; não ative debug de runner nem acrescente `env`, `set -x` ou logs de requisição. Os logs apresentam apenas rótulos `OK`/`FALHOU`; qualquer falha impede aprovação. Confira posteriormente se não restaram movimentações de teste.
+
+**Limitação de disponibilização:** segundo a [documentação oficial do GitHub](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow), um workflow com `workflow_dispatch` precisa existir na **branch padrão** para aparecer e poder ser disparado; depois é possível escolher outra branch na interface. A branch padrão deste repositório é `main`. Portanto, o workflow publicado apenas na branch do PR #4 **não pode ser acionado pela aba Actions agora**, mesmo com os secrets configurados. Não altere a branch padrão nem faça merge apenas para contornar isso. A disponibilização correta exige revisão e incorporação autorizada do arquivo de workflow na branch padrão; o job continua travado para executar somente a branch v1.0 indicada. Até lá, execução local em computador isolado é alternativa, com segredos fornecidos por gerenciador local.
 
 ## Critérios de aprovação
 
 | Fluxo | Resultado esperado |
 | --- | --- |
-| Auth | Duas contas confirmadas autenticam com JWTs e IDs distintos. |
+| Auth | Três contas confirmadas autenticam com JWTs e IDs distintos. |
 | Onboarding | Cada conta obtém empresa própria via `create_company` ou associação existente. |
 | CRUD | Cada conta cria, lê, edita e exclui movimentação fictícia. |
 | Persistência | Releitura por nova requisição retorna o registro criado. |

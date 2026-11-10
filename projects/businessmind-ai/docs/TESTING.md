@@ -83,6 +83,8 @@ O script HTTP foi preparado para login de três identidades via senha/JWT: A e B
 
 Após essas mudanças, `npm run verify` executou **30 testes aprovados, 0 falhas** e verificou 26 documentos. Essa suíte é local e não comprova login HTTP ou RLS com JWT real. A execução remota aguarda credenciais em secret binding e autorização explícita para criar dados fictícios.
 
+O workflow `businessmind-staging-http.yml` foi preparado para execução exclusivamente manual com GitHub Actions Secrets e guard para staging, mas **não foi executado**. A política do GitHub exige que o arquivo exista na branch padrão para habilitar `workflow_dispatch`; como permanece apenas na branch do PR #4, ainda não está disponível na aba Actions. Nenhum resultado HTTP pode ser inferido da preparação do workflow.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
