@@ -24,6 +24,8 @@ Toda decisão técnica relevante deverá apresentar:
 - Responsável pela aprovação.
 - Status da decisão.
 3. Estado atual das decisões
+
+Atualização de 10/11/2026: o responsável confirmou Supabase como plataforma de autenticação e PostgreSQL, HTML/CSS/JavaScript puro como frontend e RLS como isolamento. A implementação v0.4 segue essas decisões. A integração generativa do Hermes permanece sem provedor aprovado e sem deploy; somente sua arquitetura de Edge Function foi preparada.
 Até o momento, nenhuma stack tecnológica ou arquitetura foi aprovada.
  
 As tecnologias deverão ser pesquisadas, comparadas e justificadas antes da implementação.

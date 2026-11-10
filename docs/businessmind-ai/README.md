@@ -6,9 +6,9 @@ O projeto busca investigar e desenvolver uma plataforma de inteligência de neg�
 
 Situação do projeto
 
-Fase atual: planejamento e validação exploratória.
+Fase atual: implementação do MVP v0.4 em branch de trabalho, mantendo em paralelo as atividades de validação exploratória.
 
-O produto ainda não está em desenvolvimento. As funcionalidades, os requisitos, o público prioritário e a arquitetura permanecem em análise e validação.
+A integração técnica com Supabase está em desenvolvimento. A camada generativa do Hermes e a publicação permanecem pendentes.
 
 Índice de documentos
 
@@ -22,6 +22,8 @@ Documento| Finalidade
 "CHATGPT_PROMPT_HISTORY.md" (CHATGPT_PROMPT_HISTORY.md)| Histórico de atividades e contribuições do ChatGPT
 "AGENTS.md" (AGENTS.md)| Orientações para agentes de Inteligência Artificial
 "CLAUDE.md" (CLAUDE.md)| Instruções específicas do ambiente Claude
+"README técnico v0.4" (../../projects/businessmind-ai/README.md)| Execução, estrutura e limitações do MVP
+"Arquitetura v0.4" (../../projects/businessmind-ai/docs/ARCHITECTURE_V0.4.md)| Integração Supabase, RLS e Hermes
 
 Organização do trabalho
 

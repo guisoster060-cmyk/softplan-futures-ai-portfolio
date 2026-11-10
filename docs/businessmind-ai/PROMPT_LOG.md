@@ -198,6 +198,26 @@ O documento deverá ser atualizado durante todas as etapas do projeto.
 
 O histórico será utilizado como evidência do processo de desenvolvimento, da colaboração entre ferramentas de IA e da participação humana nas decisões e validações.
 
+## PROMPT-009 — Integração Supabase e preparação do MVP v0.4
+
+Data: 10/11/2026
+
+Ferramenta: Codex
+
+Etapa: Desenvolvimento frontend, backend e qualidade
+
+Objetivo: importar a v0.3 e a Etapa 1 da v0.4, substituir o login demonstrativo, persistir empresas e movimentações e preparar o Hermes.
+
+Resultado produzido: aplicação estática integrada ao Supabase Auth e PostgreSQL, CRUD protegido por RLS, indicadores com dados reais, Edge Function Hermes sem segredos no frontend, testes automatizados e workflow de CI.
+
+Limites: nenhuma operação foi executada no Supabase remoto; o deploy da Edge Function e o teste ponta a ponta com conta real permanecem pendentes.
+
+Arquivos relacionados: `projects/businessmind-ai/`, `.github/workflows/businessmind-ai.yml`.
+
+Validação humana: pendente de revisão do pull request.
+
+Status: Em andamento.
+
 ---
 
 Registro de execução — 05/11/2026

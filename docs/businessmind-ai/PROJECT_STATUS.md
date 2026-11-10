@@ -1,5 +1,18 @@
 BUSINESSMIND AI — PROJECT STATUS
 
+## Atualização de implementação — 10/11/2026
+
+Versão técnica: v0.4 MVP em branch de trabalho.
+
+- A interface original v0.3 foi importada e preservada em `projects/businessmind-ai/versions/v0.3/`.
+- A aplicação ativa integra Supabase Auth, cadastro inicial de empresa e CRUD de movimentações.
+- Indicadores e gráficos usam somente linhas retornadas do PostgreSQL.
+- A arquitetura Hermes por Edge Function foi preparada, mas não implantada.
+- Testes automatizados locais e GitHub Actions foram adicionados.
+- Nenhuma migração ou alteração foi executada no Supabase remoto por esta implementação.
+
+O conteúdo histórico abaixo é preservado como retrato do estágio documental anterior.
+
 Última atualização: 07/11/2026
 Versão: 1.8
 Fase atual: Estruturação documental, pesquisa de mercado e planejamento do produto
