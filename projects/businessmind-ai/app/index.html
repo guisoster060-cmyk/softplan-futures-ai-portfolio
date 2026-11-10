@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#050d1d"><title>BusinessMind AI</title>
-<link rel="stylesheet" href="style.css">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="charts.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.84.0/dist/umd/supabase.min.js" defer></script>
 <script src="config.js" defer></script><script src="domain.js" defer></script><script src="app.js" defer></script>
 </head>
 <body>
+<a class="skip-link" href="#overview">Pular para o conteúdo</a>
 
 <!-- AUTENTICAÇÃO -->
 <div class="login" id="login-screen">
+  <div class="login-ambient" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="login-card">
+    <span class="product-pill">Business intelligence, simplificada</span>
     <img class="login-logo" src="assets/logo.svg" alt="BusinessMind AI">
     <h1>Bem-vindo ao BusinessMind AI</h1>
     <p class="login-sub">Inteligência para decisões melhores.</p>
@@ -31,7 +35,9 @@
 </div>
 
 <div class="login" id="onboarding-screen" hidden>
+  <div class="login-ambient" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="login-card">
+    <span class="product-pill">Configuração inicial</span>
     <img class="login-logo" src="assets/logo.svg" alt="BusinessMind AI">
     <h1>Cadastre sua empresa</h1>
     <p class="login-sub">Crie o espaço onde suas movimentações serão armazenadas.</p>
@@ -47,35 +53,36 @@
 <div class="app" id="app" hidden>
 <aside class="sidebar" id="sidebar">
   <a class="brand" href="#" data-page="overview" aria-label="BusinessMind AI — Visão geral"><img src="assets/logo.svg" alt="BusinessMind AI"></a>
+  <p class="nav-label">Workspace</p>
   <nav class="main-nav">
-    <button class="nav active" data-page="overview"><span>⌂</span>Visão geral</button>
-    <button class="nav" data-page="indicators"><span>▧</span>Indicadores</button>
-    <button class="nav" data-page="intelligence"><span>⛨</span>Inteligência</button>
-    <button class="nav" data-page="settings"><span>⚙</span>Configurações</button>
+    <button class="nav active" data-page="overview"><svg aria-hidden="true"><use href="#icon-layout-dashboard"></use></svg><span>Visão geral</span></button>
+    <button class="nav" data-page="indicators"><svg aria-hidden="true"><use href="#icon-chart-no-axes"></use></svg><span>Indicadores</span></button>
+    <button class="nav" data-page="intelligence"><svg aria-hidden="true"><use href="#icon-sparkles"></use></svg><span>Inteligência</span></button>
+    <button class="nav" data-page="settings"><svg aria-hidden="true"><use href="#icon-settings"></use></svg><span>Configurações</span></button>
   </nav>
   <div class="sidebar-spacer"></div>
-  <div class="user-box"><div><b id="user-company">Empresa Exemplo</b><small id="user-email"></small></div><button class="secondary-btn" id="logout">Sair da conta</button></div>
+  <div class="user-box"><span class="company-avatar" aria-hidden="true" id="company-avatar">BM</span><div><b id="user-company">Empresa</b><small id="user-email"></small></div><button class="icon-action" id="logout" data-tooltip="Sair da conta" aria-label="Sair da conta"><svg aria-hidden="true"><use href="#icon-log-out"></use></svg></button></div>
 </aside>
 <main class="main">
-<header class="mobile-header"><a class="brand" href="#" data-page="overview" aria-label="BusinessMind AI"><img src="assets/logo.svg" alt="BusinessMind AI"></a><button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu">☰</button></header>
+<header class="mobile-header"><a class="brand" href="#" data-page="overview" aria-label="BusinessMind AI"><img src="assets/logo.svg" alt="BusinessMind AI"></a><button class="mobile-menu" id="mobile-menu" aria-label="Abrir menu"><svg aria-hidden="true"><use href="#icon-menu"></use></svg></button></header>
 
 <!-- VISÃO GERAL -->
 <section class="screen active" id="overview">
-  <header class="page-header"><div><h1>Olá, <span id="greet-name">Empresário</span>! <span class="wave">👋</span></h1><p>Resumo financeiro calculado a partir das movimentações cadastradas.</p></div><div class="header-actions"><span class="date-btn static" id="today-label"></span><button class="icon-btn" id="alerts-btn" aria-label="Ver alertas">♧<i id="alerts-dot" hidden></i></button></div></header>
+  <header class="page-header"><div><span class="eyebrow">Visão geral</span><h1>Olá, <span id="greet-name">Empresário</span>! <span class="wave" aria-hidden="true">👋</span></h1><p>Uma leitura clara da saúde financeira da sua empresa.</p></div><div class="header-actions"><span class="date-btn static" id="today-label"></span><button class="icon-btn" id="alerts-btn" data-tooltip="Ver alertas" aria-label="Ver alertas"><svg aria-hidden="true"><use href="#icon-bell"></use></svg><i id="alerts-dot" hidden></i></button></div></header>
   <div class="kpi-grid" id="overview-kpis"></div>
   <div class="overview-grid">
-    <article class="panel quick-panel"><h3>Resumo do mês</h3><div id="quick-rows"></div><small class="live"><i></i> Calculado ao abrir e a cada alteração</small></article>
+    <article class="panel quick-panel"><div class="panel-heading"><div><span class="panel-kicker">Mês atual</span><h3>Resumo financeiro</h3></div><span class="status-pill"><i></i>Ao vivo</span></div><div id="quick-rows"></div><small class="live"><i></i> Atualizado a cada movimentação</small></article>
     <article class="panel revenue-panel"><div class="panel-heading"><h3>Receitas e despesas — 6 meses</h3></div><div class="legend"><span><i class="dot blue-dot"></i>Receitas</span><span><i class="dot purple-dot"></i>Despesas</span></div>
       <div class="chart-wrap"><div class="chart-y" id="chart-y"></div><div class="line-chart"><div class="chart-grid"><i></i><i></i><i></i><i></i><i></i></div><svg id="month-chart" viewBox="0 0 600 220" preserveAspectRatio="none" role="img" aria-label="Gráfico de receitas e despesas dos últimos 6 meses"></svg><div class="chart-x" id="chart-x"></div></div></div></article>
-    <article class="panel insight-panel"><div class="insight-icon">♧</div><div><h3>Leitura dos dados</h3><p id="insight-text"></p><button class="text-action" data-page="intelligence">Perguntar ao assistente →</button></div></article>
-    <article class="panel opportunity-panel"><div class="opportunity-icon">☆</div><div><h3>Ponto de atenção</h3><p id="opp-text"></p></div></article>
+    <article class="panel insight-panel"><div class="insight-icon"><svg aria-hidden="true"><use href="#icon-sparkles"></use></svg></div><div><span class="panel-kicker">Hermes</span><h3>Leitura dos dados</h3><p id="insight-text"></p><button class="text-action" data-page="intelligence">Explorar com o Hermes <span aria-hidden="true">→</span></button></div></article>
+    <article class="panel opportunity-panel"><div class="opportunity-icon"><svg aria-hidden="true"><use href="#icon-lightbulb"></use></svg></div><div><span class="panel-kicker">Insight</span><h3>Ponto de atenção</h3><p id="opp-text"></p></div></article>
   </div>
   <article class="panel alerts-panel" id="alerts-panel"><h3>Alertas</h3><ul class="plain-list" id="alerts-list"></ul><small class="muted">Regras demonstrativas simples sobre os dados cadastrados; não substituem análise profissional.</small></article>
 </section>
 
 <!-- INDICADORES / MOVIMENTAÇÕES -->
 <section class="screen" id="indicators">
-  <header class="page-header"><div><h1>Indicadores</h1><p>Cadastre movimentações e acompanhe os indicadores do período.</p></div><div class="header-actions"><button class="export-btn" id="new-tx">＋ Nova movimentação</button><button class="date-btn" id="export-csv">⇩ Exportar CSV</button></div></header>
+  <header class="page-header"><div><span class="eyebrow">Financeiro</span><h1>Indicadores</h1><p>Movimentações e desempenho do período em um só lugar.</p></div><div class="header-actions"><button class="export-btn" id="new-tx"><svg aria-hidden="true"><use href="#icon-plus"></use></svg>Nova movimentação</button><button class="date-btn" id="export-csv"><svg aria-hidden="true"><use href="#icon-download"></use></svg>Exportar CSV</button></div></header>
   <div class="panel filters">
     <label class="field">Período<select id="f-period"><option value="1">Mês atual</option><option value="3">Últimos 3 meses</option><option value="6" selected>Últimos 6 meses</option><option value="0">Todo o período</option></select></label>
     <label class="field">Tipo<select id="f-type"><option value="all">Receitas e despesas</option><option value="income">Somente receitas</option><option value="expense">Somente despesas</option></select></label>
@@ -105,7 +112,7 @@
 
 <!-- INTELIGÊNCIA -->
 <section class="screen" id="intelligence">
-  <header class="page-header"><div><h1>Inteligência</h1><p>Perguntas e análises simples sobre os dados cadastrados.</p></div></header>
+  <header class="page-header"><div><span class="eyebrow">Hermes</span><h1>Inteligência</h1><p>Análises transparentes fundamentadas nos dados da sua empresa.</p></div></header>
   <div class="tabs"><button class="tab active" data-tab="assistant">Assistente</button><button class="tab" data-tab="analysis">Análises e recomendações</button></div>
   <div class="intel-pane active" id="assistant">
     <div class="notice"><b>Hermes.</b> As respostas calculadas usam apenas as movimentações carregadas da sua empresa. A integração generativa é feita somente por função de servidor quando configurada.</div>
@@ -117,7 +124,7 @@
 
 <!-- CONFIGURAÇÕES -->
 <section class="screen" id="settings">
-  <header class="page-header"><div><h1>Configurações</h1><p>Perfil, preferências de interface e dados da empresa.</p></div></header>
+  <header class="page-header"><div><span class="eyebrow">Workspace</span><h1>Configurações</h1><p>Gerencie sua identidade, experiência e dados da empresa.</p></div></header>
   <div class="tabs settings-tabs"><button class="tab active" data-tab="profile">Perfil</button><button class="tab" data-tab="preferences">Preferências</button><button class="tab" data-tab="data">Dados</button></div>
   <div class="settings-pane active" id="profile"><form class="panel detail-panel" id="profile-form" novalidate><h3>Perfil</h3><p>Nome pessoal e empresa são salvos no Supabase.</p>
     <label class="field">Seu nome<input id="pf-name" maxlength="40" autocomplete="off"></label>
@@ -138,4 +145,23 @@
 <div class="modal-backdrop" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="modal-close" aria-label="Fechar">×</button><div class="modal-symbol">✦</div><h3 id="modal-title"></h3><p id="modal-message" style="white-space:pre-line"></p><button class="save-btn" id="modal-ok">Entendi</button></div></div>
 <div id="toast" role="status"></div>
 <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+<div class="loading-overlay" id="loading-overlay" hidden aria-live="polite" aria-busy="true"><div class="loader"><span></span><p id="loading-message">Carregando...</p></div></div>
+
+<!-- Ícones Lucide, incorporados como sprite SVG para evitar dependência de runtime. -->
+<svg class="icon-sprite" aria-hidden="true">
+  <symbol id="icon-layout-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+  <symbol id="icon-chart-no-axes" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></symbol>
+  <symbol id="icon-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9Z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></symbol>
+  <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.09a2 2 0 0 1-1-1.74v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="icon-log-out" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/></symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0M18 8A6 6 0 0 0 6 8c0 7-3 7-3 9h18c0-2-3-2-3-9"/></symbol>
+  <symbol id="icon-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M8.2 14.5A7 7 0 1 1 15.8 14.5c-.8.6-.8 1.5-.8 2.5H9c0-1 0-1.9-.8-2.5Z"/></symbol>
+  <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></symbol>
+  <symbol id="icon-wallet" viewBox="0 0 24 24"><path d="M20 7V6a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v10H5a3 3 0 0 1-3-3V7"/><path d="M16 14h.01"/></symbol>
+  <symbol id="icon-receipt" viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6M16 12h-6M13 16h-3"/></symbol>
+  <symbol id="icon-trending-up" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></symbol>
+  <symbol id="icon-percent" viewBox="0 0 24 24"><path d="m19 5-14 14"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+</svg>
 </body></html>

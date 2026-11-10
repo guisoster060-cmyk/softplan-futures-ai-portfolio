@@ -27,6 +27,7 @@ let supabase = null;
 let authMode = 'login';
 let editingId = null;
 let storageWarned = false;
+let modalReturnFocus = null;
 
 const store = {
   area(kind) { try { return kind === 'session' ? window.sessionStorage : window.localStorage; } catch (e) { return null; } },
@@ -124,8 +125,10 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 let toastTimer;
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600); }
-function showModal(title, message) { $('modal-title').textContent = title; $('modal-message').textContent = message; $('modal').classList.add('open'); $('modal-ok').focus(); }
-const closeModal = () => $('modal').classList.remove('open');
+function setLoading(active, message = 'Carregando...') { $('loading-message').textContent = message; $('loading-overlay').hidden = !active; }
+async function withLoading(message, task) { setLoading(true, message); try { return await task(); } finally { setLoading(false); } }
+function showModal(title, message) { modalReturnFocus = document.activeElement; $('modal-title').textContent = title; $('modal-message').textContent = message; $('modal').classList.add('open'); $('modal-ok').focus(); }
+function closeModal() { $('modal').classList.remove('open'); if (modalReturnFocus?.focus) modalReturnFocus.focus(); modalReturnFocus = null; }
 
 function deltaHtml(cur, prev, goodWhenUp) {
   const g = change(cur, prev);
@@ -133,7 +136,8 @@ function deltaHtml(cur, prev, goodWhenUp) {
   const good = goodWhenUp ? g >= 0 : g <= 0;
   return `<small class="${good ? 'positive' : 'negative'}">${g >= 0 ? '↑' : '↓'} ${fmtPct(Math.abs(g))} <em>vs mês anterior</em></small>`;
 }
-const kpi = (label, icon, cls, value, delta) => `<article class="kpi"><div class="kpi-label"><span class="kpi-icon ${cls}">${icon}</span>${esc(label)}</div><strong>${esc(value)}</strong>${delta}</article>`;
+const iconSvg = id => `<svg aria-hidden="true" width="18" height="18"><use href="#icon-${id}"></use></svg>`;
+const kpi = (label, icon, cls, value, delta) => `<article class="kpi"><div class="kpi-label"><span class="kpi-icon ${cls}">${iconSvg(icon)}</span>${esc(label)}</div><strong title="${esc(value)}">${esc(value)}</strong>${delta}</article>`;
 
 /* ---------- Renderização: Visão geral ---------- */
 function renderOverview() {
@@ -142,10 +146,10 @@ function renderOverview() {
   $('today-label').textContent = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
   const mDelta = a.c.margin != null && a.p.margin != null ? a.c.margin - a.p.margin : null;
   $('overview-kpis').innerHTML =
-    kpi('Receitas (mês)', '＄', 'blue', brl.format(a.c.income), deltaHtml(a.c.income, a.p.income, true)) +
-    kpi('Despesas (mês)', '＄', 'violet', brl.format(a.c.expense), deltaHtml(a.c.expense, a.p.expense, false)) +
-    kpi('Lucro (mês)', '▣', 'green', brl.format(a.c.profit), deltaHtml(a.c.profit, a.p.profit, true)) +
-    kpi('Margem (mês)', '▣', 'cyan', fmtPct(a.c.margin), mDelta == null ? '<small class="muted">sem base de comparação</small>' : `<small class="${mDelta >= 0 ? 'positive' : 'negative'}">${mDelta >= 0 ? '↑' : '↓'} ${Math.abs(mDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} p.p. <em>vs mês anterior</em></small>`);
+    kpi('Receitas (mês)', 'wallet', 'blue', brl.format(a.c.income), deltaHtml(a.c.income, a.p.income, true)) +
+    kpi('Despesas (mês)', 'receipt', 'violet', brl.format(a.c.expense), deltaHtml(a.c.expense, a.p.expense, false)) +
+    kpi('Lucro (mês)', 'trending-up', 'green', brl.format(a.c.profit), deltaHtml(a.c.profit, a.p.profit, true)) +
+    kpi('Margem (mês)', 'percent', 'cyan', fmtPct(a.c.margin), mDelta == null ? '<small class="muted">sem base de comparação</small>' : `<small class="${mDelta >= 0 ? 'positive' : 'negative'}">${mDelta >= 0 ? '↑' : '↓'} ${Math.abs(mDelta).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} p.p. <em>vs mês anterior</em></small>`);
 
   const bigIn = extreme(a.cur, 'income'), bigEx = extreme(a.cur, 'expense'), incCount = a.cur.filter(t => t.type === 'income').length;
   const rows = [['Movimentações no mês', String(a.cur.length)], ['Maior receita', bigIn ? `${brl.format(bigIn.amount)}` : '—'], ['Maior despesa', bigEx ? `${brl.format(bigEx.amount)}` : '—'], ['Ticket médio das receitas', incCount ? brl.format(a.c.income / incCount) : '—']];
@@ -175,9 +179,10 @@ function renderMonthChart(data) {
   const x = i => (data.length === 1 ? 300 : (i * 600) / (data.length - 1)), y = v => 220 - (v / max) * 220;
   const pts = key => data.map((d, i) => `${x(i).toFixed(1)} ${y(d[key]).toFixed(1)}`);
   const line = key => 'M' + pts(key).join(' L');
+  const points = key => data.map((d, i) => `<circle class="chart-point ${key === 'expense' ? 'expense' : ''}" cx="${x(i).toFixed(1)}" cy="${y(d[key]).toFixed(1)}" r="4" tabindex="0" role="img" aria-label="${esc(d.label)}: ${esc(brl.format(d[key]))}"><title>${esc(d.label)} · ${key === 'income' ? 'Receitas' : 'Despesas'}: ${esc(brl.format(d[key]))}</title></circle>`).join('');
   $('month-chart').innerHTML =
     '<defs><linearGradient id="bluefill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1769ff" stop-opacity=".4"/><stop offset="1" stop-color="#1769ff" stop-opacity="0"/></linearGradient></defs>' +
-    `<path class="chart-area" d="${line('income')} L600 220 L0 220Z"/><path class="chart-line" d="${line('income')}"/><path class="chart-line exp" d="${line('expense')}"/>`;
+    `<path class="chart-area" d="${line('income')} L600 220 L0 220Z"/><path class="chart-line" d="${line('income')}"/><path class="chart-line exp" d="${line('expense')}"/>${points('income')}${points('expense')}`;
   $('chart-y').innerHTML = [1, .75, .5, .25, 0].map(f => `<span>${shortMoney(max * f)}</span>`).join('');
   $('chart-x').innerHTML = data.map(d => `<span>${esc(d.label)}</span>`).join('');
 }
@@ -195,10 +200,10 @@ function filteredTx() {
 function renderIndicators() {
   const per = inPeriod(), t = totals(per), list = filteredTx();
   $('ind-kpis').innerHTML =
-    kpi('Receitas', '＄', 'blue', brl.format(t.income), '<small class="muted">no período</small>') +
-    kpi('Despesas', '＄', 'violet', brl.format(t.expense), '<small class="muted">no período</small>') +
-    kpi('Lucro', '▣', 'green', brl.format(t.profit), `<small class="${t.profit >= 0 ? 'positive' : 'negative'}">${t.profit >= 0 ? 'resultado positivo' : 'resultado negativo'}</small>`) +
-    kpi('Margem', '▣', 'cyan', fmtPct(t.margin), '<small class="muted">lucro ÷ receitas</small>');
+    kpi('Receitas', 'wallet', 'blue', brl.format(t.income), '<small class="muted">no período</small>') +
+    kpi('Despesas', 'receipt', 'violet', brl.format(t.expense), '<small class="muted">no período</small>') +
+    kpi('Lucro', 'trending-up', 'green', brl.format(t.profit), `<small class="${t.profit >= 0 ? 'positive' : 'negative'}">${t.profit >= 0 ? 'resultado positivo' : 'resultado negativo'}</small>`) +
+    kpi('Margem', 'percent', 'cyan', fmtPct(t.margin), '<small class="muted">lucro ÷ receitas</small>');
   $('f-count').textContent = `${list.length} movimentaç${list.length === 1 ? 'ão' : 'ões'} exibida${list.length === 1 ? '' : 's'}`;
 
   const box = $('tx-list'); box.textContent = '';
@@ -244,9 +249,9 @@ async function submitTx(e) {
   const err = domain.validateTransaction(payload);
   if (err) { $('tx-error').textContent = err; return; }
   $('tx-error').textContent = '';
-  const result = editingId
-    ? await supabase.from('transactions').update(payload).eq('id', editingId).select('id,type,description,category,amount,occurred_on').single()
-    : await supabase.from('transactions').insert({ company_id: currentCompany.id, ...payload }).select('id,type,description,category,amount,occurred_on').single();
+  const result = await withLoading('Salvando movimentação...', () => editingId
+    ? supabase.from('transactions').update(payload).eq('id', editingId).select('id,type,description,category,amount,occurred_on').single()
+    : supabase.from('transactions').insert({ company_id: currentCompany.id, ...payload }).select('id,type,description,category,amount,occurred_on').single());
   if (result.error) { $('tx-error').textContent = messageFor(result.error, 'Não foi possível salvar a movimentação.'); return; }
   const saved = mapTransaction(result.data);
   if (editingId) { const i = transactions.findIndex(t => t.id === editingId); if (i >= 0) transactions[i] = saved; }
@@ -258,7 +263,7 @@ async function onTxListClick(e) {
   const tx = transactions.find(t => t.id === b.dataset.id); if (!tx) return;
   if (b.dataset.act === 'edit') openTxForm(tx);
   else if (window.confirm(`Excluir "${tx.desc}" (${brl.format(tx.amount)})?`)) {
-    const { error } = await supabase.from('transactions').delete().eq('id', tx.id);
+    const { error } = await withLoading('Excluindo movimentação...', () => supabase.from('transactions').delete().eq('id', tx.id));
     if (error) { toast(messageFor(error, 'Não foi possível excluir a movimentação.')); return; }
     transactions = transactions.filter(t => t.id !== tx.id); renderAll(); toast('Movimentação excluída.');
   }
@@ -343,6 +348,7 @@ function applyPrefs() {
 }
 function renderSettings() {
   $('pf-name').value = profile.name; $('pf-company').value = profile.company; $('user-company').textContent = profile.company;
+  $('company-avatar').textContent = profile.company.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase() || 'BM';
   $('data-info').textContent = `${transactions.length} movimentações armazenadas para ${profile.company}.`;
 }
 
@@ -351,7 +357,7 @@ function showApp(email) {
   $('login-screen').hidden = true; $('onboarding-screen').hidden = true; $('app').hidden = false; $('user-email').textContent = email; $('pf-email').value = email;
   renderAll(); navigate('overview');
 }
-function showLogin() { $('app').hidden = true; $('onboarding-screen').hidden = true; $('login-screen').hidden = false; $('password').value = ''; $('login-error').textContent = ''; $('email').focus(); }
+function showLogin() { setLoading(false); $('app').hidden = true; $('onboarding-screen').hidden = true; $('login-screen').hidden = false; $('password').value = ''; $('login-error').textContent = ''; $('email').focus(); }
 function showOnboarding() { $('app').hidden = true; $('login-screen').hidden = true; $('onboarding-screen').hidden = false; $('company-error').textContent = ''; $('company-name').focus(); }
 function setAuthMode(mode) {
   authMode = mode;
@@ -371,20 +377,20 @@ async function onLogin(e) {
   if (authMode === 'signup') {
     const displayName = $('display-name').value.trim();
     if (!displayName) { $('login-error').textContent = 'Informe seu nome.'; return; }
-    const { data, error } = await supabase.auth.signUp({ email, password: pw, options: { data: { display_name: displayName.slice(0, 80) } } });
+    const { data, error } = await withLoading('Criando sua conta...', () => supabase.auth.signUp({ email, password: pw, options: { data: { display_name: displayName.slice(0, 80) } } }));
     if (error) { $('login-error').textContent = messageFor(error, 'Não foi possível criar a conta.'); return; }
     if (!data.session) { showModal('Confirme seu e-mail', 'Enviamos um link de confirmação. Depois de confirmar, volte e entre na sua conta.'); setAuthMode('login'); return; }
   } else {
-    const { error } = await supabase.auth.signInWithPassword({ email, password: pw });
+    const { error } = await withLoading('Entrando no BusinessMind...', () => supabase.auth.signInWithPassword({ email, password: pw }));
     if (error) { $('login-error').textContent = messageFor(error, 'Não foi possível entrar.'); }
   }
 }
-async function logout() { await supabase.auth.signOut(); closeDrawer(); }
+async function logout() { await withLoading('Encerrando sessão...', () => supabase.auth.signOut()); closeDrawer(); }
 async function createCompany(e) {
   e.preventDefault();
   const name = $('company-name').value.trim();
   if (!name || name.length > 80) { $('company-error').textContent = 'Informe um nome de empresa com até 80 caracteres.'; return; }
-  const { error } = await supabase.rpc('create_company', { p_name: name });
+  const { error } = await withLoading('Criando seu workspace...', () => supabase.rpc('create_company', { p_name: name }));
   if (error) { $('company-error').textContent = messageFor(error, 'Não foi possível criar a empresa.'); return; }
   await loadWorkspace();
 }
@@ -417,7 +423,7 @@ function bind() {
   $('forgot').addEventListener('click', async () => {
     const email = $('email').value.trim().toLowerCase();
     if (!email) { $('login-error').textContent = 'Informe seu e-mail para recuperar a senha.'; return; }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.href.split('#')[0] });
+    const { error } = await withLoading('Enviando instruções...', () => supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.href.split('#')[0] }));
     if (error) { $('login-error').textContent = messageFor(error, 'Não foi possível enviar a recuperação.'); return; }
     showModal('Recuperação de senha', 'Se o endereço estiver cadastrado e o envio estiver configurado, você receberá as instruções por e-mail.');
   });
@@ -437,10 +443,10 @@ function bind() {
   $('profile-form').addEventListener('submit', async e => {
     e.preventDefault(); const name = $('pf-name').value.trim(), company = $('pf-company').value.trim();
     if (!name || !company || name.length > 80 || company.length > 80) { $('pf-error').textContent = 'Informe nome e empresa com até 80 caracteres.'; return; }
-    const [profileResult, companyResult] = await Promise.all([
+    const [profileResult, companyResult] = await withLoading('Salvando configurações...', () => Promise.all([
       supabase.from('profiles').update({ display_name: name }).eq('id', currentUser.id),
       supabase.from('companies').update({ name: company }).eq('id', currentCompany.id)
-    ]);
+    ]));
     const error = profileResult.error || companyResult.error;
     if (error) { $('pf-error').textContent = messageFor(error, 'Não foi possível salvar o perfil.'); return; }
     $('pf-error').textContent = ''; profile = { name, company }; currentCompany.name = company; renderAll(); toast('Perfil salvo.');
@@ -448,7 +454,7 @@ function bind() {
   [['pref-compact', 'compact'], ['pref-motion', 'reduceMotion'], ['pref-alerts', 'showAlerts']].forEach(([id, k]) => $(id).addEventListener('change', e => { prefs[k] = e.target.checked; store.set('local', KEYS.prefs, prefs); applyPrefs(); renderOverview(); }));
   $('clear-data').addEventListener('click', async () => {
     if (!window.confirm(`Apagar as ${transactions.length} movimentações de ${profile.company}? Esta ação não pode ser desfeita.`)) return;
-    const { error } = await supabase.from('transactions').delete().eq('company_id', currentCompany.id);
+    const { error } = await withLoading('Excluindo movimentações...', () => supabase.from('transactions').delete().eq('company_id', currentCompany.id));
     if (error) { toast(messageFor(error, 'Não foi possível apagar as movimentações.')); return; }
     transactions = []; renderAll(); toast('Movimentações apagadas.');
   });
@@ -469,7 +475,7 @@ async function init() {
       currentUser = session?.user || null;
       currentCompany = null; transactions = [];
       if (!currentUser) { showLogin(); return; }
-      try { await loadWorkspace(); }
+      try { await withLoading('Carregando seu workspace...', loadWorkspace); }
       catch (error) { showLogin(); $('login-error').textContent = messageFor(error, 'Não foi possível carregar os dados da conta.'); }
     }, 0);
   });
