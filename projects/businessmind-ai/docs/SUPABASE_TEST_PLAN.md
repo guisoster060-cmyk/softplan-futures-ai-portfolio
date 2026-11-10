@@ -13,7 +13,7 @@ A migration versionada `0001_initial_schema.sql` (SHA-256 `f61220649b214599f3d09
 3. A migration já foi aplicada no staging `ogypzmxnvjbomamkejkh`; **não a execute novamente**. Confira as quatro tabelas, a RPC `create_company`, os triggers e as policies RLS. Não cole o SQL no projeto publicado.
 4. Em **Project Settings → API**, copie a URL e a **publishable key** do projeto de teste. Não use `service_role` ou secret key.
 5. Crie duas contas de teste com e-mails controlados, confirme-as e guarde as senhas fora do Git. O script usa login por senha; não cria contas automaticamente.
-6. Em etapa autorizada separadamente, no SQL Editor do projeto de teste, execute `supabase/tests/isolation_test.sql`. O erro final é intencional e deve mostrar 34 OK, 0 falhas; se outro erro aparecer, registre o texto e interrompa. Esse teste faz rollback das linhas criadas por ele.
+6. O teste `supabase/tests/isolation_test.sql` já foi executado no staging em 10/11/2026: 34 OK, 0 falhas; rollback e trigger ativo confirmados. Não é necessário repeti-lo sem nova finalidade.
 
 No celular, o caminho mais simples para a verificação SQL é abrir o repositório em outra aba, copiar o arquivo `isolation_test.sql` e executá-lo no SQL Editor do **projeto de teste**. O E2E de Auth/CRUD usa o script Node em um computador ou CI isolada; o painel móvel sozinho não reproduz chamadas autenticadas de duas contas com a mesma evidência. Para uma verificação manual móvel, abra a aplicação apontada ao projeto de teste em duas sessões privadas separadas, registre dados fictícios e confirme que não aparecem entre contas. Isso é complementar, não substitui o script.
 

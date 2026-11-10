@@ -159,3 +159,15 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Limitações:** verificações estruturais não provam comportamento de Auth ou RLS com usuários reais; nenhum teste SQL com inserção foi executado.
 - **Contribuição:** escopo e autorização definidos pelo responsável; execução e registro assistidos por IA.
 - **Referência:** PR #4, commit documental desta etapa.
+
+## ENG-012 — Isolamento SQL real no staging
+
+- **Objetivo:** exercer RLS e RPC em PostgreSQL real sem dados persistentes.
+- **Necessidade:** a validação anterior era estrutural ou baseada em mocks.
+- **Aceite:** relatório do script versionado com 34 OK e zero falhas, rollback confirmado.
+- **Solução:** execução de `supabase/tests/isolation_test.sql` no projeto `ogypzmxnvjbomamkejkh`, seguida de consulta de contagens e trigger.
+- **Tecnologias:** PostgreSQL 17, Supabase RLS, SQL Editor via integração.
+- **Resultado:** 34/34 casos aprovados; erro final `P0001` intencional; zero linhas/usuários de teste após rollback; trigger de limite ativo.
+- **Limite:** claims e papéis foram simulados dentro do SQL; Auth HTTP com JWT real ainda não foi testado. O cadastro público rejeitou `example.com`, e não foram usadas caixas de e-mail de terceiros.
+- **Contribuição:** autorização e escopo humanos; execução e registro assistidos por IA.
+- **Referência:** PR #4, commit desta etapa.

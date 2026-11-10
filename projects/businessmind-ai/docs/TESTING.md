@@ -69,6 +69,12 @@ O roteiro reproduzível e a opção de execução pelo celular estão em [SUPABA
 
 Na Etapa 4A, `npm run verify` executou 29 testes (29 aprovados, 0 falhas), incluindo quatro testes do bloqueio de ambiente de teste; 26 documentos foram verificados. Nenhum teste remoto foi executado.
 
+### Staging real — isolamento SQL
+
+Em 10/11/2026, o arquivo versionado `supabase/tests/isolation_test.sql` foi executado exclusivamente no staging `ogypzmxnvjbomamkejkh`. Relatório retornado: **34 casos OK, 0 falhas**. O erro final `P0001` é intencional e reverte a transação. Consulta posterior confirmou zero usuários de teste, zero perfis, empresas, associações e movimentações; o trigger `enforce_transaction_limit` permaneceu habilitado.
+
+Foram exercitadas as policies de leitura e atualização de perfil; leitura, atualização e exclusão de empresa; leitura de associação; e leitura, inserção, atualização e exclusão de movimentações. O script simula os papéis e claims JWT no PostgreSQL; não autentica usuários por e-mail/senha nem usa JWT emitido pelo Auth. Assim, os fluxos HTTP de login, sessão e PostgREST com duas contas reais continuam pendentes.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
