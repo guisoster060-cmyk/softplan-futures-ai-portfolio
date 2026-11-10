@@ -85,6 +85,8 @@ Após essas mudanças, `npm run verify` executou **30 testes aprovados, 0 falhas
 
 O workflow `businessmind-staging-http.yml` foi preparado para execução exclusivamente manual com GitHub Actions Secrets e guard para staging, mas **não foi executado**. A política do GitHub exige que o arquivo exista na branch padrão para habilitar `workflow_dispatch`; como permanece apenas na branch do PR #4, ainda não está disponível na aba Actions. Nenhum resultado HTTP pode ser inferido da preparação do workflow.
 
+Na revisão de segurança posterior, `fetchWithoutRedirect` passou a rejeitar redirecionamentos de login e de chamadas com JWT. Três testes locais cobrem redirecionamento de senha, redirecionamento de JWT e resposta direta; o guard também rejeita porta alternativa e credenciais embutidas na URL. `npm run verify` executou **34 testes aprovados, 0 falhas**, com 26 documentos válidos. O workflow fixa o checkout no commit auditado `61837d49150abea0f873558c14addfb82c5cba8d` e desativa a persistência de credenciais Git. Nenhum teste HTTP remoto foi executado.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
