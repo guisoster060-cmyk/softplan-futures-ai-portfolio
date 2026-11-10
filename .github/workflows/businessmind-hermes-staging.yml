@@ -1,0 +1,44 @@
+name: BusinessMind Hermes staging (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_staging:
+        description: 'Digite TEST_ONLY:ogypzmxnvjbomamkejkh'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: businessmind-hermes-staging
+  cancel-in-progress: false
+
+jobs:
+  verify-hermes:
+    if: github.ref == 'refs/heads/codex/businessmind-hermes-gemini' && inputs.confirm_staging == 'TEST_ONLY:ogypzmxnvjbomamkejkh'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: projects/businessmind-ai
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 0a6f92d3e83affdea231a37305fb61720bd92d98
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Testar Hermes com JWTs reais e dados fictícios
+        env:
+          BM_TEST_SUPABASE_URL: https://ogypzmxnvjbomamkejkh.supabase.co
+          BM_TEST_PROJECT_REF: ogypzmxnvjbomamkejkh
+          BM_TEST_CONFIRM: ${{ inputs.confirm_staging }}
+          BM_TEST_PUBLISHABLE_KEY: ${{ vars.BM_TEST_PUBLISHABLE_KEY }}
+          BM_TEST_EMAIL_A: ${{ secrets.BM_TEST_EMAIL_A }}
+          BM_TEST_PASSWORD_A: ${{ secrets.BM_TEST_PASSWORD_A }}
+          BM_TEST_EMAIL_B: ${{ secrets.BM_TEST_EMAIL_B }}
+          BM_TEST_PASSWORD_B: ${{ secrets.BM_TEST_PASSWORD_B }}
+        run: node scripts/verify-hermes-staging.mjs
