@@ -1,15 +1,19 @@
 # Validação real em projeto Supabase isolado
 
-Estado: **preparado, não executado**. Este roteiro não autoriza alterações no projeto publicado `cqiuryqnsdmsjchejclo`.
+Estado em 10/11/2026: migration inicial aplicada **somente** no staging `ogypzmxnvjbomamkejkh`; testes com contas e dados ainda não executados. Este roteiro não autoriza alterações no projeto publicado `cqiuryqnsdmsjchejclo`.
+
+### Evidência estrutural do staging
+
+A migration versionada `0001_initial_schema.sql` (SHA-256 `f61220649b214599f3d091d6f29d4416936aa8e980d79acf3426d1a071e7ff71`) foi aplicada pela integração Supabase como `businessmind_initial_schema`, versão remota `20261110124952`. Antes da aplicação havia zero tabelas públicas e zero migrations. Depois, as quatro tabelas esperadas existem com zero linhas; RLS está habilitado em todas. Há seis funções públicas, dez policies, 17 constraints e três triggers de aplicação (incluindo `on_auth_user_created` em `auth.users`). Nenhuma conta, empresa ou movimentação foi criada.
 
 ## Preparação humana — possível pelo celular
 
 1. No navegador do celular, abra o painel Supabase e crie um **novo projeto** dedicado a testes. Anote somente o *project ref* e a URL pública; não envie senha ou chave privada por conversa.
 2. Em **Authentication → Providers**, habilite Email. Para execução pelo script, confirme manualmente duas contas fictícias distintas, ou configure confirmação por e-mail com caixas controladas para teste.
-3. No novo projeto, abra **SQL Editor** e aplique uma única vez `supabase/migrations/0001_initial_schema.sql`. Confira as quatro tabelas, a RPC `create_company`, os triggers e as policies RLS. Não cole o SQL no projeto publicado.
+3. A migration já foi aplicada no staging `ogypzmxnvjbomamkejkh`; **não a execute novamente**. Confira as quatro tabelas, a RPC `create_company`, os triggers e as policies RLS. Não cole o SQL no projeto publicado.
 4. Em **Project Settings → API**, copie a URL e a **publishable key** do projeto de teste. Não use `service_role` ou secret key.
 5. Crie duas contas de teste com e-mails controlados, confirme-as e guarde as senhas fora do Git. O script usa login por senha; não cria contas automaticamente.
-6. Opcionalmente, no SQL Editor do projeto de teste, execute `supabase/tests/isolation_test.sql`. O erro final é intencional e deve mostrar 34 OK, 0 falhas; se outro erro aparecer, registre o texto e interrompa. Esse teste faz rollback das linhas criadas por ele.
+6. Em etapa autorizada separadamente, no SQL Editor do projeto de teste, execute `supabase/tests/isolation_test.sql`. O erro final é intencional e deve mostrar 34 OK, 0 falhas; se outro erro aparecer, registre o texto e interrompa. Esse teste faz rollback das linhas criadas por ele.
 
 No celular, o caminho mais simples para a verificação SQL é abrir o repositório em outra aba, copiar o arquivo `isolation_test.sql` e executá-lo no SQL Editor do **projeto de teste**. O E2E de Auth/CRUD usa o script Node em um computador ou CI isolada; o painel móvel sozinho não reproduz chamadas autenticadas de duas contas com a mesma evidência. Para uma verificação manual móvel, abra a aplicação apontada ao projeto de teste em duas sessões privadas separadas, registre dados fictícios e confirme que não aparecem entre contas. Isso é complementar, não substitui o script.
 
@@ -41,7 +45,7 @@ Execute `node scripts/verify-supabase-test.mjs` na pasta `projects/businessmind-
 | RLS | Leitura, edição e exclusão cruzadas retornam zero linhas; inserção cruzada é rejeitada. |
 | Limpeza | Movimentações criadas pelo script são removidas; contas e empresas ficam para revisão/limpeza humana. |
 
-Falha de qualquer critério impede declarar aprovação. Registre data, ref do projeto de teste, commit, comandos e saída sem senhas/JWTs. A migration e o teste SQL não foram executados nesta Etapa 4A.
+Falha de qualquer critério impede declarar aprovação. Registre data, ref do projeto de teste, commit, comandos e saída sem senhas/JWTs. A migration foi aplicada em etapa posterior autorizada; o teste SQL de isolamento ainda não foi executado no staging.
 
 ## Limpeza segura
 

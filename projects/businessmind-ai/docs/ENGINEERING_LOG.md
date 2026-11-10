@@ -145,3 +145,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Limitações:** não comprova RLS até execução no projeto isolado; limpeza de contas/empresas é humana e explícita.
 - **Contribuição:** escopo e restrições definidos pelo responsável; scripts e documentação assistidos por IA.
 - **Referência:** PR #4, commits da Etapa 4A.
+
+## ENG-011 — Schema inicial no staging isolado
+
+- **Objetivo:** aplicar e verificar o schema versionado em `ogypzmxnvjbomamkejkh`.
+- **Necessidade:** validar a estrutura real antes de criar contas ou dados fictícios.
+- **Aceite:** staging vazio, migration esperada, quatro tabelas com RLS, funções, constraints e policies presentes, zero linhas.
+- **Solução:** inspeção do SQL e do projeto; aplicação exclusiva de `0001_initial_schema.sql` como `businessmind_initial_schema`.
+- **Arquivo-fonte:** `supabase/migrations/0001_initial_schema.sql`, SHA-256 `f61220649b214599f3d091d6f29d4416936aa8e980d79acf3426d1a071e7ff71`.
+- **Tecnologias:** Supabase PostgreSQL 17, integração Supabase, RLS.
+- **Decisão:** executar no staging vazio; os `REVOKE` abrangentes não atingiram tabelas públicas preexistentes.
+- **Verificações executadas:** quatro tabelas vazias; RLS habilitado; dez policies; seis funções; 17 constraints; três triggers de aplicação; migration remota `20261110124952`.
+- **Limitações:** verificações estruturais não provam comportamento de Auth ou RLS com usuários reais; nenhum teste SQL com inserção foi executado.
+- **Contribuição:** escopo e autorização definidos pelo responsável; execução e registro assistidos por IA.
+- **Referência:** PR #4, commit documental desta etapa.
