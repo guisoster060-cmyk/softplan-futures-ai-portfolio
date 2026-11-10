@@ -1,5 +1,7 @@
 BUSINESSMIND AI — PROMPT LOG
 
+> **Registro histórico reconstruído:** o conteúdo abaixo não deve ser interpretado automaticamente como transcrição literal. O [índice técnico canônico](../../projects/businessmind-ai/docs/PROMPT_LOG.md) identifica reformulações como “especificação técnica derivada”.
+
 Versão: 1.5
 Última atualização: 07/11/2026
 Início do registro: 05/11/2026

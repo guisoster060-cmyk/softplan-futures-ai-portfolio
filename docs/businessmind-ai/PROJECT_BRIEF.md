@@ -1,5 +1,7 @@
 BUSINESSMIND AI — PROJECT BRIEF
 
+> **Registro histórico:** este documento representa a concepção inicial. A implementação atual e seus requisitos verificáveis estão em [projects/businessmind-ai/docs/REQUIREMENTS.md](../../projects/businessmind-ai/docs/REQUIREMENTS.md).
+
 Versão: 1.1
 Última atualização: 07/11/2026
 Status: Planejamento e validação exploratória

@@ -1,5 +1,7 @@
 BUSINESSMIND AI — PROJECT STATUS
 
+> **Registro histórico composto:** este arquivo preserva atualizações acumuladas. Consulte o [estado técnico canônico](../../projects/businessmind-ai/docs/PROJECT_STATUS.md) para a situação atual consolidada.
+
 ## Atualização visual — v0.5
 
 A interface v0.5 foi desenvolvida em branch isolada a partir da v0.4. O trabalho adiciona design system, componentes SaaS modernos, responsividade, ícones Lucide inline, feedback de carregamento e melhorias de acessibilidade, sem alterar schema, RLS ou integração Supabase. O Apache ECharts foi avaliado e adiado por não oferecer benefício proporcional aos gráficos simples do MVP.
