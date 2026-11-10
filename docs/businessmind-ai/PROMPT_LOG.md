@@ -218,6 +218,26 @@ Validação humana: pendente de revisão do pull request.
 
 Status: Em andamento.
 
+## PROMPT-014 — BusinessMind AI v0.5 Visual
+
+Data: 10/11/2026
+
+Ferramenta: Codex
+
+Etapa: Design de interface, frontend e qualidade
+
+Objetivo: modernizar as quatro telas como dashboard SaaS premium, preservando todas as integrações e regras de dados da v0.4.
+
+Resultado produzido: design system em CSS, navegação e componentes modernizados, ícones Lucide inline, gráfico SVG acessível, estados de carregamento, responsividade e suporte a movimento reduzido. Apache ECharts foi avaliado e adiado por custo de bundle e manutenção desproporcional ao escopo atual.
+
+Limites: nenhuma alteração foi feita no Supabase remoto. A validação visual automatizada depende da disponibilidade do navegador do ambiente.
+
+Arquivos relacionados: `projects/businessmind-ai/app/`, `projects/businessmind-ai/docs/DESIGN_SYSTEM_V0.5.md` e testes automatizados.
+
+Validação humana: pendente de revisão do pull request.
+
+Status: Em andamento.
+
 ---
 
 Registro de execução — 05/11/2026
