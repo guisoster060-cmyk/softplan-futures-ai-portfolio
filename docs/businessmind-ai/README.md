@@ -1,38 +1,36 @@
-BusinessMind AI — Documentação
+# BusinessMind AI — acervo histórico e governança
 
-Esta pasta reúne os documentos de planejamento, análise, validação, decisões técnicas e orientações de trabalho do projeto BusinessMind AI.
+Esta pasta preserva documentos de concepção, planejamento, validação exploratória e registros anteriores. Alguns textos representam o estado conhecido quando foram escritos e não devem ser lidos como descrição atual da implementação.
 
-O projeto busca investigar e desenvolver uma plataforma de inteligência de negócios com apoio de Inteligência Artificial, voltada a ajudar gestores e proprietários de pequenos e médios negócios a compreender informações empresariais e tomar decisões mais fundamentadas.
+Para o estado técnico verificável da v0.5, use a [documentação canônica do projeto](../../projects/businessmind-ai/README.md). Os arquivos históricos não foram apagados nem reescritos silenciosamente.
 
-Situação do projeto
+## Documentos históricos
 
-Fase atual: implementação do MVP v0.4 em branch de trabalho, mantendo em paralelo as atividades de validação exploratória.
+| Documento | Natureza |
+| --- | --- |
+| [PROJECT_BRIEF.md](PROJECT_BRIEF.md) | Visão e escopo inicial |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Registro de estado anterior |
+| [MARKET_VALIDATION.md](MARKET_VALIDATION.md) | Pesquisa e validação exploratória |
+| [TECHNICAL_DECISIONS.md](TECHNICAL_DECISIONS.md) | Avaliações e decisões no contexto histórico |
+| [DEVELOPMENT_RULES.md](DEVELOPMENT_RULES.md) | Regras de trabalho |
+| [PROMPT_LOG.md](PROMPT_LOG.md) | Registro histórico reconstruído |
+| [CHATGPT_PROMPT_HISTORY.md](CHATGPT_PROMPT_HISTORY.md) | Histórico declarado de uso do ChatGPT |
+| [AGENTS.md](AGENTS.md) | Orientações para agentes de IA |
+| [CLAUDE.md](CLAUDE.md) | Instruções do ambiente Claude |
 
-A integração técnica com Supabase está em desenvolvimento. A camada generativa do Hermes e a publicação permanecem pendentes.
+## Fontes canônicas atuais
 
-Índice de documentos
+| Documento | Finalidade |
+| --- | --- |
+| [Requisitos](../../projects/businessmind-ai/docs/REQUIREMENTS.md) | Escopo, prioridades e critérios de aceitação |
+| [Arquitetura](../../projects/businessmind-ai/docs/ARCHITECTURE.md) | Componentes, fluxos, dados e segurança |
+| [Decisões técnicas](../../projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) | Decisões implementadas e trade-offs |
+| [Diário de engenharia](../../projects/businessmind-ai/docs/ENGINEERING_LOG.md) | Entregas e evidências |
+| [Testes](../../projects/businessmind-ai/docs/TESTING.md) | Execuções, resultados e limitações |
+| [Método com IA](../../projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md) | Divisão de responsabilidades |
+| [Estado atual](../../projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído e pendências |
+| [Tarefas delegadas](../../projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações derivadas, não prompts literais |
 
-Documento| Finalidade
-"PROJECT_BRIEF.md" (PROJECT_BRIEF.md)| Visão, objetivos e escopo inicial do produto
-"PROJECT_STATUS.md" (PROJECT_STATUS.md)| Situação atual, atividades concluídas e próximas etapas
-"MARKET_VALIDATION.md" (MARKET_VALIDATION.md)| Pesquisa exploratória e validação de mercado
-"TECHNICAL_DECISIONS.md" (TECHNICAL_DECISIONS.md)| Registro de decisões e avaliações técnicas
-"DEVELOPMENT_RULES.md" (DEVELOPMENT_RULES.md)| Regras e critérios para o trabalho de desenvolvimento
-"PROMPT_LOG.md" (PROMPT_LOG.md)| Registro de prompts relevantes utilizados no projeto
-"CHATGPT_PROMPT_HISTORY.md" (CHATGPT_PROMPT_HISTORY.md)| Histórico de atividades e contribuições do ChatGPT
-"AGENTS.md" (AGENTS.md)| Orientações para agentes de Inteligência Artificial
-"CLAUDE.md" (CLAUDE.md)| Instruções específicas do ambiente Claude
-"README técnico v0.4" (../../projects/businessmind-ai/README.md)| Execução, estrutura e limitações do MVP
-"Arquitetura v0.4" (../../projects/businessmind-ai/docs/ARCHITECTURE_V0.4.md)| Integração Supabase, RLS e Hermes
+## Princípio de preservação
 
-Organização do trabalho
-
-A documentação deve manter separadas as hipóteses, as evidências, as propostas e as decisões efetivamente aprovadas.
-
-As atualizações devem ser registradas de maneira rastreável, preservando o histórico do projeto e evitando apresentar possibilidades ainda em avaliação como decisões definitivas.
-
-Repositório
-
-O código e a documentação do projeto são versionados no GitHub.
-
-"Repositório BusinessMind AI — softplan-futures-ai-portfolio" (https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio)
+Hipóteses, propostas, evidências e decisões devem permanecer distinguíveis. Correções futuras devem acrescentar contexto ou apontar para a fonte vigente, preservando o registro original sempre que ele tiver valor histórico.

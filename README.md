@@ -1,83 +1,68 @@
-BusinessMind AI
+# Softplan Futures — BusinessMind AI
 
-Plataforma de inteligência de negócios com apoio de Inteligência Artificial.
+Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP de inteligência empresarial para pequenos negócios. A aplicação transforma receitas e despesas registradas pelo usuário em indicadores, visualizações e análises determinísticas, com autenticação e isolamento de dados pelo Supabase.
 
-O BusinessMind AI é um projeto de produto digital que busca investigar como pequenos e médios negócios podem utilizar dados e Inteligência Artificial para compreender melhor seus resultados, identificar oportunidades e tomar decisões mais fundamentadas.
+> Estado em 10/11/2026: a implementação v0.5 está disponível em branches e pull requests de revisão; ainda não foi incorporada à `main`.
 
-O projeto está sendo estruturado a partir de pesquisa, análise de negócios, levantamento de necessidades e validação de hipóteses. Seu desenvolvimento técnico será iniciado somente após a definição e aprovação dos requisitos e das decisões de arquitetura.
+## Funcionalidades implementadas
 
-Objetivo do projeto
+- cadastro, login, restauração de sessão, recuperação de senha e logout;
+- criação inicial de empresa e associação do usuário;
+- CRUD de receitas e despesas persistidas no PostgreSQL;
+- controle de acesso por JWT, associação à empresa e Row Level Security;
+- KPIs, evolução mensal, categorias, alertas e exportação CSV derivados dos dados carregados;
+- Hermes determinístico, que separa fatos, estimativas, riscos e recomendações;
+- dashboard responsivo com navegação por teclado e suporte a movimento reduzido;
+- testes automatizados e integração contínua sem credenciais privadas.
 
-Investigar e desenvolver uma solução que ajude gestores e proprietários de pequenos e médios negócios a transformar informações empresariais em análises compreensíveis e úteis para a tomada de decisão.
+## Tecnologias
 
-A proposta é reduzir dificuldades relacionadas à organização, interpretação e utilização de informações na gestão empresarial.
+HTML semântico, CSS, JavaScript ES modules, SVG, Supabase JS, Supabase Auth, PostgreSQL, RLS, Node.js Test Runner, GitHub Actions e Cloudflare Pages para previews.
 
-Áreas funcionais em estudo
+Não foram introduzidos React, Vite ou serviço pago. A integração generativa do Hermes possui apenas um scaffold de Edge Function; não está implantada e não expõe chave privada no frontend.
 
-A estrutura conceitual atualmente considera quatro áreas principais:
+## Arquitetura resumida
 
-- Visão geral: apresentação de informações relevantes, alertas e possíveis recomendações.
-- Indicadores: acompanhamento e interpretação de indicadores de desempenho.
-- Inteligência: análises apoiadas por IA, identificação de padrões e apoio à tomada de decisão.
-- Configurações: gerenciamento de informações, preferências e permissões de acesso.
+O navegador serve a aplicação estática e usa a publishable key para autenticar no Supabase. O JWT da sessão acompanha as consultas; policies RLS limitam o acesso à empresa associada. Indicadores e gráficos são calculados no cliente somente depois da leitura autorizada das movimentações. Consulte a [arquitetura completa](projects/businessmind-ai/docs/ARCHITECTURE.md).
 
-Essas áreas representam uma estrutura inicial em investigação. Seus requisitos e funcionalidades ainda precisam ser validados.
+## Demonstração
 
-Etapa atual
+- [Preview da branch v0.5](https://codex-businessmind-v0-5-visu.businessmind-ai.pages.dev)
+- [Preview imutável da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-Planejamento e validação exploratória.
+Os endereços são ambientes de revisão com `noindex`, não uma produção aprovada. Fluxos autenticados exigem uma conta de teste e a disponibilidade do projeto Supabase.
 
-Atividades realizadas ou em andamento:
+## Executar e verificar
 
-- Estruturação da proposta e dos objetivos do produto.
-- Pesquisa documental inicial sobre o mercado.
-- Criação e divulgação de formulário exploratório voltado a pessoas que possuem empresas, com foco em pequenos negócios.
-- Levantamento e organização de hipóteses funcionais.
-- Documentação de requisitos, regras e decisões pendentes.
-- Organização do ambiente de trabalho com ferramentas de IA e Skills especializadas.
-- Versionamento e documentação do projeto no GitHub.
+```bash
+cd projects/businessmind-ai
+npm ci
+python3 -m http.server 8080 --directory app
+```
 
-A validação de mercado ainda não foi concluída. A pesquisa exploratória, a análise das respostas e a investigação de concorrentes permanecem como atividades importantes.
+Acesse `http://localhost:8080`. Para executar as verificações que não usam credenciais privadas:
 
-Princípios do projeto
+```bash
+npm run verify
+```
 
-- Decisões baseadas em dados disponíveis e evidências.
-- Transparência sobre limitações e insuficiência de informações.
-- Supervisão humana nas decisões relevantes.
-- Proteção de dados e controle de permissões.
-- Desenvolvimento incremental e documentado.
-- Separação entre hipóteses, propostas e decisões aprovadas.
-- Nenhuma conclusão deve ser inventada pela Inteligência Artificial quando não houver dados suficientes.
+## Documentação
 
-Tecnologias e arquitetura
+| Documento | Finalidade |
+| --- | --- |
+| [README do projeto](projects/businessmind-ai/README.md) | Execução, estrutura e limitações |
+| [Requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md) | Requisitos, prioridades e aceite |
+| [Arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) | Componentes, fluxos, dados e segurança |
+| [Decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) | Decisões e trade-offs |
+| [Diário de engenharia](projects/businessmind-ai/docs/ENGINEERING_LOG.md) | Entregas, evidências e responsabilidades |
+| [Testes](projects/businessmind-ai/docs/TESTING.md) | Estratégia, resultados e limitações |
+| [Método de desenvolvimento com IA](projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md) | Processo e divisão real de responsabilidades |
+| [Estado atual](projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído, pendências e riscos |
+| [Índice de tarefas delegadas](projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações técnicas derivadas, não prompts literais |
+| [Acervo histórico](docs/businessmind-ai/README.md) | Planejamento, validação e registros preservados |
 
-As tecnologias e alternativas técnicas ainda estão em avaliação.
+## Autoria e transparência
 
-Java, HTML, CSS e JavaScript são tecnologias candidatas, não decisões definitivas. A arquitetura, o banco de dados, os serviços de IA, as integrações e a infraestrutura serão definidos após a validação dos requisitos.
+Guilherme Soster Santeti responde pela concepção, direcionamento, decisões de produto, ambiente externo e validação humana. Ferramentas de IA apoiaram análise, implementação, testes e redação técnica. Todo resultado permanece sujeito a revisão humana; a documentação não atribui experiência profissional ou testes sem evidência.
 
-Documentação
-
-A documentação do projeto está centralizada em ""docs/businessmind-ai/"" (docs/businessmind-ai/).
-
-Documento| Finalidade
-"PROJECT_BRIEF.md" (docs/businessmind-ai/PROJECT_BRIEF.md)| Visão, objetivos e escopo inicial
-"PROJECT_STATUS.md" (docs/businessmind-ai/PROJECT_STATUS.md)| Situação atual e próximas etapas
-"MARKET_VALIDATION.md" (docs/businessmind-ai/MARKET_VALIDATION.md)| Pesquisa e validação de mercado
-"TECHNICAL_DECISIONS.md" (docs/businessmind-ai/TECHNICAL_DECISIONS.md)| Registro de decisões técnicas
-"DEVELOPMENT_RULES.md" (docs/businessmind-ai/DEVELOPMENT_RULES.md)| Regras de desenvolvimento
-"PROMPT_LOG.md" (docs/businessmind-ai/PROMPT_LOG.md)| Histórico de prompts relevantes
-"CHATGPT_PROMPT_HISTORY.md" (docs/businessmind-ai/CHATGPT_PROMPT_HISTORY.md)| Histórico de utilização do ChatGPT
-"AGENTS.md" (docs/businessmind-ai/AGENTS.md)| Orientações para agentes de IA
-"CLAUDE.md" (docs/businessmind-ai/CLAUDE.md)| Instruções do ambiente Claude
-
-Desenvolvimento e colaboração
-
-O projeto utiliza Git e GitHub para versionamento e organização documental, além de ferramentas de Inteligência Artificial como apoio à pesquisa, planejamento, análise e, futuramente, desenvolvimento.
-
-A participação humana permanece essencial na avaliação das propostas, aprovação das decisões e validação dos resultados.
-
-Autor
-
-Guilherme Soster Santeti
-
-GitHub: "@guisoster060-cmyk" (https://github.com/guisoster060-cmyk)
+[Perfil no GitHub](https://github.com/guisoster060-cmyk)

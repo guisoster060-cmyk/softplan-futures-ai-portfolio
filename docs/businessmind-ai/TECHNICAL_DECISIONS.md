@@ -1,4 +1,6 @@
 BUSINESSMIND AI — TECHNICAL DECISIONS
+
+> **Registro histórico:** este arquivo contém avaliações e decisões no contexto em que foram registradas. As decisões confirmadas pela implementação atual estão no [registro canônico](../../projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md).
  
 Versão: 1.0
 Status: Registro inicial

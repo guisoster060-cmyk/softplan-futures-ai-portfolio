@@ -3,11 +3,15 @@ name: BusinessMind AI checks
 on:
   pull_request:
     paths:
+      - 'README.md'
+      - 'docs/businessmind-ai/**'
       - 'projects/businessmind-ai/**'
       - '.github/workflows/businessmind-ai.yml'
   push:
     branches-ignore: [main]
     paths:
+      - 'README.md'
+      - 'docs/businessmind-ai/**'
       - 'projects/businessmind-ai/**'
       - '.github/workflows/businessmind-ai.yml'
 
