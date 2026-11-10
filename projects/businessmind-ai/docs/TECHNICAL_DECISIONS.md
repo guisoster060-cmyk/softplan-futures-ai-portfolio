@@ -112,9 +112,17 @@ Este arquivo consolida decisões comprovadas pelo código ou registradas como ap
 
 ## DT-013 — Ativação e consentimento em duas camadas
 
-**Escolha:** frontend desativado por padrão e função condicionada a `HERMES_DATA_SHARING_APPROVED=true` mais `GEMINI_API_KEY`.
+**Escolha:** frontend desativado por padrão e função condicionada a `HERMES_DATA_SHARING_APPROVED=true`, `GEMINI_API_KEY` e presença da empresa na allowlist `HERMES_APPROVED_COMPANY_IDS`, vazia por padrão. O envio também exige pelo menos cinco movimentações válidas.
 
 **Justificativa:** uma mudança acidental no cliente não pode autorizar o envio. A decisão humana, secrets e deploy permanecem fora do código versionado.
 
-**Trade-off:** exige configuração coordenada e teste controlado, mas reduz o risco de transmissão não autorizada.
+**Trade-off:** exige configuração coordenada e teste controlado, mas reduz o risco de transmissão não autorizada. A allowlist manual não comprova consentimento do proprietário nem oferece retirada self-service; um registro auditável exigiria desenho de produto e possivelmente migration aprovada. Até lá, nenhuma empresa é habilitada nesta etapa.
+
+## DT-014 — Paginação e minimização do Hermes
+
+**Necessidade:** o limite padrão da Data API poderia truncar a leitura única e produzir totais incorretos; pergunta livre e categorias poderiam expor conteúdo identificável ao provedor.
+
+**Escolha:** páginas de 500 com contagem exata, ordenação estável e falha fechada; cálculo inteiro em centavos; envio apenas de intenção derivada e agregados mensais, sem texto bruto, descrição ou categoria; rejeição de resposta que tente citar números, moeda, URL ou e-mail.
+
+**Trade-offs:** maior número de consultas e menor riqueza da resposta generativa, em troca de precisão e menor exposição. A paginação não é snapshot transacional e agregados de grupos pequenos ainda podem ser sensíveis; por isso há mínimo de cinco registros e aprovação manual por empresa antes de qualquer uso externo.
 

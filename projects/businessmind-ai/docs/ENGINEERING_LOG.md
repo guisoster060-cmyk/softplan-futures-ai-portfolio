@@ -171,3 +171,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Limite:** claims e papéis foram simulados dentro do SQL; Auth HTTP com JWT real ainda não foi testado. O cadastro público rejeitou `example.com`, e não foram usadas caixas de e-mail de terceiros.
 - **Contribuição:** autorização e escopo humanos; execução e registro assistidos por IA.
 - **Referência:** PR #4, commit desta etapa.
+
+## ENG-013 — Preparação segura do Hermes generativo (local)
+
+- **Objetivo:** impedir totais parciais e reduzir exposição de dados antes de qualquer ativação Gemini.
+- **Problema:** a consulta única da Edge Function podia ser truncada pelo limite padrão da Data API; cálculo em ponto flutuante, pergunta livre e categorias identificáveis aumentavam risco de erro ou exposição.
+- **Aceite:** paginação com contagem exata e falha fechada; valores em centavos; JWT e RLS preservados; limites e fallback; aprovação global e por empresa desativada por padrão; testes locais sem serviços externos.
+- **Solução:** páginas de 500 com ID/contagem consistentes, validação de registro, agregação inteira, intenção derivada da pergunta em vez do texto bruto, apenas agregados mensais, limite mínimo de cinco linhas, bloqueio de redirects e respostas suspeitas, allowlist de empresas vazia por padrão.
+- **Arquivos:** `supabase/functions/hermes/{index.ts,core.mjs,index_test.ts,README.md}`, `app/domain.js`, `tests/{domain.test.js,hermes.test.js}` e documentação canônica.
+- **Tecnologias:** Deno, TypeScript, JavaScript, Supabase Auth/PostgREST e Node Test Runner.
+- **Decisão:** nenhum schema novo; a allowlist no servidor exige aprovação documentada fora do aplicativo e não equivale a opt-in self-service auditável. Nenhuma chave ou dado real foi enviado ao Gemini.
+- **Testes executados:** `deno check index.ts index_test.ts` sem erros; `deno test --allow-env index_test.ts` com 21 aprovados; `npm run verify` com 46 aprovados e 27 documentos válidos; build/validador de staging sem erro; E2E local de navegador aprovado com mocks (10/11/2026). Os testes Deno usam mocks e dados fictícios.
+- **Limites:** consulta paginada não é snapshot transacional; rate limit em memória não é global; RLS real da função e Gemini remoto não foram testados; consentimento/retirada persistente por proprietário exigiria decisão de produto e possivelmente migration autorizada.
+- **Contribuição:** requisitos, restrições e decisão de manter o serviço desativado definidos pelo responsável; implementação, testes e documentação assistidos por IA.
+- **Referência:** branch `codex/businessmind-hermes-gemini`, diff local não commitado nesta etapa; PR #4 somente após revisão e autorização para push.

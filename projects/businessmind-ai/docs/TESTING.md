@@ -55,6 +55,12 @@ Em 10/11/2026, `deno check index.ts index_test.ts` concluiu sem erros e `deno te
 
 Foram simulados JWT ausente/inválido, empresa não autorizada, RLS via mock de associação, dados completos e truncados, CORS, resposta inválida, indisponibilidade e timeout do Gemini, resposta válida e ausência de descrição individual no payload. Não houve acesso a serviços remotos. A RLS real continua dependente de teste em ambiente Supabase autorizado.
 
+### Preparação local do Hermes generativo — correção posterior
+
+Em 10/11/2026, após corrigir a leitura paginada na Edge Function, `deno check index.ts index_test.ts` concluiu sem erros e `deno test --allow-env index_test.ts` executou **21 testes aprovados, 0 falhas** com mocks e dados fictícios. `npm run verify` executou **46 testes aprovados, 0 falhas** e verificou 27 documentos. `npm run build:staging-preview` e `npm run validate:staging-preview` concluíram sem erro. `node tests/e2e-local.cjs` aprovou o cenário de navegador com Auth, CRUD, recarga, dashboard, CSV, alternância e isolamento **simulados**. A aquisição inicial de dependências Deno neste ambiente exigiu reutilizar `DENO_DIR=/workspace/.deno` e `DENO_TLS_CA_STORE=system`; a execução final manteve a validação TLS.
+
+Os casos cobrem 1.201 linhas em três páginas, página truncada, contagem alterada, ID duplicado, linha inválida, limite de 5.000, corpo excessivo, pergunta longa, JWT ausente/inválido, empresa não autorizada, ausência de aprovação por empresa, menos de cinco linhas, rate limit, CORS, quota, redirecionamento, resposta grande/inválida ou numérica, timeout e fallback. O payload simulado não contém pergunta livre, descrição ou nome de categoria. A suíte **não** prova isolamento RLS real na Edge Function, aceite humano do tratamento de dados, disponibilidade do Gemini para uma conta nem operação remota; nenhuma chamada real foi feita.
+
 ### E2E local no navegador — Etapa 3
 
 Em 10/11/2026, `node tests/e2e-local.cjs` foi executado com Chromium e Playwright disponíveis no ambiente local. O teste intercepta apenas o carregamento do SDK Supabase e usa duas contas/empresas fictícias em memória persistida no navegador. Resultado: cenário completo aprovado, sem exceções JavaScript. Cobriu cadastro, login, onboarding, criação/edição/exclusão de receita e despesa, recarga, logout, erro de senha, filtros, KPIs, gráfico, alertas, CSV e visibilidade isolada da segunda conta.

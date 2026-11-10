@@ -37,16 +37,17 @@
   }
 
   function totals(list) {
-    const income = list.filter(item => item.type === 'income').reduce((sum, item) => sum + Number(item.amount), 0);
-    const expense = list.filter(item => item.type === 'expense').reduce((sum, item) => sum + Number(item.amount), 0);
-    return { income, expense, profit: income - expense, margin: income > 0 ? ((income - expense) / income) * 100 : null };
+    const incomeCents = list.filter(item => item.type === 'income').reduce((sum, item) => sum + Math.round(Number(item.amount) * 100), 0);
+    const expenseCents = list.filter(item => item.type === 'expense').reduce((sum, item) => sum + Math.round(Number(item.amount) * 100), 0);
+    const income = incomeCents / 100, expense = expenseCents / 100;
+    return { income, expense, profit: (incomeCents - expenseCents) / 100, margin: incomeCents > 0 ? ((incomeCents - expenseCents) / incomeCents) * 100 : null };
   }
 
   function groupByCategory(list, type) {
     const grouped = {};
-    list.filter(item => item.type === type).forEach(item => { grouped[item.category] = (grouped[item.category] || 0) + Number(item.amount); });
+    list.filter(item => item.type === type).forEach(item => { grouped[item.category] = (grouped[item.category] || 0) + Math.round(Number(item.amount) * 100); });
     const total = Object.values(grouped).reduce((sum, value) => sum + value, 0);
-    return Object.entries(grouped).map(([name, value]) => ({ name, value, share: total ? (value / total) * 100 : 0 })).sort((a, b) => b.value - a.value);
+    return Object.entries(grouped).map(([name, cents]) => ({ name, value: cents / 100, share: total ? (cents / total) * 100 : 0 })).sort((a, b) => b.value - a.value);
   }
 
   return Object.freeze({ validIsoDate, validateTransaction, mapTransaction, totals, groupByCategory });
