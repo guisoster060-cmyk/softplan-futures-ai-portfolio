@@ -33,3 +33,10 @@ jobs:
           cache-dependency-path: projects/businessmind-ai/package-lock.json
       - run: npm ci
       - run: npm run verify
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.5.6
+      - run: deno check index.ts index_test.ts
+        working-directory: projects/businessmind-ai/supabase/functions/hermes
+      - run: deno test --allow-env index_test.ts
+        working-directory: projects/businessmind-ai/supabase/functions/hermes

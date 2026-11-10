@@ -4,6 +4,7 @@ import { aggregateTransactions, buildGeminiRequest, extractGeminiText, LIMITS, v
 type Transaction = { type: 'income' | 'expense'; category: string; amount: number | string; occurred_on: string };
 type RateEntry = { startedAt: number; count: number };
 const rateByUser = new Map<string, RateEntry>();
+export const dependencies = { createClient, fetch: globalThis.fetch };
 
 function corsHeaders(request: Request) {
   const origin = request.headers.get('Origin') ?? '';
@@ -22,7 +23,7 @@ function isRateLimited(userId: string, now = Date.now()) {
   return current.count > LIMITS.requestsPerMinute;
 }
 
-Deno.serve(async request => {
+export async function handleRequest(request: Request) {
   const cors = corsHeaders(request);
   if (request.method === 'OPTIONS') return new Response(null, { status: cors.originAllowed ? 204 : 403, headers: cors.headers });
   if (!cors.originAllowed) return json(request, { error: 'Origem não autorizada.' }, 403);
@@ -39,7 +40,7 @@ Deno.serve(async request => {
 
   const supabaseUrl = Deno.env.get('SUPABASE_URL'), publicKey = Deno.env.get('SUPABASE_ANON_KEY');
   if (!supabaseUrl || !publicKey) return json(request, { error: 'Função não configurada.' }, 503);
-  const client = createClient(supabaseUrl, publicKey, { global: { headers: { Authorization: authorization } }, auth: { persistSession: false, autoRefreshToken: false } });
+  const client = dependencies.createClient(supabaseUrl, publicKey, { global: { headers: { Authorization: authorization } }, auth: { persistSession: false, autoRefreshToken: false } });
   const { data: userData, error: userError } = await client.auth.getUser();
   if (userError || !userData.user) return json(request, { error: 'Sessão inválida.' }, 401);
   if (isRateLimited(userData.user.id)) return json(request, { error: 'Limite temporário atingido. Tente novamente em um minuto.' }, 429);
@@ -49,8 +50,9 @@ Deno.serve(async request => {
     .eq('user_id', userData.user.id).eq('company_id', requestedCompanyId).maybeSingle();
   if (membershipError || !membership?.company_id) return json(request, { error: 'Empresa não autorizada.' }, 403);
   const { data, error } = await client.from('transactions').select('type,category,amount,occurred_on')
-    .eq('company_id', membership.company_id).order('occurred_on', { ascending: false }).limit(LIMITS.transactionRows);
+    .eq('company_id', membership.company_id).order('occurred_on', { ascending: false }).limit(LIMITS.transactionRows + 1);
   if (error) return json(request, { error: 'Não foi possível consultar os dados autorizados.' }, 403);
+  if (!Array.isArray(data) || data.length > LIMITS.transactionRows) return json(request, { error: 'A consulta não retornou um conjunto completo de dados; nenhum total foi calculado.' }, 503);
   const summary = aggregateTransactions((data ?? []) as Transaction[]);
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
@@ -61,7 +63,7 @@ Deno.serve(async request => {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), LIMITS.providerTimeoutMs);
   try {
-    const providerResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+    const providerResponse = await dependencies.fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
       method: 'POST', headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify(buildGeminiRequest(validation.question, summary)), signal: controller.signal
     });
@@ -73,4 +75,6 @@ Deno.serve(async request => {
     const message = error instanceof DOMException && error.name === 'AbortError' ? 'Tempo limite do Gemini atingido; usei o fallback determinístico.' : 'Gemini indisponível; usei o fallback determinístico.';
     return json(request, { mode: 'deterministic', summary, message });
   } finally { clearTimeout(timeout); }
-});
+}
+
+if (import.meta.main) Deno.serve(handleRequest);
