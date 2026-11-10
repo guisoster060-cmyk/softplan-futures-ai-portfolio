@@ -1,0 +1,56 @@
+name: BusinessMind staging HTTP (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_staging:
+        description: 'Digite TEST_ONLY:ogypzmxnvjbomamkejkh para autorizar dados fictícios no staging'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: businessmind-staging-http
+  cancel-in-progress: false
+
+jobs:
+  validate-staging:
+    if: github.ref == 'refs/heads/codex/businessmind-hermes-gemini' && inputs.confirm_staging == 'TEST_ONLY:ogypzmxnvjbomamkejkh'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: projects/businessmind-ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validar destino e configuração antes de qualquer acesso ao Supabase
+        env:
+          BM_TEST_SUPABASE_URL: https://ogypzmxnvjbomamkejkh.supabase.co
+          BM_TEST_PROJECT_REF: ogypzmxnvjbomamkejkh
+          BM_TEST_CONFIRM: ${{ inputs.confirm_staging }}
+          BM_TEST_PUBLISHABLE_KEY: ${{ vars.BM_TEST_PUBLISHABLE_KEY }}
+          BM_TEST_EMAIL_A: ${{ secrets.BM_TEST_EMAIL_A }}
+          BM_TEST_PASSWORD_A: ${{ secrets.BM_TEST_PASSWORD_A }}
+          BM_TEST_EMAIL_B: ${{ secrets.BM_TEST_EMAIL_B }}
+          BM_TEST_PASSWORD_B: ${{ secrets.BM_TEST_PASSWORD_B }}
+          BM_TEST_EMAIL_C: ${{ secrets.BM_TEST_EMAIL_C }}
+          BM_TEST_PASSWORD_C: ${{ secrets.BM_TEST_PASSWORD_C }}
+        run: node --input-type=module -e "import { validateTestConfig } from './scripts/supabase-test-guard.mjs'; validateTestConfig(process.env)"
+      - name: Validar Auth e isolamento com JWTs reais
+        env:
+          BM_TEST_SUPABASE_URL: https://ogypzmxnvjbomamkejkh.supabase.co
+          BM_TEST_PROJECT_REF: ogypzmxnvjbomamkejkh
+          BM_TEST_CONFIRM: ${{ inputs.confirm_staging }}
+          BM_TEST_PUBLISHABLE_KEY: ${{ vars.BM_TEST_PUBLISHABLE_KEY }}
+          BM_TEST_EMAIL_A: ${{ secrets.BM_TEST_EMAIL_A }}
+          BM_TEST_PASSWORD_A: ${{ secrets.BM_TEST_PASSWORD_A }}
+          BM_TEST_EMAIL_B: ${{ secrets.BM_TEST_EMAIL_B }}
+          BM_TEST_PASSWORD_B: ${{ secrets.BM_TEST_PASSWORD_B }}
+          BM_TEST_EMAIL_C: ${{ secrets.BM_TEST_EMAIL_C }}
+          BM_TEST_PASSWORD_C: ${{ secrets.BM_TEST_PASSWORD_C }}
+        run: node scripts/verify-supabase-test.mjs
