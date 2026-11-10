@@ -4,7 +4,7 @@ export const STAGING_REF = 'ogypzmxnvjbomamkejkh';
 export function validateTestConfig(env) {
   const url = new URL(env.BM_TEST_SUPABASE_URL || 'https://invalid.example');
   const match = /^([a-z0-9]{20})\.supabase\.co$/.exec(url.hostname);
-  if (url.protocol !== 'https:' || !match || url.pathname !== '/' || url.search || url.hash) throw Error('URL de teste inválida: use a URL raiz HTTPS de um projeto Supabase separado.');
+  if (url.protocol !== 'https:' || !match || url.port || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw Error('URL de teste inválida: use a URL raiz HTTPS de um projeto Supabase separado.');
   const ref = match[1];
   if (ref === PRODUCTION_REF) throw Error('Projeto de produção bloqueado.');
   if (ref !== STAGING_REF) throw Error('Somente o staging autorizado é permitido.');

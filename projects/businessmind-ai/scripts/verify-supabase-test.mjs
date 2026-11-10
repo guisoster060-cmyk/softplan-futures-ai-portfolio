@@ -1,4 +1,5 @@
 import { validateTestConfig } from './supabase-test-guard.mjs';
+import { fetchWithoutRedirect } from './staging-http.mjs';
 
 // Nenhuma requisição ocorre antes da validação da URL, referência e confirmação.
 const { url, key } = validateTestConfig(process.env);
@@ -6,13 +7,13 @@ const runId = `bm-e2e-${Date.now()}`;
 const headers = { apikey: key, 'Content-Type': 'application/json' };
 const fail = message => { throw Error(message); };
 const auth = async (email, password) => {
-  const response = await fetch(`${url}/auth/v1/token?grant_type=password`, { method: 'POST', headers, body: JSON.stringify({ email, password }) });
+  const response = await fetchWithoutRedirect(`${url}/auth/v1/token?grant_type=password`, { method: 'POST', headers, body: JSON.stringify({ email, password }) });
   const data = await response.json();
   if (!response.ok || !data.access_token) fail(`Login de conta de teste falhou (${response.status}); confirme a conta antes de prosseguir.`);
   return { jwt: data.access_token, user: data.user };
 };
 const request = async (session, path, options = {}) => {
-  const response = await fetch(`${url}/rest/v1/${path}`, { ...options, headers: { ...headers, Authorization: `Bearer ${session.jwt}`, Prefer: 'return=representation', ...options.headers } });
+  const response = await fetchWithoutRedirect(`${url}/rest/v1/${path}`, { ...options, headers: { ...headers, Authorization: `Bearer ${session.jwt}`, Prefer: 'return=representation', ...options.headers } });
   const text = await response.text();
   const data = text ? JSON.parse(text) : null;
   return { status: response.status, data };
