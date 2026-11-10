@@ -75,6 +75,14 @@ Em 10/11/2026, o arquivo versionado `supabase/tests/isolation_test.sql` foi exec
 
 Foram exercitadas as policies de leitura e atualização de perfil; leitura, atualização e exclusão de empresa; leitura de associação; e leitura, inserção, atualização e exclusão de movimentações. O script simula os papéis e claims JWT no PostgreSQL; não autentica usuários por e-mail/senha nem usa JWT emitido pelo Auth. Assim, os fluxos HTTP de login, sessão e PostgREST com duas contas reais continuam pendentes.
 
+### Staging real — preparação dos testes HTTP com três contas
+
+Em 10/11/2026, uma consulta agregada e somente de leitura no projeto `ogypzmxnvjbomamkejkh` retornou **3 usuários Auth, 3 confirmados, 0 não confirmados e 3 perfis**. Nenhum e-mail, identificador de usuário, senha ou token foi consultado. Isso verifica o estado de confirmação registrado no Auth, não a entrega de mensagens de e-mail.
+
+O script HTTP foi preparado para login de três identidades via senha/JWT: A e B como proprietários de empresas distintas; C sem associação inicial, com tentativas de leitura, inserção, edição e exclusão nas duas empresas. O bloqueio de segurança permite somente a referência de staging autorizada. As seis credenciais de teste ainda não estão disponíveis por secret binding no ambiente Codex. **O script HTTP não foi executado**; nenhuma empresa ou movimentação foi criada nesta etapa. O teste de admissão de C como membro de uma empresa não está implementado: o schema atual não oferece fluxo público de convite/associação e a preparação administrativa requer autorização específica.
+
+Após essas mudanças, `npm run verify` executou **30 testes aprovados, 0 falhas** e verificou 26 documentos. Essa suíte é local e não comprova login HTTP ou RLS com JWT real. A execução remota aguarda credenciais em secret binding e autorização explícita para criar dados fictícios.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
