@@ -117,3 +117,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Limites:** mocks não provam RLS do Supabase remoto nem disponibilidade da API Gemini para uma conta.
 - **Contribuição:** critérios e restrições definidos pelo responsável; correção, testes e documentação assistidos por IA.
 - **Referência:** PR #4, commits adicionais desta etapa.
+
+## ENG-009 — E2E local dos fluxos essenciais
+
+- **Objetivo:** exercitar a aplicação em navegador com Auth, empresa e movimentações fictícias.
+- **Necessidade:** a suíte anterior verificava domínio e estrutura, mas não o fluxo completo da interface.
+- **Aceite:** cadastro, login, sessão, onboarding, CRUD, recarga, filtros, indicadores, gráfico, alertas, CSV, erro e logout.
+- **Solução:** cenário Playwright com servidor local e SDK Supabase substituído por mock em memória; duas contas/empresas.
+- **Arquivo:** `tests/e2e-local.cjs` e documentação de testes.
+- **Tecnologias:** Chromium, Playwright, Node.js e JavaScript.
+- **Decisão:** manter a simulação separada da CI até declarar dependências de navegador reproduzíveis; não confundir mock com RLS real.
+- **Testes executados:** `node tests/e2e-local.cjs` concluiu com sucesso em 10/11/2026; `npm run verify` e Deno serão registrados na verificação final.
+- **Resultados e limites:** sem exceções JavaScript; persistência simulada após recarga; RLS real, SMTP e Supabase remoto não foram testados.
+- **Contribuição:** critérios e limites definidos pelo responsável; teste e registro assistidos por IA.
+- **Referência:** PR #4, commit desta etapa.

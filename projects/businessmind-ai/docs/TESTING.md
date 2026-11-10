@@ -55,6 +55,16 @@ Em 10/11/2026, `deno check index.ts index_test.ts` concluiu sem erros e `deno te
 
 Foram simulados JWT ausente/inválido, empresa não autorizada, RLS via mock de associação, dados completos e truncados, CORS, resposta inválida, indisponibilidade e timeout do Gemini, resposta válida e ausência de descrição individual no payload. Não houve acesso a serviços remotos. A RLS real continua dependente de teste em ambiente Supabase autorizado.
 
+### E2E local no navegador — Etapa 3
+
+Em 10/11/2026, `node tests/e2e-local.cjs` foi executado com Chromium e Playwright disponíveis no ambiente local. O teste intercepta apenas o carregamento do SDK Supabase e usa duas contas/empresas fictícias em memória persistida no navegador. Resultado: cenário completo aprovado, sem exceções JavaScript. Cobriu cadastro, login, onboarding, criação/edição/exclusão de receita e despesa, recarga, logout, erro de senha, filtros, KPIs, gráfico, alertas, CSV e visibilidade isolada da segunda conta.
+
+O mock implementa a regra de isolamento para exercitar a interface; **não valida RLS real**. O arquivo `tests/e2e-local.cjs` não integra a CI porque o projeto ainda não declara Playwright/Chromium como dependências reproduzíveis. Sua execução exige Playwright e Chromium locais. O primeiro ajuste do teste corrigiu apenas a navegação após recarga: a aplicação volta à Visão geral, ocultando a lista até entrar em Indicadores.
+
+### Procedimento remoto pendente
+
+Usar exclusivamente um projeto Supabase separado de produção, com schema equivalente e duas contas de teste criadas por pessoa autorizada. As permissões necessárias são: acesso de teste ao Auth, leitura/escrita de movimentações das duas empresas e, para o teste SQL de policies, acesso administrativo somente ao projeto isolado. O executor deve receber credenciais efêmeras por secret local/CI, nunca por commit ou conversa. Executar cadastro/confirmar e-mail, login, onboarding, CRUD e tentativas cruzadas via cliente público + JWT de cada conta. Registrar identificador do ambiente, data, comandos, resultados e limpeza das contas fictícias. Não executar esse procedimento no projeto publicado sem autorização explícita.
+
 ## 3. Teste SQL de isolamento
 
 Arquivo: `supabase/tests/isolation_test.sql`.
