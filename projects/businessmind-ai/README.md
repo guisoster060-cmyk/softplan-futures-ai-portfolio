@@ -1,10 +1,10 @@
-# BusinessMind AI v0.4
+# BusinessMind AI v0.5 Visual
 
-MVP estático de inteligência empresarial em HTML, CSS e JavaScript puro, preservando a interface da v0.3 e usando Supabase Auth, PostgreSQL e RLS.
+MVP estático de inteligência empresarial em HTML, CSS e JavaScript puro. A v0.5 moderniza a experiência visual do dashboard preservando Supabase Auth, PostgreSQL, RLS e todas as funcionalidades da v0.4.
 
 ## Estrutura
 
-- `app/`: aplicação ativa v0.4.
+- `app/`: aplicação ativa v0.5.
 - `versions/v0.3/`: referência original e inalterada recebida no ZIP.
 - `supabase/migrations/`: migração já aplicada manualmente pelo responsável do projeto.
 - `supabase/tests/`: teste SQL de isolamento executado manualmente pelo responsável.
@@ -42,6 +42,10 @@ Esses testes não acessam o Supabase remoto. O teste SQL presente em `supabase/t
 ## Hermes
 
 O Hermes permanece funcional no frontend na camada determinística. A camada generativa está preparada em `supabase/functions/hermes/`, consulta dados com o JWT do usuário e envia somente agregados ao provedor. Deploy e segredos de servidor ainda dependem de autorização e da aprovação de um provedor.
+
+## Interface v0.5
+
+O design system, os componentes modernizados, as regras de acessibilidade e a avaliação do Apache ECharts estão documentados em `docs/DESIGN_SYSTEM_V0.5.md`. A versão não adiciona frameworks ou biblioteca de gráficos: o SVG existente foi aprimorado para manter o bundle leve.
 
 ## Limitações conhecidas
 
