@@ -1,11 +1,12 @@
 # Requisitos do BusinessMind AI
 
-Versão documental: 1.0  
-Base de evidência: código v0.5, migração `0001_initial_schema.sql`, testes automatizados e PRs #1 e #2.
+Versão documental: 1.0
+
+Base de evidência: código integrado em `new-branch`, migração `0001_initial_schema.sql`, testes automatizados e PRs #1 a #3.
 
 ## 1. Escopo do MVP documentado
 
-O MVP permite que uma pessoa crie uma conta, configure sua empresa, registre receitas e despesas e acompanhe indicadores calculados exclusivamente a partir dessas movimentações. O Hermes oferece análises determinísticas no navegador. A integração generativa está apenas preparada como Edge Function e não integra o fluxo ativo.
+O MVP permite que uma pessoa crie uma conta, configure sua empresa, registre receitas e despesas e acompanhe indicadores calculados exclusivamente a partir dessas movimentações. O Hermes oferece análises determinísticas e possui integração Gemini preparada, desativada até autorização, configuração e deploy controlados.
 
 ## 2. Prioridades
 
@@ -33,7 +34,10 @@ O MVP permite que uma pessoa crie uma conta, configure sua empresa, registre rec
 | RF-014 | Must | Produzir análises determinísticas transparentes. | Hermes identifica a base usada, diferencia fato, estimativa, risco e recomendação e informa insuficiência de dados. | Implementado |
 | RF-015 | Should | Atualizar perfil e nome da empresa. | Nome pessoal e nome empresarial são persistidos nas tabelas autorizadas. | Implementado |
 | RF-016 | Should | Salvar preferências de interface. | Modo compacto, redução de movimento e exibição de alertas persistem localmente. | Implementado |
-| RF-017 | Could | Oferecer análise generativa pelo Hermes. | Edge Function valida JWT, consulta dados sob RLS e envia somente agregados ao provedor aprovado. | Preparado, não implantado |
+| RF-017 | Should | Oferecer análise generativa pelo Hermes. | Edge Function valida JWT, confirma a associação usuário–empresa sob RLS, calcula agregados e chama o Gemini somente quando autorizado e configurado. | Implementado, desativado e não implantado |
+| RF-018 | Must | Preservar o Hermes determinístico como fallback. | Ausência de consentimento/configuração, erro, timeout ou resposta inválida mantém uma resposta determinística sem nova chamada externa. | Implementado e testado localmente |
+| RF-019 | Must | Distinguir cálculo de interpretação generativa. | A interface rotula os dados calculados pelo sistema separadamente da interpretação do Gemini. | Implementado |
+| RF-020 | Must | Limitar uso do assistente. | Perguntas, respostas, timeout, linhas consultadas e requisições por minuto possuem limites explícitos. | Implementado; rate limit global pendente |
 
 ## 4. Requisitos não funcionais
 
@@ -51,6 +55,8 @@ O MVP permite que uma pessoa crie uma conta, configure sua empresa, registre rec
 | RNF-010 | Custo | A solução deve usar serviços gratuitos e não introduzir cobrança sem aprovação. | Diretriz vigente |
 | RNF-011 | Manutenibilidade | Regras de domínio testáveis devem ficar separadas da manipulação do DOM. | Parcial: `domain.js` separado; `app.js` ainda concentra UI e serviços |
 | RNF-012 | CI | Verificações sem credenciais privadas devem executar em push e pull request. | Implementado em GitHub Actions |
+| RNF-013 | Privacidade | Agregados financeiros só podem sair do Supabase após autorização explícita e ativação independente no servidor e frontend. | Implementado como gate; autorização pendente |
+| RNF-014 | Resiliência | Falhas e timeout do Gemini não podem indisponibilizar o Hermes determinístico. | Implementado e testado por unidade/inspeção estática |
 
 ## 5. Fora do escopo atual
 
@@ -58,7 +64,7 @@ O MVP permite que uma pessoa crie uma conta, configure sua empresa, registre rec
 - Importação de planilhas.
 - Conciliação bancária e integrações financeiras.
 - Cobrança, assinatura ou plano pago.
-- IA generativa ativa em produção.
+- IA generativa ativa em produção ou envio de dados reais ao Gemini.
 - Aplicativo nativo.
 - Garantias de conformidade integral com LGPD.
 

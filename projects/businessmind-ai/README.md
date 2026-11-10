@@ -12,7 +12,7 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. O produto r
 - exportação CSV;
 - experiência responsiva para desktop, tablet e celular;
 - estados vazios, carregamento, erros, feedback, foco visível e `prefers-reduced-motion`;
-- Hermes determinístico funcional e scaffold de integração generativa no servidor.
+- Hermes determinístico funcional e integração Gemini preparada no servidor, desativada por padrão.
 
 ## Tecnologias e decisões
 
@@ -79,16 +79,18 @@ São previews de revisão, não uma implantação de produção aprovada.
 
 ## Hermes
 
-A análise determinística funciona no frontend. O scaffold em `supabase/functions/hermes/` define a fronteira para um futuro provedor generativo: valida o JWT, consulta dados autorizados e envia somente agregados. Não houve escolha de provedor, configuração de segredo, deploy ou teste remoto dessa função.
+A análise determinística funciona no frontend e permanece como fallback. A função em `supabase/functions/hermes/` valida JWT, confirma a associação usuário–empresa sob RLS, calcula agregados em código e está preparada para chamar `gemini-3.5-flash-lite` com timeout e limites.
+
+A integração começa desativada em duas camadas. Nenhuma chave, deploy ou chamada real foi realizada. Antes da ativação é obrigatória a aprovação do tratamento de agregados, pois os termos do Free Tier informam que dados podem ser usados para melhoria de produtos. Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
 
 ## Limitações conhecidas
 
 - confirmação e recuperação por e-mail dependem da configuração SMTP do projeto Supabase;
 - E2E autenticado com conta real não integra a CI pública;
-- a Edge Function Hermes não foi implantada;
+- a Edge Function Hermes não foi implantada, não possui secrets configurados e não foi testada remotamente;
 - paginação e estratégia para grandes volumes ainda não foram implementadas;
 - auditoria formal de acessibilidade e matriz cross-browser estão pendentes;
-- a v0.5 permanece em PR, ainda fora da `main`.
+- v0.4, v0.5 e documentação estão integradas em `new-branch`, ainda fora da `main`.
 
 ## Documentação técnica
 

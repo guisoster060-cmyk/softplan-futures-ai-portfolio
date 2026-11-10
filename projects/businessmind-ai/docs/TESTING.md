@@ -31,7 +31,23 @@ O comando executa:
 
 ### Resultado reproduzido
 
-Em 10/11/2026, após esta reorganização, `npm run verify` executou **16 testes aprovados e 0 falhas**. A análise sintática também concluiu sem erro e o verificador confirmou 25 arquivos Markdown, links internos válidos e todos os documentos canônicos presentes.
+Em 10/11/2026, após a implementação local do Hermes, `npm run verify` executou **25 testes aprovados e 0 falhas**. A análise sintática também concluiu sem erro e o verificador confirmou 25 arquivos Markdown, links internos válidos e todos os documentos canônicos presentes.
+
+### Cobertura adicionada para Hermes
+
+| Cenário | Tipo de teste | Resultado local |
+| --- | --- | --- |
+| Pergunta ausente/acima do limite | Unidade | Aprovado |
+| Agregados válidos e ausência de dados | Unidade | Aprovado |
+| Separação entre cálculo e interpretação | Unidade | Aprovado |
+| Extração e rejeição de resposta Gemini | Unidade | Aprovado |
+| JWT obrigatório | Inspeção estática automatizada | Aprovado |
+| Associação usuário–empresa e consulta sob RLS | Inspeção estática automatizada | Aprovado |
+| Timeout, rate limit e fallback | Inspeção estática automatizada | Aprovado |
+| Chave apenas no servidor e consentimento desativado | Inspeção estática automatizada | Aprovado |
+| Fallback no frontend | Inspeção estática automatizada | Aprovado |
+
+Essas verificações não substituem um teste de integração da função em runtime Deno nem um teste remoto contra Supabase/Gemini.
 
 ## 3. Teste SQL de isolamento
 
@@ -39,7 +55,8 @@ Arquivo: `supabase/tests/isolation_test.sql`.
 
 O script contém casos de leitura, escrita, isolamento entre empresas, acesso anônimo, criação por RPC, constraints e limite de 5.000 movimentações. Ele termina com erro intencional para reverter os dados de teste e exibir o relatório.
 
-**Evidência disponível:** o responsável informou execução manual com 34 casos aprovados e zero falhas.  
+**Evidência disponível:** o responsável informou execução manual com 34 casos aprovados e zero falhas.
+
 **Limite:** o teste não foi reexecutado pelo Codex durante as entregas v0.4, v0.5 ou esta revisão documental. O comentário antigo no SQL que afirma “ainda não executado” está desatualizado em relação ao relato do responsável e foi preservado para não alterar a migração importada.
 
 ## 4. Validação visual v0.5
@@ -74,4 +91,11 @@ O workflow `.github/workflows/businessmind-ai.yml` executa em pushes fora da `ma
 - Auditoria com leitor de tela e ferramentas especializadas de acessibilidade.
 - Firefox, Safari/iOS e dispositivos físicos.
 - Volume, paginação e desempenho próximo ao limite de 5.000 movimentações.
+- Edge Function em runtime Deno local ou ambiente de staging.
+- Respostas reais do Gemini para sucesso, `429`, `5xx`, payload inválido e timeout, usando somente dados fictícios.
+- Concorrência e rate limit distribuído entre múltiplas instâncias.
+
+## 8. Tentativa de validação visual desta entrega
+
+Foi iniciado servidor HTTP local e Chromium headless em viewports mobile/desktop. O Chromium não concluiu a inicialização no sandbox (erros de diretório persistente/Crashpad e TLS externo), portanto **nenhum teste visual novo foi considerado aprovado**. A validação visual v0.5 anterior permanece como evidência histórica, não como validação do fluxo generativo.
 

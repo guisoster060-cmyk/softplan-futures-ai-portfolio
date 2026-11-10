@@ -8,7 +8,8 @@ Este documento não transcreve conversas privadas nem apresenta reformulações 
 | ETD-002 | Especificação técnica derivada — não é prompt literal | Integrar Auth, empresa, PostgreSQL, RLS e CRUD sem segredo administrativo no cliente | `08b2180`, PR #1 | Implementada, em revisão |
 | ETD-003 | Especificação técnica derivada — não é prompt literal | Automatizar testes e preparar Hermes atrás de Edge Function | `3cdbc19`, PR #1 | Implementada, em revisão |
 | ETD-004 | Especificação técnica derivada — não é prompt literal | Modernizar o dashboard preservando funcionalidades e dados reais | `2a48236`, `df691b1`, PR #2 | Implementada, em revisão |
-| ETD-005 | Especificação técnica derivada — não é prompt literal | Consolidar documentação profissional e verificável | branch `codex/businessmind-documentation` | Em execução |
+| ETD-005 | Especificação técnica derivada — não é prompt literal | Consolidar documentação profissional e verificável | PR #3 | Integrada em `new-branch` |
+| ETD-006 | Especificação técnica derivada — não é prompt literal | Auditar/integrar PRs e preparar Hermes com Gemini sob controles de segurança | branch `codex/businessmind-hermes-gemini` | Implementada, em revisão |
 
 ## ETD-001 — Baseline versionada
 
@@ -48,3 +49,10 @@ Este documento não transcreve conversas privadas nem apresenta reformulações 
 ## Registros históricos
 
 O acervo anterior permanece em `docs/businessmind-ai/PROMPT_LOG.md` e `docs/businessmind-ai/CHATGPT_PROMPT_HISTORY.md`. Esses arquivos são históricos, podem conter reconstruções narrativas e não são tratados como transcrições literais ou como fonte canônica do estado técnico.
+
+## ETD-006 — Auditoria e Hermes Gemini
+
+- **Necessidade derivada:** consolidar as três entregas dependentes e substituir o scaffold genérico por uma integração Gemini segura e desativada por padrão.
+- **Critérios derivados:** preservar histórico, não alterar `main`, validar JWT/empresa, manter cálculos em código, usar agregados, impor limites e bloquear envio real até consentimento.
+- **Resultado verificável:** merges #1–#3 em `new-branch`; implementação e testes na branch Hermes.
+- **Limitações:** sem deploy, secrets, chamada real ao Gemini, dados reais ou teste remoto; ativação depende de decisão humana.

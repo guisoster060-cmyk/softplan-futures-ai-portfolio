@@ -2,7 +2,7 @@
 
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP de inteligência empresarial para pequenos negócios. A aplicação transforma receitas e despesas registradas pelo usuário em indicadores, visualizações e análises determinísticas, com autenticação e isolamento de dados pelo Supabase.
 
-> Estado em 10/11/2026: a implementação v0.5 está disponível em branches e pull requests de revisão; ainda não foi incorporada à `main`.
+> Estado em 10/11/2026: v0.4, v0.5 e documentação foram integradas em `new-branch`; a implementação Hermes com Gemini está em revisão e continua fora da `main`.
 
 ## Funcionalidades implementadas
 
@@ -19,7 +19,7 @@ Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP de 
 
 HTML semântico, CSS, JavaScript ES modules, SVG, Supabase JS, Supabase Auth, PostgreSQL, RLS, Node.js Test Runner, GitHub Actions e Cloudflare Pages para previews.
 
-Não foram introduzidos React, Vite ou serviço pago. A integração generativa do Hermes possui apenas um scaffold de Edge Function; não está implantada e não expõe chave privada no frontend.
+Não foram introduzidos React, Vite ou serviço pago. A integração generativa do Hermes está implementada para Gemini 3.5 Flash-Lite, mas desativada, não implantada e sem chave privada no frontend.
 
 ## Arquitetura resumida
 

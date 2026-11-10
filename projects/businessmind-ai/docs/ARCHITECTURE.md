@@ -12,8 +12,10 @@ flowchart LR
     D --> R[RLS e privilégios]
     R --> P[(PostgreSQL)]
     F --> H[Hermes determinístico]
-    F -. futuro .-> E[Edge Function Hermes]
-    E -. agregados .-> G[Provedor de IA não definido]
+    F -. quando autorizado .-> E[Edge Function Hermes]
+    E --> A
+    E --> R
+    E -. agregados limitados .-> G[Gemini 3.5 Flash-Lite]
 ```
 
 ## 2. Componentes
@@ -37,8 +39,9 @@ flowchart LR
 ### Hermes
 
 - **Ativo:** regras determinísticas no navegador sobre dados já autorizados.
-- **Preparado:** Edge Function que valida JWT, consulta `transactions` sob RLS, agrega valores e só então chama um provedor.
-- **Não ativo:** provedor generativo, segredos e deploy da Edge Function.
+- **Implementado, não implantado:** Edge Function que valida JWT, confirma a associação solicitada em `company_members`, consulta `transactions` sob RLS, calcula agregados e chama a API `generateContent` do Gemini.
+- **Desativado por padrão:** `hermesGenerativeEnabled` inicia como `false`; o servidor também exige `HERMES_DATA_SHARING_APPROVED=true` e `GEMINI_API_KEY`.
+- **Fallback:** ausência de configuração, falha, resposta inválida ou timeout retorna ao motor determinístico.
 
 ### Entrega
 
@@ -69,6 +72,16 @@ flowchart LR
 
 As linhas autorizadas são carregadas e convertidas para o modelo da interface. Totais, margem, variações, categorias, alertas e projeção simples são calculados em memória. Nenhum KPI é armazenado no banco e nenhum valor fictício é injetado no dashboard autenticado.
 
+### Pergunta ao Hermes generativo
+
+1. O navegador envia pergunta e empresa selecionada com o JWT da sessão.
+2. A função valida formato, origem, JWT e limite básico por usuário.
+3. O `company_id` recebido não é confiado: a função exige uma linha autorizada em `company_members` para o usuário autenticado.
+4. A consulta a `transactions` usa publishable key + JWT e permanece sujeita à RLS.
+5. Código determinístico calcula totais, período, categorias e série mensal; descrições individuais não são enviadas.
+6. Somente com consentimento configurado, o Gemini recebe pergunta e agregados limitados.
+7. A interface separa “dados calculados pelo sistema” de “interpretação gerada pelo Gemini”.
+
 ## 4. Modelo de dados
 
 | Tabela | Responsabilidade | Relações principais |
@@ -89,6 +102,9 @@ As linhas autorizadas são carregadas e convertidas para o modelo da interface. 
 - Constraints para tipos, comprimentos e valores.
 - Neutralização de fórmulas no CSV.
 - Segredo do provedor de IA previsto apenas no ambiente da Edge Function.
+- CORS por allowlist, `Cache-Control: no-store`, timeout de 12 segundos e limites de entrada/saída.
+- Nenhum log explícito de perguntas, respostas ou valores financeiros.
+- Proteção básica de 10 requisições por usuário/minuto por instância.
 
 ## 6. Limitações arquiteturais
 
@@ -97,6 +113,8 @@ As linhas autorizadas são carregadas e convertidas para o modelo da interface. 
 - Não existe cache offline, fila de sincronização ou paginação de movimentações.
 - Não existe monitoramento centralizado de erros.
 - A Edge Function Hermes não foi implantada nem testada ponta a ponta.
+- O rate limit em memória não é global entre instâncias e precisa de solução distribuída antes de escala/produção.
+- No tier gratuito do Gemini, dados submetidos podem ser usados para melhoria de produtos conforme os termos oficiais; o envio real permanece bloqueado até aprovação explícita.
 
 ## 7. Documentos relacionados
 

@@ -75,3 +75,31 @@ Este registro consolida entregas verificáveis do código versionado. Solicitaç
 ## Regra para próximas entregas
 
 Toda alteração relevante deve acrescentar uma seção com objetivo, necessidade, requisitos, solução, arquivos, tecnologias, decisões, testes efetivamente executados, resultados, limitações, responsabilidades e referência Git. O registro deve ser atualizado no mesmo PR quando a documentação for afetada.
+
+## ENG-006 — Auditoria e integração dos PRs #1–#3
+
+- **Objetivo técnico:** validar e consolidar v0.4, v0.5 e documentação em uma base única.
+- **Problema ou necessidade:** os três PRs formavam uma cadeia de bases intermediárias e ainda estavam abertos.
+- **Requisitos e aceite:** conferir commits, diffs, checks, dependências e segredos; preservar histórico; não alterar `main`.
+- **Solução:** reprodução de `npm run verify`, inspeção de diffs e credenciais, merge sequencial com retargeting para `new-branch`.
+- **Arquivos modificados:** nenhum arquivo de produção durante os merges; os commits originais foram preservados.
+- **Tecnologias:** Git, GitHub CLI/API e GitHub Actions.
+- **Decisões:** usar merge commits e destino `new-branch`; não habilitar merge automático.
+- **Testes executados:** 16/16 testes antes da integração, análise sintática e verificação documental; checks remotos dos PRs estavam aprovados.
+- **Resultados e limitações:** PRs #1, #2 e #3 integrados; espaços finais existentes na documentação foram identificados para correção nesta branch; nenhum E2E remoto foi executado.
+- **Contribuição:** prioridade e autorização condicional definidas pelo responsável; auditoria, retargeting e merges realizados com assistência de IA.
+- **Referências:** PRs #1–#3; merges `5ee367a`, `209120b` e `5744db2`.
+
+## ENG-007 — Hermes com Gemini
+
+- **Objetivo técnico:** oferecer interpretação generativa segura sem transferir cálculos financeiros ao modelo.
+- **Problema ou necessidade:** o scaffold existente era genérico, confiava no `companyId` apenas via filtro/RLS e não integrava a interface.
+- **Requisitos e aceite:** JWT, autorização por empresa, agregação em código, Gemini atual, limites, fallback e bloqueio de dados reais até consentimento.
+- **Solução:** core determinístico testável, validação explícita em `company_members`, API `generateContent`, timeout, limite básico, CORS allowlist, gates de ativação e cliente com estados/fallback.
+- **Arquivos principais:** `app/app.js`, `app/config.js`, `app/index.html`, `app/style.css`, `supabase/functions/hermes/`, `tests/hermes.test.js` e documentação canônica.
+- **Tecnologias:** JavaScript, TypeScript/Deno, Supabase Edge Functions, PostgreSQL/RLS e Gemini API.
+- **Decisões:** `gemini-3.5-flash-lite`; sem `service_role`; sem deploy, secret, faturamento ou dados reais nesta entrega.
+- **Testes executados:** `npm run verify` com 25/25 testes; tentativa visual headless inconclusiva e não aprovada; runtime Deno/remoto não disponível.
+- **Resultados e limitações:** implementação pronta para revisão/configuração; rate limit em memória não é distribuído e a política de dados requer decisão humana.
+- **Contribuição:** arquitetura-alvo e limites de autorização definidos pelo responsável; pesquisa oficial, código, testes e documentação produzidos com assistência de IA.
+- **Referência:** branch `codex/businessmind-hermes-gemini`; commit e PR desta entrega.

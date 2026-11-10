@@ -78,3 +78,12 @@ Ao concluir uma tarefa, o agente deve:
 
 O workflow valida arquivos e links, mas não cria documentação automaticamente nem acessa conversas privadas.
 
+## 7. Uso de provedores generativos
+
+- A escolha técnica de modelo é uma recomendação assistida por IA baseada em fontes oficiais datadas; a aprovação de termos e custos é humana.
+- Chaves, secrets, deploy e ativação de compartilhamento não são realizados sem autorização.
+- Dados financeiros reais não são usados em desenvolvimento; testes automatizados usam valores fictícios.
+- O modelo interpreta agregados calculados por código e não é autoridade para cálculos, autenticação ou autorização.
+- A saída generativa é identificada como interpretação e deve permanecer revisável pelo usuário.
+- O uso de IA no desenvolvimento não implica autoria manual integral nem experiência profissional anterior com o provedor.
+

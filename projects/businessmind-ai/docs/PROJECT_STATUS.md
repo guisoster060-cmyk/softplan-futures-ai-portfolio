@@ -1,66 +1,76 @@
 # Estado atual do BusinessMind AI
 
-Atualizado em: 10/11/2026  
-Versão técnica: v0.5 Visual  
-Fonte: branch `codex/businessmind-v0.5-visual`, commits e PRs públicos do repositório.
+Atualizado em: 10/11/2026
 
 ## Resumo executivo
 
-O BusinessMind AI possui um MVP implementado em branches de revisão. A v0.4 substituiu autenticação e persistência demonstrativas por Supabase; a v0.5 modernizou a interface sem alterar o modelo de dados. As mudanças ainda não foram incorporadas à `main`: os PRs #1 e #2 permanecem abertos.
+As entregas v0.4, v0.5 Visual e documentação profissional foram auditadas e integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` não foi alterada. O Hermes com Gemini está implementado em branch própria, mas permanece desativado, sem deploy, secrets ou uso de dados reais.
 
-## Entregas concluídas no código
+## Entregas concluídas
 
-- [x] Interface v0.3 preservada como referência histórica.
-- [x] Cadastro, login, sessão, logout e recuperação de senha pelo Supabase Auth.
-- [x] Criação inicial de empresa por RPC segura.
-- [x] Perfil e associação usuário–empresa.
-- [x] CRUD de receitas e despesas em PostgreSQL.
-- [x] RLS, grants por coluna, constraints, índices e triggers no schema.
-- [x] KPIs, gráfico mensal, categorias, alertas e CSV baseados em dados carregados.
-- [x] Hermes determinístico com fatos, estimativas, riscos e recomendações.
-- [x] Design system v0.5 responsivo e acessível em nível inicial.
-- [x] Testes automatizados locais e GitHub Actions.
-- [x] Previews no Cloudflare Pages.
-- [x] Scaffold seguro da Edge Function Hermes.
+- [x] Supabase Auth, sessão, recuperação e logout.
+- [x] Onboarding de empresa por RPC e vínculo de usuário.
+- [x] CRUD de movimentações com PostgreSQL e RLS.
+- [x] Indicadores, gráficos e CSV derivados de dados autorizados.
+- [x] Interface v0.5 responsiva e Hermes determinístico.
+- [x] Documentação canônica, testes e GitHub Actions.
+- [x] Auditoria e integração dos PRs #1–#3 em `new-branch`.
+- [x] Cliente Hermes preparado para Edge Function com fallback.
+- [x] Edge Function Gemini com JWT, validação de empresa, agregação, timeout e limites.
+- [x] Gate de consentimento e ativação desabilitado por padrão.
 
-## Evidências
+## Evidências Git
 
-| Entrega | Commit/PR | Estado |
+| Entrega | Referência | Estado |
 | --- | --- | --- |
-| Importação v0.3 e Etapa 1 | `b79c7fa` | Commit publicado |
-| Integração Supabase | `08b2180` | Commit publicado |
-| Testes, CI e arquitetura v0.4 | `3cdbc19`, PR #1 | PR aberto |
-| Redesign v0.5 | `2a48236` | Commit publicado |
-| Testes e documentação visual | `df691b1`, PR #2 | PR aberto |
+| Integração Supabase v0.4 | PR #1, merge `5ee367a` | Integrada em `new-branch` |
+| Interface v0.5 | PR #2, merge `209120b` | Integrada em `new-branch` |
+| Documentação profissional | PR #3, merge `5744db2` | Integrada em `new-branch` |
+| Hermes com Gemini | branch `codex/businessmind-hermes-gemini` | Implementado localmente; PR pendente nesta entrega |
 
-## Implantação
+## Situação operacional do Hermes
 
-- Preview imutável da v0.5: `https://1cd5c052.businessmind-ai.pages.dev`
-- Preview da branch v0.5: `https://codex-businessmind-v0-5-visu.businessmind-ai.pages.dev`
+| Componente | Situação |
+| --- | --- |
+| Motor determinístico | Ativo no frontend |
+| Integração frontend–função | Implementada, toggle `false` |
+| Edge Function | Implementada, não implantada |
+| Modelo | `gemini-3.5-flash-lite` selecionado |
+| Chave Gemini | Não configurada |
+| Consentimento para agregados reais | Não concedido/configurado |
+| Teste remoto Gemini/Supabase | Não executado |
 
-Os previews são ambientes de revisão e possuem `noindex`; não equivalem a uma versão de produção aprovada.
+## Pendências para implantação
 
-## Pendências prioritárias
+1. Revisão humana do PR Hermes e da política de tratamento de dados.
+2. Decisão explícita sobre uso do Free Tier, cujos termos permitem uso de dados para melhoria de produtos.
+3. Criação da chave no Google AI Studio sem habilitar faturamento.
+4. Configuração de `GEMINI_API_KEY`, `GEMINI_MODEL`, `ALLOWED_ORIGINS` e `HERMES_DATA_SHARING_APPROVED` nos secrets da função.
+5. Deploy autorizado e testes inicialmente com dados fictícios/agregados.
+6. Teste E2E de JWT, RLS, CORS, erro, timeout e fallback.
+7. Rate limiting distribuído se o recurso avançar além do MVP.
+8. Ativação de `hermesGenerativeEnabled` somente após as etapas anteriores.
 
-1. Revisão humana e decisão de merge dos PRs #1 e #2.
-2. Teste E2E com conta real em ambiente controlado.
-3. Verificação do fluxo de confirmação e recuperação de e-mail/SMTP.
-4. Registro versionado do relatório dos 34 casos SQL ou nova execução controlada.
-5. Escolha de provedor, privacidade, custo e rate limit para Hermes generativo.
-6. Deploy e testes da Edge Function somente após aprovação.
-7. Paginação e estratégia para volumes maiores.
-8. Auditoria de acessibilidade e compatibilidade cross-browser.
-9. Continuidade da validação de mercado, ainda não concluída.
+## Riscos e limitações
 
-## Riscos conhecidos
+- `app.js` ainda concentra UI, estado e acesso remoto.
+- A Edge Function não pôde ser validada em runtime Deno neste ambiente.
+- O limite em memória atua por instância e não é garantia global.
+- E2E autenticado, SMTP, dispositivos físicos e matriz cross-browser permanecem pendentes.
+- O teste SQL de 34 casos continua sendo resultado manual informado, não reproduzido nesta branch.
+- A validação técnica não equivale à validação de mercado.
 
-- Código funcional ainda depende de branches não mescladas.
-- `app.js` concentra várias responsabilidades.
-- SMTP e Hermes generativo dependem de configuração externa.
-- O plano gratuito possui limites operacionais e risco de pausa por inatividade.
-- A validação técnica do MVP não equivale à validação de mercado.
+## Proposta de simplificação — sem exclusões
 
-## Próxima recomendação
+| Grupo | Situação | Proposta para revisão humana |
+| --- | --- | --- |
+| `projects/businessmind-ai/app/` | Essencial | Manter integralmente |
+| `supabase/migrations/`, `functions/`, `tests/` | Essencial | Manter; separar claramente o que foi implantado do que é preparação |
+| Documentos canônicos em `projects/businessmind-ai/docs/` | Essencial | Manter como fonte atual |
+| `versions/v0.3/` | Histórico útil | Manter enquanto demonstra evolução; considerar tag/release em limpeza futura |
+| `docs/businessmind-ai/` | Histórico/governança | Manter o índice; avaliar arquivamento de versões redundantes em uma pasta `archive/` |
+| `ARCHITECTURE_V0.4.md` e proposta técnica v0.4 | Superados, mas rastreáveis | Preservar como histórico ou mover em operação posterior autorizada |
+| ZIPs e artefatos temporários | Não rastreados no projeto atual | Não adicionar ao Git; preservar externamente se necessários como fonte |
+| Previews antigos | Úteis para comparação | Documentar apenas os relevantes; não tratá-los como produção |
 
-Revisar os PRs em ordem (#1 e depois #2), executar E2E controlado e somente então decidir a promoção do preview para uma branch de produção.
-
+Nenhum arquivo foi excluído nesta etapa.
