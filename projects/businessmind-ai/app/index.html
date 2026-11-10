@@ -117,7 +117,8 @@
   <div class="intel-pane active" id="assistant">
     <div class="notice"><b>Hermes.</b> As respostas calculadas usam apenas as movimentações carregadas da sua empresa. A integração generativa é feita somente por função de servidor quando configurada.</div>
     <article class="panel"><div class="chips" id="chips"></div><div class="chat-log" id="chat-log" aria-live="polite"></div>
-      <form class="chat-form" id="chat-form"><input id="chat-input" maxlength="200" placeholder="Pergunte sobre receitas, despesas, lucro…" aria-label="Pergunta ao assistente" autocomplete="off"><button class="primary-btn" type="submit">Enviar</button></form></article>
+      <div class="hermes-status" id="hermes-status" role="status">Modo determinístico disponível</div>
+      <form class="chat-form" id="chat-form"><input id="chat-input" maxlength="500" placeholder="Pergunte sobre receitas, despesas, lucro…" aria-label="Pergunta ao assistente" autocomplete="off"><button class="primary-btn" id="chat-submit" type="submit">Enviar</button></form></article>
   </div>
   <div class="intel-pane" id="analysis"><div class="notice">Cada item indica se é <b>Fato</b> (calculado dos dados), <b>Estimativa</b> (projeção simples), <b>Risco</b> ou <b>Recomendação</b>, com a base usada.</div><div class="analysis-grid" id="analysis-list"></div></div>
 </section>

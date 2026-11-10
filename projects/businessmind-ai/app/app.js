@@ -317,7 +317,31 @@ function answer(q) {
   return 'Não entendi a pergunta. Tente algo como: "lucro do mês", "maior despesa", "tendência da receita", "previsão" ou "recomendações". Digite "ajuda" para ver o que sei responder.';
 }
 function addMsg(role, text) { const m = el('div', 'msg ' + role, text); $('chat-log').append(m); $('chat-log').scrollTop = $('chat-log').scrollHeight; }
-function ask(q) { q = q.trim(); if (!q) return; addMsg('user', q); addMsg('bot', answer(q)); }
+function setHermesStatus(text, kind = '') { const status = $('hermes-status'); status.textContent = text; status.className = 'hermes-status ' + kind; }
+function summaryFacts(summary) {
+  const totals = summary?.totals;
+  if (!totals) return '';
+  return `Dados calculados pelo sistema: ${summary.transactionCount} movimentações; receitas ${brl.format(totals.income)}; despesas ${brl.format(totals.expense)}; resultado ${brl.format(totals.profit)}.`;
+}
+async function ask(q) {
+  q = q.trim(); if (!q) return;
+  addMsg('user', q);
+  const config = window.BUSINESSMIND_CONFIG;
+  const localAnswer = () => addMsg('bot', answer(q));
+  if (!config?.hermesGenerativeEnabled || !transactions.length || has(norm(q), 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) { localAnswer(); return; }
+  const submit = $('chat-submit'); submit.disabled = true; setHermesStatus('Hermes está analisando agregados autorizados…', 'loading');
+  try {
+    const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId: currentCompany.id } });
+    if (error || !data) throw error || new Error('Resposta vazia');
+    if (data.mode !== 'generative' || !data.answer) {
+      localAnswer(); setHermesStatus(data.message || 'Gemini indisponível; fallback determinístico ativo.', 'error'); return;
+    }
+    addMsg('bot', `${summaryFacts(data.summary)}\n\nInterpretação gerada pelo Gemini:\n${data.answer}`);
+    setHermesStatus('Resposta gerada com Gemini a partir de agregados calculados.');
+  } catch {
+    localAnswer(); setHermesStatus('Integração indisponível; fallback determinístico ativo.', 'error');
+  } finally { submit.disabled = false; }
+}
 
 /* ---------- Análises e recomendações ---------- */
 function buildAnalysis(a) {
