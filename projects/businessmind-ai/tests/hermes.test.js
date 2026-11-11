@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const functionSource = fs.readFileSync(path.join(__dirname, '../supabase/functions/hermes/index.ts'), 'utf8');
+const oneShotSql = fs.readFileSync(path.join(__dirname, '../supabase/staging-migrations/20261111_hermes_one_shot.sql'), 'utf8');
 const frontendSource = fs.readFileSync(path.join(__dirname, '../app/app.js'), 'utf8');
 const configSource = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
 const corePromise = import('../supabase/functions/hermes/core.mjs');
@@ -116,6 +117,19 @@ test('Edge Function aplica timeout, rate limit e fallback do provedor', () => {
   assert.match(functionSource, /providerTimeoutMs/);
   assert.match(functionSource, /mode: 'deterministic'/);
   assert.match(functionSource, /providerResponse\.ok/);
+});
+
+test('trava de staging exige claim persistente antes de qualquer fetch Gemini', () => {
+  assert.match(oneShotSql, /create schema hermes_test/i);
+  assert.match(oneShotSql, /enable row level security/i);
+  assert.match(oneShotSql, /company_id uuid primary key/i);
+  assert.doesNotMatch(oneShotSql, /references\s+(?:public\.companies|auth\.users)/i);
+  assert.match(oneShotSql, /claimed_at is null/i);
+  assert.match(oneShotSql, /53ec445f-610a-4d80-a6d7-da4acd9c14e1/i);
+  assert.match(oneShotSql, /m\.role = 'owner'/i);
+  assert.match(oneShotSql, /revoke all on hermes_test\.one_shot from public, anon, authenticated/i);
+  assert.doesNotMatch(oneShotSql, /grant (insert|update|delete) on hermes_test\.one_shot to authenticated/i);
+  assert.ok(functionSource.indexOf("client.rpc('claim_hermes_test_once'") < functionSource.indexOf('dependencies.fetch('));
 });
 
 test('segredo Gemini permanece no servidor e compartilhamento começa desabilitado', () => {

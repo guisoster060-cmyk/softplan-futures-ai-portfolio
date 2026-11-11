@@ -121,6 +121,15 @@ export async function handleRequest(request: Request) {
   const companyApproved = approvedCompany(membership.company_id, Deno.env.get('HERMES_APPROVED_COMPANY_IDS'));
   if (!approved || !companyApproved || !apiKey || summary.transactionCount < LIMITS.minRowsForGemini) return json(request, { mode: 'deterministic', summary, message: 'IA generativa não habilitada para esta empresa ou sem dados suficientes; usei somente cálculos determinísticos.' });
 
+  // Reivindicacao persistente e atomica sob JWT; erro, timeout ou disputa fecham o acesso.
+  // A autorizacao e consumida antes do fetch e nao e rearmada se o provedor falhar.
+  try {
+    const claim = await withTimeout(client.rpc('claim_hermes_test_once', { p_company_id: membership.company_id }), remaining());
+    if (claim.error || claim.data !== true) return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
+  } catch {
+    return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
+  }
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), Math.min(LIMITS.providerTimeoutMs, remaining()));
   try {

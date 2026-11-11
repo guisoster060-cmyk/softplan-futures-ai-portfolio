@@ -1,5 +1,8 @@
-import { assert, assertEquals, assertStringIncludes } from 'jsr:@std/assert@1';
+import assert from 'node:assert/strict';
 import { dependencies, handleRequest } from './index.ts';
+
+function assertEquals(actual: unknown, expected: unknown): void { assert.deepStrictEqual(actual, expected); }
+function assertStringIncludes(value: string, fragment: string): void { assert.ok(value.includes(fragment)); }
 
 const company = '11111111-1111-4111-8111-111111111111';
 const other = '22222222-2222-4222-8222-222222222222';
@@ -8,7 +11,7 @@ let userSequence = 0;
 type Row = { id: string; type: string; category: string; amount: number | string; occurred_on: string; description?: string };
 type Options = { invalid?: boolean; member?: boolean; rows?: Row[]; pageLimit?: number; countShift?: boolean;
   duplicate?: boolean; provider?: 'ok' | 'bad' | 'down' | 'timeout' | 'redirect' | 'quota' | 'numeric' | 'oversized';
-  approved?: boolean; companyApproved?: boolean; origin?: string };
+  approved?: boolean; companyApproved?: boolean; claim?: 'denied' | 'error'; origin?: string };
 
 function row(index: number, amount: number | string = '1.00'): Row {
   return { id: `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`, type: 'income', category: 'Vendas', amount, occurred_on: '2026-10-01' };
@@ -18,10 +21,20 @@ function request(token = 'valid', companyId = company, origin = 'https://example
 }
 function setup(options: Options = {}) {
   const calls: string[] = [], pages: number[] = [];
+  let claimed = false;
   const userId = `user-${++userSequence}`;
   const rows = options.rows ?? [row(1, 100), { ...row(2, 40), type: 'expense', category: 'Custos' }, row(3), row(4), row(5)];
   dependencies.createClient = (() => ({
     auth: { getUser: async () => options.invalid ? { data: { user: null }, error: Error('invalid') } : { data: { user: { id: userId } }, error: null } },
+    rpc: async (name: string, args: { p_company_id: string }) => {
+      calls.push('claim');
+      assertEquals(name, 'claim_hermes_test_once');
+      assertEquals(args.p_company_id, company);
+      if (options.claim === 'error') return { data: null, error: Error('unavailable') };
+      if (options.claim === 'denied' || claimed) return { data: false, error: null };
+      claimed = true; // simula a unica insercao/atualizacao atomica no banco
+      return { data: true, error: null };
+    },
     from: (table: string) => {
       calls.push(table);
       const query: Record<string, string> = {};
@@ -102,6 +115,39 @@ Deno.test('tema empresarial legítimo chega ao provedor apenas como intenção d
   } finally { restore(); }
 });
 
+Deno.test('requisições simultâneas disputam uma única reivindicação antes do provedor', async () => {
+  const { calls } = setup({ approved: true, companyApproved: true });
+  try {
+    const results = await Promise.all(Array.from({ length: 8 }, () => handleRequest(request())));
+    const modes = await Promise.all(results.map(async response => (await response.json()).mode));
+    assertEquals(modes.filter(mode => mode === 'generative').length, 1);
+    assertEquals(modes.filter(mode => mode === 'deterministic').length, 7);
+    assertEquals(calls.filter(call => call === 'gemini').length, 1);
+    assertEquals(calls.filter(call => call === 'claim').length, 8);
+  } finally { restore(); }
+});
+
+for (const provider of ['down', 'timeout'] as const) {
+  Deno.test(`falha ${provider} consome a autorização sem retry`, async () => {
+    const { calls } = setup({ approved: true, companyApproved: true, provider });
+    try {
+      assertEquals((await (await handleRequest(request())).json()).mode, 'deterministic');
+      assertEquals((await (await handleRequest(request())).json()).mode, 'deterministic');
+      assertEquals(calls.filter(call => call === 'gemini').length, 1);
+    } finally { restore(); }
+  });
+}
+
+Deno.test('reivindicação negada ou indisponível falha fechada', async () => {
+  for (const claim of ['denied', 'error'] as const) {
+    const { calls } = setup({ approved: true, companyApproved: true, claim });
+    try {
+      assertEquals((await (await handleRequest(request())).json()).mode, 'deterministic');
+      assertEquals(calls.includes('gemini'), false);
+    } finally { restore(); }
+  }
+});
+
 Deno.test('paginação completa acima de 1.000 linhas soma todos os valores', async () => {
   const { calls, pages } = setup({ rows: Array.from({ length: 1201 }, (_, i) => row(i + 1)) });
   try {
@@ -138,6 +184,16 @@ Deno.test('ausência de consentimento por empresa impede envio', async () => {
   const { calls } = setup({ approved: true, companyApproved: false });
   try {
     assertEquals((await (await handleRequest(request())).json()).mode, 'deterministic');
+    assertEquals(calls.includes('gemini'), false);
+    assertEquals(calls.includes('claim'), false);
+  } finally { restore(); }
+});
+
+Deno.test('gate global desativado preserva fallback sem consumir a trava', async () => {
+  const { calls } = setup({ approved: false, companyApproved: true });
+  try {
+    assertEquals((await (await handleRequest(request())).json()).mode, 'deterministic');
+    assertEquals(calls.includes('claim'), false);
     assertEquals(calls.includes('gemini'), false);
   } finally { restore(); }
 });
