@@ -1,8 +1,10 @@
 # Softplan Futures — BusinessMind AI
 
+**[Comece aqui: guia de avaliação em 5 minutos](projects/businessmind-ai/docs/RECRUITER_GUIDE.md)** · [Demonstração](https://businessmind-ai-staging.pages.dev) · [Arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) · [Testes](projects/businessmind-ai/docs/TESTING.md) · [Uso de IA no desenvolvimento](projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md)
+
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 11/11/2026: a interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota. Esta branch ainda requer revisão antes de integração ao repositório principal.
+> Estado em 11/11/2026: a interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota. O PR #4 foi integrado em `new-branch`; isso não implica integração em `main` ou deploy de produção.
 
 ## Funcionalidades implementadas
 
@@ -62,6 +64,7 @@ Na validação local de 11/11/2026, passaram 51/51 testes Node, 28/28 testes Den
 
 | Documento | Finalidade |
 | --- | --- |
+| [Guia de avaliação](projects/businessmind-ai/docs/RECRUITER_GUIDE.md) | Roteiro de 5 minutos para o recrutador |
 | [README do projeto](projects/businessmind-ai/README.md) | Execução, estrutura e limitações |
 | [Requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md) | Requisitos, prioridades e aceite |
 | [Arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) | Componentes, fluxos, dados e segurança |
