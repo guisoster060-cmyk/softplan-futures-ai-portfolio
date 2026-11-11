@@ -2,12 +2,12 @@
 
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 11/11/2026: os PRs #1–#4 e #8–#10 estão integrados em `new-branch`, ainda separada de `main`. O staging público serve a interface anterior ao PR #10. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
+> Estado em 11/11/2026: `new-branch` contém as atualizações de documentação e o MVP; o staging real foi testado manualmente com cadastro por e-mail, confirmação, criação de empresa e movimentação. O Hermes opera em modo determinístico; Gemini generativo não está ativado. A demonstração pública fictícia está publicada separadamente.
 
 ## Avaliação rápida
 
-1. Abra a [demonstração em staging](https://businessmind-ai-staging.pages.dev). Use somente uma conta de teste autorizada e dados fictícios; não há credenciais públicas de demonstração.
-2. Consulte o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) para localizar os fluxos, a arquitetura, os testes e as limitações sem percorrer todo o histórico.
+1. Abra a [demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev), com dados fictícios isolados no navegador. Para testar cadastro real, abra o [staging](https://businessmind-ai-staging.pages.dev) e use somente dados fictícios.
+2. Consulte o [roteiro de apresentação de 5 minutos](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) e o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) para localizar os fluxos, a arquitetura, os testes e as limitações sem percorrer todo o histórico.
 3. Examine [requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md), [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) e [evidências de testes](projects/businessmind-ai/docs/TESTING.md). Testes locais, HTTP com JWT e validação manual estão identificados separadamente.
 
 ## Funcionalidades implementadas
@@ -33,12 +33,13 @@ O navegador serve a aplicação estática e usa a publishable key para autentica
 
 ## Demonstração
 
-- [BusinessMind AI staging](https://businessmind-ai-staging.pages.dev)
+- [Demonstração pública, sem senha, com dados fictícios](https://businessmind-ai-demo.guisoster060.workers.dev)
+- [Sistema real de testes, com cadastro e PostgreSQL](https://businessmind-ai-staging.pages.dev)
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-Os PRs #8–#10 foram integrados em `new-branch`, sem promoção automática ao staging. O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
+O staging é um ambiente de testes, não uma produção aprovada. Em 11/11/2026 foi confirmado um cadastro novo com e-mail, criação de empresa e persistência de uma movimentação. A disponibilidade de confirmação de e-mail continua sujeita aos limites do serviço. Não use dados financeiros reais.
 
-Para avaliação sem compartilhar credenciais, consulte o [roteiro do recrutador](projects/businessmind-ai/docs/REVIEW_GUIDE.md). Há uma demonstração fictícia isolada para execução local; ela não foi publicada e não comprova Auth ou RLS remotos.
+A demonstração pública está publicada separadamente, sem Supabase nem IA externa; ela não comprova Auth ou RLS remotos. Consulte o [roteiro do recrutador](projects/businessmind-ai/docs/REVIEW_GUIDE.md).
 
 ## Executar e verificar
 
@@ -80,6 +81,7 @@ Na Missão 2 (11/11/2026), passaram 54/54 testes Node e 28/28 testes Deno com mo
 | [Estado atual](projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído, pendências e riscos |
 | [Índice de tarefas delegadas](projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações técnicas derivadas, não prompts literais |
 | [Roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) | Caminho curto para demonstração e evidências |
+| [Apresentação para recrutador](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) | Demonstração de cinco minutos e perguntas técnicas |
 | [Plano de validação Gemini](projects/businessmind-ai/docs/GEMINI_VALIDATION_PLAN.md) | Condições para eventual ativação, ainda não autorizada |
 | [Acervo histórico](docs/businessmind-ai/README.md) | Planejamento, validação e registros preservados |
 
