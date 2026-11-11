@@ -75,3 +75,113 @@ Este registro consolida entregas verificáveis do código versionado. Solicitaç
 ## Regra para próximas entregas
 
 Toda alteração relevante deve acrescentar uma seção com objetivo, necessidade, requisitos, solução, arquivos, tecnologias, decisões, testes efetivamente executados, resultados, limitações, responsabilidades e referência Git. O registro deve ser atualizado no mesmo PR quando a documentação for afetada.
+
+## ENG-006 — Auditoria e integração dos PRs #1–#3
+
+- **Objetivo técnico:** validar e consolidar v0.4, v0.5 e documentação em uma base única.
+- **Problema ou necessidade:** os três PRs formavam uma cadeia de bases intermediárias e ainda estavam abertos.
+- **Requisitos e aceite:** conferir commits, diffs, checks, dependências e segredos; preservar histórico; não alterar `main`.
+- **Solução:** reprodução de `npm run verify`, inspeção de diffs e credenciais, merge sequencial com retargeting para `new-branch`.
+- **Arquivos modificados:** nenhum arquivo de produção durante os merges; os commits originais foram preservados.
+- **Tecnologias:** Git, GitHub CLI/API e GitHub Actions.
+- **Decisões:** usar merge commits e destino `new-branch`; não habilitar merge automático.
+- **Testes executados:** 16/16 testes antes da integração, análise sintática e verificação documental; checks remotos dos PRs estavam aprovados.
+- **Resultados e limitações:** PRs #1, #2 e #3 integrados; espaços finais existentes na documentação foram identificados para correção nesta branch; nenhum E2E remoto foi executado.
+- **Contribuição:** prioridade e autorização condicional definidas pelo responsável; auditoria, retargeting e merges realizados com assistência de IA.
+- **Referências:** PRs #1–#3; merges `5ee367a`, `209120b` e `5744db2`.
+
+## ENG-007 — Hermes com Gemini
+
+- **Objetivo técnico:** oferecer interpretação generativa segura sem transferir cálculos financeiros ao modelo.
+- **Problema ou necessidade:** o scaffold existente era genérico, confiava no `companyId` apenas via filtro/RLS e não integrava a interface.
+- **Requisitos e aceite:** JWT, autorização por empresa, agregação em código, Gemini atual, limites, fallback e bloqueio de dados reais até consentimento.
+- **Solução:** core determinístico testável, validação explícita em `company_members`, API `generateContent`, timeout, limite básico, CORS allowlist, gates de ativação e cliente com estados/fallback.
+- **Arquivos principais:** `app/app.js`, `app/config.js`, `app/index.html`, `app/style.css`, `supabase/functions/hermes/`, `tests/hermes.test.js` e documentação canônica.
+- **Tecnologias:** JavaScript, TypeScript/Deno, Supabase Edge Functions, PostgreSQL/RLS e Gemini API.
+- **Decisões:** `gemini-3.5-flash-lite`; sem `service_role`; sem deploy, secret, faturamento ou dados reais nesta entrega.
+- **Testes executados:** `npm run verify` com 25/25 testes; tentativa visual headless inconclusiva e não aprovada; runtime Deno/remoto não disponível.
+- **Resultados e limitações:** implementação pronta para revisão/configuração; rate limit em memória não é distribuído e a política de dados requer decisão humana.
+- **Contribuição:** arquitetura-alvo e limites de autorização definidos pelo responsável; pesquisa oficial, código, testes e documentação produzidos com assistência de IA.
+- **Referência:** branch `codex/businessmind-hermes-gemini`; commit e PR desta entrega.
+
+## ENG-008 — Validação local Deno do Hermes
+
+- **Objetivo:** validar a função em runtime Deno e impedir totais baseados em leitura truncada.
+- **Problema:** a consulta limitada a 5.000 linhas podia apresentar resultados parciais como totais; a CI cobria apenas Node.
+- **Aceite:** `deno check`, testes simulados de autenticação/autorização/falhas, rejeição de conjunto incompleto e CI sem secrets.
+- **Solução:** `deno.json`, função exportada para testes, dependências substituíveis, busca de até 5.001 linhas com rejeição de excesso e testes Deno com mocks.
+- **Arquivos:** `supabase/functions/hermes/index.ts`, `index_test.ts`, `deno.json`, workflow e documentação.
+- **Tecnologias:** Deno 2.5.6, TypeScript, Supabase JS e GitHub Actions.
+- **Decisão:** falhar de modo explícito ao detectar truncamento; RLS segue como autoridade no banco.
+- **Testes executados:** `deno check index.ts index_test.ts` sem erros; `deno test --allow-env index_test.ts` com 9 aprovados e 0 falhas; `npm run verify` será registrado após execução final.
+- **Limites:** mocks não provam RLS do Supabase remoto nem disponibilidade da API Gemini para uma conta.
+- **Contribuição:** critérios e restrições definidos pelo responsável; correção, testes e documentação assistidos por IA.
+- **Referência:** PR #4, commits adicionais desta etapa.
+
+## ENG-009 — E2E local dos fluxos essenciais
+
+- **Objetivo:** exercitar a aplicação em navegador com Auth, empresa e movimentações fictícias.
+- **Necessidade:** a suíte anterior verificava domínio e estrutura, mas não o fluxo completo da interface.
+- **Aceite:** cadastro, login, sessão, onboarding, CRUD, recarga, filtros, indicadores, gráfico, alertas, CSV, erro e logout.
+- **Solução:** cenário Playwright com servidor local e SDK Supabase substituído por mock em memória; duas contas/empresas.
+- **Arquivo:** `tests/e2e-local.cjs` e documentação de testes.
+- **Tecnologias:** Chromium, Playwright, Node.js e JavaScript.
+- **Decisão:** manter a simulação separada da CI até declarar dependências de navegador reproduzíveis; não confundir mock com RLS real.
+- **Testes executados:** `node tests/e2e-local.cjs` concluiu com sucesso em 10/11/2026; `npm run verify` e Deno serão registrados na verificação final.
+- **Resultados e limites:** sem exceções JavaScript; persistência simulada após recarga; RLS real, SMTP e Supabase remoto não foram testados.
+- **Contribuição:** critérios e limites definidos pelo responsável; teste e registro assistidos por IA.
+- **Referência:** PR #4, commit desta etapa.
+
+## ENG-010 — Preparação de validação Supabase isolada
+
+- **Objetivo:** tornar reproduzível a validação real de Auth, onboarding, CRUD e RLS.
+- **Necessidade:** testes locais usam mocks e não provam policies no PostgreSQL remoto.
+- **Aceite:** projeto separado, duas contas fictícias, bloqueio explícito da referência publicada, critérios de aprovação e limpeza.
+- **Solução:** script REST/Auth com guard de URL, ref e confirmação; testes unitários do guard; roteiro para painel web/mobile.
+- **Arquivos:** `scripts/supabase-test-guard.mjs`, `scripts/verify-supabase-test.mjs`, `tests/supabase-test-guard.test.js`, `docs/SUPABASE_TEST_PLAN.md` e documentação de evidências.
+- **Tecnologias:** Node.js, Supabase Auth, PostgREST e PostgreSQL/RLS.
+- **Decisão:** contas pré-criadas e confirmadas pelo responsável; o script não usa chave administrativa e limpa apenas movimentações que criou.
+- **Testes executados:** `npm run verify` em 10/11/2026: 29 aprovados, 0 falhas; 26 arquivos documentais verificados. Nenhuma chamada remota foi autorizada ou executada.
+- **Limitações:** não comprova RLS até execução no projeto isolado; limpeza de contas/empresas é humana e explícita.
+- **Contribuição:** escopo e restrições definidos pelo responsável; scripts e documentação assistidos por IA.
+- **Referência:** PR #4, commits da Etapa 4A.
+
+## ENG-011 — Schema inicial no staging isolado
+
+- **Objetivo:** aplicar e verificar o schema versionado em `ogypzmxnvjbomamkejkh`.
+- **Necessidade:** validar a estrutura real antes de criar contas ou dados fictícios.
+- **Aceite:** staging vazio, migration esperada, quatro tabelas com RLS, funções, constraints e policies presentes, zero linhas.
+- **Solução:** inspeção do SQL e do projeto; aplicação exclusiva de `0001_initial_schema.sql` como `businessmind_initial_schema`.
+- **Arquivo-fonte:** `supabase/migrations/0001_initial_schema.sql`, SHA-256 `f61220649b214599f3d091d6f29d4416936aa8e980d79acf3426d1a071e7ff71`.
+- **Tecnologias:** Supabase PostgreSQL 17, integração Supabase, RLS.
+- **Decisão:** executar no staging vazio; os `REVOKE` abrangentes não atingiram tabelas públicas preexistentes.
+- **Verificações executadas:** quatro tabelas vazias; RLS habilitado; dez policies; seis funções; 17 constraints; três triggers de aplicação; migration remota `20261110124952`.
+- **Limitações:** verificações estruturais não provam comportamento de Auth ou RLS com usuários reais; nenhum teste SQL com inserção foi executado.
+- **Contribuição:** escopo e autorização definidos pelo responsável; execução e registro assistidos por IA.
+- **Referência:** PR #4, commit documental desta etapa.
+
+## ENG-012 — Isolamento SQL real no staging
+
+- **Objetivo:** exercer RLS e RPC em PostgreSQL real sem dados persistentes.
+- **Necessidade:** a validação anterior era estrutural ou baseada em mocks.
+- **Aceite:** relatório do script versionado com 34 OK e zero falhas, rollback confirmado.
+- **Solução:** execução de `supabase/tests/isolation_test.sql` no projeto `ogypzmxnvjbomamkejkh`, seguida de consulta de contagens e trigger.
+- **Tecnologias:** PostgreSQL 17, Supabase RLS, SQL Editor via integração.
+- **Resultado:** 34/34 casos aprovados; erro final `P0001` intencional; zero linhas/usuários de teste após rollback; trigger de limite ativo.
+- **Limite:** claims e papéis foram simulados dentro do SQL; Auth HTTP com JWT real ainda não foi testado. O cadastro público rejeitou `example.com`, e não foram usadas caixas de e-mail de terceiros.
+- **Contribuição:** autorização e escopo humanos; execução e registro assistidos por IA.
+- **Referência:** PR #4, commit desta etapa.
+
+## ENG-013 — Preparação segura do Hermes generativo (local)
+
+- **Objetivo:** impedir totais parciais e reduzir exposição de dados antes de qualquer ativação Gemini.
+- **Problema:** a consulta única da Edge Function podia ser truncada pelo limite padrão da Data API; cálculo em ponto flutuante, pergunta livre e categorias identificáveis aumentavam risco de erro ou exposição.
+- **Aceite:** paginação com contagem exata e falha fechada; valores em centavos; JWT e RLS preservados; limites e fallback; aprovação global e por empresa desativada por padrão; testes locais sem serviços externos.
+- **Solução:** páginas de 500 com ID/contagem consistentes, validação de registro, agregação inteira, intenção derivada da pergunta em vez do texto bruto, apenas agregados mensais, limite mínimo de cinco linhas, bloqueio de redirects e respostas suspeitas, allowlist de empresas vazia por padrão.
+- **Arquivos:** `supabase/functions/hermes/{index.ts,core.mjs,index_test.ts,README.md}`, `app/domain.js`, `tests/{domain.test.js,hermes.test.js}` e documentação canônica.
+- **Tecnologias:** Deno, TypeScript, JavaScript, Supabase Auth/PostgREST e Node Test Runner.
+- **Decisão:** nenhum schema novo; a allowlist no servidor exige aprovação documentada fora do aplicativo e não equivale a opt-in self-service auditável. Nenhuma chave ou dado real foi enviado ao Gemini.
+- **Testes executados:** `deno check index.ts index_test.ts` sem erros; `deno test --allow-env index_test.ts` com 21 aprovados; `npm run verify` com 46 aprovados e 27 documentos válidos; build/validador de staging sem erro; E2E local de navegador aprovado com mocks (10/11/2026). Os testes Deno usam mocks e dados fictícios.
+- **Limites:** consulta paginada não é snapshot transacional; rate limit em memória não é global; RLS real da função e Gemini remoto não foram testados; consentimento/retirada persistente por proprietário exigiria decisão de produto e possivelmente migration autorizada.
+- **Contribuição:** requisitos, restrições e decisão de manter o serviço desativado definidos pelo responsável; implementação, testes e documentação assistidos por IA.
+- **Referência:** branch `codex/businessmind-hermes-gemini`, diff local não commitado nesta etapa; PR #4 somente após revisão e autorização para push.

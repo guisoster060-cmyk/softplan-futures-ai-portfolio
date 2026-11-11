@@ -32,6 +32,8 @@ test('mapeia o formato do banco para o formato da interface', () => {
 test('calcula receitas, despesas, lucro e margem sem inventar dados', () => {
   assert.deepEqual(domain.totals([{ type: 'income', amount: 200 }, { type: 'expense', amount: 50 }]), { income: 200, expense: 50, profit: 150, margin: 75 });
   assert.deepEqual(domain.totals([]), { income: 0, expense: 0, profit: 0, margin: null });
+  assert.deepEqual(domain.totals([{ type: 'income', amount: 0.1 }, { type: 'income', amount: 0.2 }]),
+    { income: 0.3, expense: 0, profit: 0.3, margin: 100 });
 });
 
 test('agrupa categorias e calcula participação', () => {

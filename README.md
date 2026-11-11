@@ -1,14 +1,14 @@
 # Softplan Futures — BusinessMind AI
 
-Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP de inteligência empresarial para pequenos negócios. A aplicação transforma receitas e despesas registradas pelo usuário em indicadores, visualizações e análises determinísticas, com autenticação e isolamento de dados pelo Supabase.
+Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 10/11/2026: a implementação v0.5 está disponível em branches e pull requests de revisão; ainda não foi incorporada à `main`.
+> Estado em 11/11/2026: a interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota. Esta branch ainda requer revisão antes de integração ao repositório principal.
 
 ## Funcionalidades implementadas
 
 - cadastro, login, restauração de sessão, recuperação de senha e logout;
 - criação inicial de empresa e associação do usuário;
-- CRUD de receitas e despesas persistidas no PostgreSQL;
+- CRUD de receitas e despesas persistidas no PostgreSQL, com paginação completa na leitura;
 - controle de acesso por JWT, associação à empresa e Row Level Security;
 - KPIs, evolução mensal, categorias, alertas e exportação CSV derivados dos dados carregados;
 - Hermes determinístico, que separa fatos, estimativas, riscos e recomendações;
@@ -17,20 +17,20 @@ Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP de 
 
 ## Tecnologias
 
-HTML semântico, CSS, JavaScript ES modules, SVG, Supabase JS, Supabase Auth, PostgreSQL, RLS, Node.js Test Runner, GitHub Actions e Cloudflare Pages para previews.
+HTML semântico, CSS, JavaScript ES modules, SVG, Supabase JS, Supabase Auth, PostgreSQL, RLS, Supabase Edge Functions, Deno, Node.js Test Runner, GitHub Actions e Cloudflare Pages para staging e previews.
 
-Não foram introduzidos React, Vite ou serviço pago. A integração generativa do Hermes possui apenas um scaffold de Edge Function; não está implantada e não expõe chave privada no frontend.
+Não foram introduzidos React ou Vite. A integração com Gemini está preparada no servidor, mas `STAGING_DETERMINISTIC_ONLY = true` impede chamadas ao provedor e o consumo da autorização única; nenhuma chave privada está no frontend.
 
 ## Arquitetura resumida
 
-O navegador serve a aplicação estática e usa a publishable key para autenticar no Supabase. O JWT da sessão acompanha as consultas; policies RLS limitam o acesso à empresa associada. Indicadores e gráficos são calculados no cliente somente depois da leitura autorizada das movimentações. Consulte a [arquitetura completa](projects/businessmind-ai/docs/ARCHITECTURE.md).
+O navegador serve a aplicação estática e usa a publishable key para autenticar no Supabase. O JWT da sessão acompanha as consultas; policies RLS limitam o acesso à empresa associada. O cliente pagina e valida a leitura antes de calcular indicadores e gráficos. A Edge Function Hermes valida o usuário e a associação à empresa antes de produzir uma resposta determinística. Consulte a [arquitetura completa](projects/businessmind-ai/docs/ARCHITECTURE.md).
 
 ## Demonstração
 
-- [Preview da branch v0.5](https://codex-businessmind-v0-5-visu.businessmind-ai.pages.dev)
-- [Preview imutável da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
+- [BusinessMind AI staging](https://businessmind-ai-staging.pages.dev)
+- [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-Os endereços são ambientes de revisão com `noindex`, não uma produção aprovada. Fluxos autenticados exigem uma conta de teste e a disponibilidade do projeto Supabase.
+O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
 
 ## Executar e verificar
 
@@ -45,6 +45,18 @@ Acesse `http://localhost:8080`. Para executar as verificações que não usam cr
 ```bash
 npm run verify
 ```
+
+Para verificar a função separadamente:
+
+```bash
+cd supabase/functions/hermes
+deno check index.ts index_test.ts
+deno test --allow-env index_test.ts
+```
+
+Execute esses comandos a partir de `projects/businessmind-ai`. O teste de concorrência PostgreSQL local está documentado no [README do projeto](projects/businessmind-ai/README.md).
+
+Na validação local de 11/11/2026, passaram 51/51 testes Node, 28/28 testes Deno com mocks e o teste concorrente em PostgreSQL local. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging; essa evidência não equivale a uma auditoria completa nem a teste generativo real.
 
 ## Documentação
 

@@ -12,8 +12,10 @@ flowchart LR
     D --> R[RLS e privilégios]
     R --> P[(PostgreSQL)]
     F --> H[Hermes determinístico]
-    F -. futuro .-> E[Edge Function Hermes]
-    E -. agregados .-> G[Provedor de IA não definido]
+    F -. integração preparada; toggle desativado .-> E[Edge Function Hermes v11 no staging]
+    E --> A
+    E --> R
+    E -. caminho generativo bloqueado .-> G[Gemini]
 ```
 
 ## 2. Componentes
@@ -37,8 +39,9 @@ flowchart LR
 ### Hermes
 
 - **Ativo:** regras determinísticas no navegador sobre dados já autorizados.
-- **Preparado:** Edge Function que valida JWT, consulta `transactions` sob RLS, agrega valores e só então chama um provedor.
-- **Não ativo:** provedor generativo, segredos e deploy da Edge Function.
+- **Implantado somente no staging:** Edge Function Hermes v11 com `verify_jwt=true`; valida JWT, confirma a associação em `company_members`, consulta `transactions` sob RLS e calcula agregados. `STAGING_DETERMINISTIC_ONLY=true` devolve a resposta determinística antes de `claim_hermes_test_once` e de qualquer fetch ao Gemini.
+- **Desativado por padrão:** `hermesGenerativeEnabled` inicia como `false`; o servidor também exige `HERMES_DATA_SHARING_APPROVED=true`, empresa na allowlist `HERMES_APPROVED_COMPANY_IDS` e `GEMINI_API_KEY`.
+- **Fallback:** ausência de configuração, falha, resposta inválida ou timeout retorna ao motor determinístico.
 
 ### Entrega
 
@@ -69,6 +72,17 @@ flowchart LR
 
 As linhas autorizadas são carregadas e convertidas para o modelo da interface. Totais, margem, variações, categorias, alertas e projeção simples são calculados em memória. Nenhum KPI é armazenado no banco e nenhum valor fictício é injetado no dashboard autenticado.
 
+### Pergunta à Edge Function Hermes e caminho generativo bloqueado
+
+1. O navegador envia pergunta e empresa selecionada com o JWT da sessão.
+2. A função valida formato, origem, JWT e limite básico por usuário.
+3. O `company_id` recebido não é confiado: a função exige uma linha autorizada em `company_members` para o usuário autenticado.
+4. A consulta a `transactions` usa publishable key + JWT e permanece sujeita à RLS.
+5. A função pagina `transactions` sob RLS com contagem exata e falha fechada se alguma página estiver incompleta. Código determinístico valida cada registro e soma em centavos inteiros.
+6. Após validar JWT, associação à empresa, escopo da pergunta e completude dos dados financeiros, o staging v11 retorna obrigatoriamente a resposta determinística. Esse retorno ocorre antes da avaliação dos controles específicos do caminho generativo, da RPC de uso único e do fetch ao Gemini. Nenhum agregado é enviado ao provedor nesse caminho.
+7. O caminho generativo permanece apenas preparado no código: se futuramente autorizado e desbloqueado, exige aprovação global e por empresa, reivindicação única para o teste controlado e base suficiente. Enviaria intenção analítica derivada e agregados mensais, nunca pergunta livre, descrições, categorias identificáveis ou IDs. A allowlist manual não substitui consentimento auditável.
+8. A interface prevê separar “dados calculados pelo sistema” de “interpretação gerada pelo Gemini”; essa interpretação não é uma capacidade validada do staging atual.
+
 ## 4. Modelo de dados
 
 | Tabela | Responsabilidade | Relações principais |
@@ -89,14 +103,19 @@ As linhas autorizadas são carregadas e convertidas para o modelo da interface. 
 - Constraints para tipos, comprimentos e valores.
 - Neutralização de fórmulas no CSV.
 - Segredo do provedor de IA previsto apenas no ambiente da Edge Function.
+- CORS por allowlist, `Cache-Control: no-store`, prazo total de 20 segundos, até 12 segundos no provedor, limites de corpo e resposta e `redirect: 'error'`.
+- Nenhum log explícito de perguntas, respostas ou valores financeiros.
+- Proteção básica de 10 requisições por usuário/minuto por instância.
 
 ## 6. Limitações arquiteturais
 
 - `app.js` acumula acesso a dados, estado e renderização; uma separação em módulos é evolução recomendada.
-- A seleção usa a primeira empresa associada; não há seletor multiempresa.
-- Não existe cache offline, fila de sincronização ou paginação de movimentações.
+- A seleção multiempresa existe; consentimento para IA ainda não tem fluxo de opt-in/retirada persistido no banco.
+- Não existe cache offline ou fila de sincronização; leituras paginadas não formam snapshot transacional.
 - Não existe monitoramento centralizado de erros.
-- A Edge Function Hermes não foi implantada nem testada ponta a ponta.
+- A Edge Function v11 foi implantada e o Hermes determinístico validado manualmente no staging; o caminho generativo não foi validado remotamente nem implantado em produção.
+- O rate limit em memória não é global entre instâncias e precisa de solução distribuída antes de escala/produção.
+- No tier gratuito do Gemini, dados submetidos podem ser usados para melhoria de produtos conforme os termos oficiais; o envio real permanece bloqueado até aprovação explícita.
 
 ## 7. Documentos relacionados
 
