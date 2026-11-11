@@ -1,5 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.84.0';
-import { aggregateTransactions, approvedCompany, buildGeminiRequest, extractGeminiText, LIMITS, validateQuestion } from './core.mjs';
+import { aggregateTransactions, approvedCompany, buildGeminiRequest, classifyQuestion, extractGeminiText, LIMITS, OUT_OF_SCOPE_MESSAGE, validateQuestion } from './core.mjs';
 
 type Transaction = { id: string; type: 'income' | 'expense'; category: string; amount: number | string; occurred_on: string };
 type RateEntry = { startedAt: number; count: number };
@@ -110,6 +110,7 @@ export async function handleRequest(request: Request) {
     .eq('user_id', userData.user.id).eq('company_id', requestedCompanyId).maybeSingle(), remaining())); }
   catch { return json(request, { error: 'Não foi possível verificar a associação.' }, 503); }
   if (membershipError || !membership?.company_id) return json(request, { error: 'Empresa não autorizada.' }, 403);
+  if (!classifyQuestion(validation.question).allowed) return json(request, { mode: 'out_of_scope', message: OUT_OF_SCOPE_MESSAGE });
   let summary;
   try { summary = aggregateTransactions(await completeTransactions(client, membership.company_id, deadline)); }
   catch { return json(request, { error: 'A consulta financeira não retornou dados completos e válidos; nenhum total foi calculado.' }, 503); }

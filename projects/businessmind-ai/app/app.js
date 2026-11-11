@@ -333,6 +333,15 @@ function answer(q) {
 }
 function addMsg(role, text) { const m = el('div', 'msg ' + role, text); $('chat-log').append(m); $('chat-log').scrollTop = $('chat-log').scrollHeight; }
 function setHermesStatus(text, kind = '') { const status = $('hermes-status'); status.textContent = text; status.className = 'hermes-status ' + kind; }
+const HERMES_SCOPE_MESSAGE = 'Sou o Hermes, assistente empresarial do BusinessMind AI. Posso ajudar com indicadores, receitas, despesas, resultados, gestão e funcionalidades do sistema.';
+function hermesOutOfScope(question) {
+  const text = norm(question);
+  const business = /\b(receita|faturamento|venda|despesa|gasto|custo|lucro|margem|saldo|caixa|indicador|kpi|metrica|meta|orcamento|financeir|empresa|negocio|gestao|produtiv|eficienc|desempenho|rentabil|equipe|cliente|estoque|preco|marketing|estrategia|planejamento|processo|operac|recomend|previs|tendencia|ajuda|pode fazer|businessmind|dashboard|grafico|relatorio|csv|movimentac|categoria|hermes|sistema|funcionalidade)\w*\b/.test(text);
+  const external = /\b(futebol|esporte|celebridade|ator|atriz|filme|serie de tv|musica|eleic|presidente|partido politico|guerra|imperio romano|historia do brasil|horoscopo|receita culinaria|receita de bolo|bolo de chocolate|piada|previsao do tempo)\w*\b/.test(text);
+  const request = /\b(conte|narre|recomende|quem (foi|ganhou|venceu|e)|qual (time|filme|ator|atriz|presidente|receita culinaria)|me fale sobre|explique a historia|resuma a historia|previsao do tempo)\b/.test(text);
+  const injection = /\b(ignore|desconsidere|esqueca|contorne|finja que)\b.{0,80}\b(regras|instruc|restric|sistema|escopo)\w*\b/.test(text);
+  return (external && (request || injection)) || !business;
+}
 function summaryFacts(summary) {
   const totals = summary?.totals;
   if (!totals) return '';
@@ -341,6 +350,7 @@ function summaryFacts(summary) {
 async function ask(q) {
   q = q.trim(); if (!q) return;
   addMsg('user', q);
+  if (hermesOutOfScope(q)) { addMsg('bot', HERMES_SCOPE_MESSAGE); return; }
   const config = window.BUSINESSMIND_CONFIG;
   const localAnswer = () => addMsg('bot', answer(q));
   if (!config?.hermesGenerativeEnabled || !transactions.length || has(norm(q), 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) { localAnswer(); return; }
@@ -348,6 +358,7 @@ async function ask(q) {
   try {
     const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId: currentCompany.id } });
     if (error || !data) throw error || new Error('Resposta vazia');
+    if (data.mode === 'out_of_scope') { addMsg('bot', HERMES_SCOPE_MESSAGE); return; }
     if (data.mode !== 'generative' || !data.answer) {
       localAnswer(); setHermesStatus(data.message || 'Gemini indisponível; fallback determinístico ativo.', 'error'); return;
     }

@@ -14,6 +14,8 @@ Esta função valida o JWT, confirma no servidor a associação entre usuário e
 
 ## Controles
 
+Perguntas fora de gestão empresarial, indicadores e funcionalidades do BusinessMind AI recebem uma resposta padrão antes da leitura financeira e de qualquer chamada ao Gemini. A classificação combina tema e intenção; casos ambíguos sem contexto empresarial são recusados. Trata-se de uma barreira determinística conservadora, não de compreensão semântica perfeita. O frontend também aplica um filtro de experiência, mas a decisão de segurança permanece no servidor. A pergunta original continua fora do payload do provedor.
+
 - corpo HTTP: até 2.048 bytes; pergunta: até 500 caracteres;
 - resposta do provedor: até 16.384 bytes, 500 tokens e 4.000 caracteres exibidos;
 - timeout do Gemini: 12 segundos;
