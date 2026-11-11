@@ -82,7 +82,7 @@ deno test --allow-env index_test.ts
 
 De volta a `projects/businessmind-ai`, `node tests/hermes-one-shot-postgres.mjs` executa o teste transacional local; requer Docker e a imagem `postgres:17-alpine`. O teste em `supabase/tests/` depende de ambiente autorizado. Veja [TESTING.md](docs/TESTING.md).
 
-Na revisão local de 11/11/2026, passaram **52/52 testes Node** e **28/28 testes Deno com mocks**. O teste concorrente em PostgreSQL local e os fluxos manuais de login, dashboard, indicadores, movimentações e Hermes determinístico no staging foram aprovados em validações anteriores, não reexecutadas nesta revisão. Mocks não comprovam execução generativa remota.
+Na Missão 2 (11/11/2026), passaram **54/54 testes Node** e **28/28 testes Deno com mocks**. O teste concorrente em PostgreSQL local e os fluxos manuais de login, dashboard, indicadores, movimentações e Hermes determinístico no staging foram aprovados em validações anteriores, não reexecutadas nesta missão. Mocks não comprovam execução generativa remota.
 
 ## Demonstração
 
@@ -90,6 +90,8 @@ Na revisão local de 11/11/2026, passaram **52/52 testes Node** e **28/28 testes
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
 O staging é exclusivo para demonstração e validação com contas e dados fictícios; não é uma implantação de produção aprovada.
+
+Sem credenciais, há um [roteiro de avaliação](docs/REVIEW_GUIDE.md) e um build local isolado com dados fictícios (`npm run build:demo-preview`). Esse modo não consulta Supabase e ainda não está publicado; não equivale a testar Auth ou RLS reais.
 
 ## Hermes
 

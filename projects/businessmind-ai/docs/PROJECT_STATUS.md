@@ -2,9 +2,11 @@
 
 Atualizado em: 11/11/2026
 
+Nota da Missão 2: o staging público ainda serve arquivos de interface idênticos aos do commit `d15282a`, não os ajustes do PR #10. Sua tela de login carregou em desktop e mobile; nenhum login remoto foi refeito nesta missão. Um modo de demonstração fictício, isolado e local foi preparado, mas não publicado. Consulte `REVIEW_GUIDE.md` e `TESTING.md` antes de oferecer acesso a avaliadores.
+
 ## Resumo executivo
 
-As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4, #8 e #9; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
+As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4 e #8–#10; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
 
 ## Entregas concluídas
 
