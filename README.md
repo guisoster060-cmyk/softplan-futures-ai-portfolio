@@ -1,54 +1,52 @@
-AI & Software Development Portfolio
+# BusinessMind AI — Portfólio Softplan Futures
 
-Portfólio de projetos práticos envolvendo Inteligência Artificial, desenvolvimento de software, automação e análise de dados.
+**Projeto principal de Guilherme Soster Santeti**, estudante de Análise e Desenvolvimento de Sistemas (UPF).
 
-Desenvolvido com o objetivo de demonstrar capacidade de identificar problemas, planejar soluções, desenvolver aplicações e entregar produtos funcionais.
+O **BusinessMind AI** é um MVP de apoio à gestão financeira de pequenos negócios. A proposta é reunir receitas, despesas, indicadores e recomendações em uma interface simples para apoiar a compreensão dos resultados.
 
-Projetos
+## Comece por aqui
 
-01. BusinessMind AI
+| Recurso | Acesso |
+| --- | --- |
+| **Demonstração pública — sem cadastro** | [Abrir BusinessMind AI](https://businessmind-ai-demo.guisoster060.workers.dev) |
+| **Código e documentação atualizados** | [BusinessMind AI na branch de desenvolvimento consolidada](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/new-branch/projects/businessmind-ai) |
+| **Apresentação de 5 minutos** | [Roteiro para recrutadores](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) |
+| **Roteiro de avaliação** | [Funcionalidades, testes e limitações](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/REVIEW_GUIDE.md) |
+| **Ambiente de testes com autenticação** | [Staging](https://businessmind-ai-staging.pages.dev) — use somente dados fictícios |
 
-Status: Em planejamento.
+> **Importante:** a implementação e a documentação mais recentes estão na branch `new-branch`. A branch `main` é a página de entrada do portfólio, não a referência para executar o código atualizado.
 
-Plataforma de inteligência empresarial que utiliza análise de dados e inteligência artificial para identificar oportunidades, interpretar indicadores e apoiar decisões de negócios.
+## Problema e solução
 
-Principais funcionalidades planejadas:
+Pequenos empreendedores podem ter dificuldade para consolidar e interpretar movimentações financeiras. O BusinessMind AI reúne os lançamentos em um painel com indicadores, gráficos e alertas. O assistente **Hermes**, na versão atual, produz análises e recomendações **determinísticas baseadas em regras**; **não** é um modelo generativo.
 
-- Análise de vendas e faturamento.
-- Indicadores de desempenho.
-- Identificação de tendências.
-- Recomendações inteligentes.
-- Relatórios executivos.
+## O que foi desenvolvido
 
-02. DocMind AI
+- Interface responsiva com visão geral, indicadores, inteligência e configurações.
+- Cadastro e autenticação no ambiente de testes.
+- Movimentações financeiras persistidas em PostgreSQL via Supabase.
+- Controle de acesso por empresa com políticas Row Level Security (RLS).
+- Indicadores, alertas, exportação CSV e Hermes determinístico.
+- Testes automatizados e documentação de arquitetura, segurança e limitações.
 
-Status: Planejado.
+A demonstração pública funciona com **dados fictícios no navegador** e não depende do banco remoto. O staging permite testar o fluxo real de autenticação e persistência, sujeito aos limites dos serviços gratuitos.
 
-Solução de inteligência artificial para leitura, organização, interpretação e extração de informações de documentos.
+## Por que IA e qual foi meu papel?
 
-03. FlowDesk AI
+A visão futura do produto inclui um assistente generativo que responda a dúvidas com base nos dados autorizados de cada empresa. **Essa integração ainda não está ativa.** A decisão foi priorizar um MVP verificável, com separação de dados, registros financeiros e análises determinísticas.
 
-Status: Planejado.
+**Contribuição humana:** definição do problema, escopo, prioridades, decisões de produto, acompanhamento das implementações e validação manual. **Apoio de IA:** pesquisa, planejamento técnico, geração e revisão de código, testes e documentação, utilizando ChatGPT, Claude e Codex.
 
-Plataforma de automação de processos e fluxos de trabalho empresariais.
+O projeto demonstra tanto o que foi entregue quanto os limites e aprendizados. Os testes registrados não equivalem a uma auditoria de segurança completa.
 
-Objetivos técnicos
+## Evidências visuais
 
-- Desenvolvimento de aplicações web.
-- Inteligência artificial aplicada.
-- Engenharia e organização de software.
-- Integração de APIs.
-- Banco de dados.
-- Testes e qualidade de software.
-- Documentação técnica.
-- Versionamento com Git e GitHub.
+As quatro telas podem ser exploradas na [demonstração pública](https://businessmind-ai-demo.guisoster060.workers.dev). Capturas reais da interface e eventual vídeo serão adicionados após registro e conferência, sem substituir imagens por representações artificiais.
 
-Desenvolvimento
+## Documentação técnica
 
-Os projetos serão desenvolvidos por etapas, com documentação, controle de versões, testes e registro das decisões técnicas.
+Acesse o [README técnico atualizado](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/README.md) e o [índice de evidências](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/REVIEW_GUIDE.md).
 
-Autor
+---
 
-Guilherme Soster Santeti
-
-GitHub: @guisoster060-cmyk
+**Autor:** Guilherme Soster Santeti · [GitHub](https://github.com/guisoster060-cmyk)
