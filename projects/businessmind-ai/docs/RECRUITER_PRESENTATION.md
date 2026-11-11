@@ -23,6 +23,18 @@
 
 **4:00–5:00 — Qualidade e limites.** Destacar 54 testes Node e 28 Deno com mocks na Missão 2, validações manuais de cadastro e movimentações no staging e verificações de isolamento SQL. Mocks não equivalem a testes remotos. Informar limitações: IA generativa desativada, limites do e-mail, cobertura de navegadores/acessibilidade incompleta e ausência de implantação de produção aprovada.
 
+## Por que IA neste projeto?
+
+O problema central não é apenas somar receitas e despesas, tarefa que deve continuar sendo feita por código determinístico. O desafio é transformar números dispersos em explicações compreensíveis, perguntas em linguagem natural, alertas e hipóteses de ação para quem administra um pequeno negócio.
+
+**O que existe hoje:** o Hermes interpreta perguntas dentro de um conjunto de intenções suportadas e responde com agregados calculados de forma determinística a partir dos dados acessíveis. Isso torna o resultado reproduzível e permite conferir a conta. **Não é correto descrevê-lo como chatbot generativo ou modelo de linguagem ativo.**
+
+**Onde a IA entrou de fato:** ferramentas de IA auxiliaram a pesquisa, a definição de requisitos, a elaboração e revisão de código, a preparação de testes e a documentação. O responsável definiu o escopo, aprovou decisões, realizou configurações externas e validou os resultados. Consulte [método de desenvolvimento assistido por IA](AI_DEVELOPMENT_METHOD.md).
+
+**Evolução planejada, não entregue:** uma camada generativa poderia explicar tendências e comparar cenários com linguagem mais flexível, recebendo apenas agregados autorizados, com controles de privacidade, custo, confiança e revisão humana. A integração Gemini foi preparada no servidor, mas está desativada no staging e não foi validada remotamente.
+
+**Decisão técnica importante:** preferimos primeiro um assistente verificável e um fluxo de dados seguro, em vez de apresentar respostas generativas sem garantias sobre origem dos números. Isso é uma escolha de escopo do MVP, não uma alegação de IA generativa implementada.
+
 ## Perguntas técnicas que podem surgir
 
 **Por que Supabase?** Oferece autenticação e PostgreSQL gerenciados, com políticas RLS para limitar o acesso aos dados por empresa.
