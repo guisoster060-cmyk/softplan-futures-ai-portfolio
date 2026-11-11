@@ -2,7 +2,13 @@
 
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 11/11/2026: a interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota. Esta branch ainda requer revisão antes de integração ao repositório principal.
+> Estado em 11/11/2026: os PRs #1–#4 estão integrados em `new-branch`, ainda separada de `main`. A interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
+
+## Avaliação rápida
+
+1. Abra a [demonstração em staging](https://businessmind-ai-staging.pages.dev). Use somente uma conta de teste autorizada e dados fictícios; não há credenciais públicas de demonstração.
+2. Consulte o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) para localizar os fluxos, a arquitetura, os testes e as limitações sem percorrer todo o histórico.
+3. Examine [requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md), [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) e [evidências de testes](projects/businessmind-ai/docs/TESTING.md). Testes locais, HTTP com JWT e validação manual estão identificados separadamente.
 
 ## Funcionalidades implementadas
 
@@ -56,7 +62,7 @@ deno test --allow-env index_test.ts
 
 Execute esses comandos a partir de `projects/businessmind-ai`. O teste de concorrência PostgreSQL local está documentado no [README do projeto](projects/businessmind-ai/README.md).
 
-Na validação local de 11/11/2026, passaram 51/51 testes Node, 28/28 testes Deno com mocks e o teste concorrente em PostgreSQL local. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging; essa evidência não equivale a uma auditoria completa nem a teste generativo real.
+Na revisão local de 11/11/2026, passaram 52/52 testes Node e 28/28 testes Deno com mocks. O teste concorrente em PostgreSQL local foi aprovado anteriormente, mas não reexecutado nesta revisão. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging em validações anteriores; essas evidências não equivalem a uma auditoria completa nem a teste generativo real.
 
 ## Documentação
 
@@ -71,6 +77,8 @@ Na validação local de 11/11/2026, passaram 51/51 testes Node, 28/28 testes Den
 | [Método de desenvolvimento com IA](projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md) | Processo e divisão real de responsabilidades |
 | [Estado atual](projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído, pendências e riscos |
 | [Índice de tarefas delegadas](projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações técnicas derivadas, não prompts literais |
+| [Roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) | Caminho curto para demonstração e evidências |
+| [Plano de validação Gemini](projects/businessmind-ai/docs/GEMINI_VALIDATION_PLAN.md) | Condições para eventual ativação, ainda não autorizada |
 | [Acervo histórico](docs/businessmind-ai/README.md) | Planejamento, validação e registros preservados |
 
 ## Autoria e transparência

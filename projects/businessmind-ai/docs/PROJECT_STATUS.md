@@ -4,7 +4,7 @@ Atualizado em: 11/11/2026
 
 ## Resumo executivo
 
-As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` recebeu o workflow manual de staging pelo PR #5. Na branch `codex/businessmind-hermes-gemini`, a Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
+As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
 
 ## Entregas concluídas
 
@@ -14,13 +14,13 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 - [x] Indicadores, gráficos e CSV derivados de dados autorizados.
 - [x] Interface v0.5 responsiva e Hermes determinístico.
 - [x] Documentação canônica, testes e GitHub Actions.
-- [x] Auditoria e integração dos PRs #1–#3 em `new-branch`.
+- [x] Integração dos PRs #1–#4 em `new-branch`, ainda sem promoção a `main`.
 - [x] Cliente Hermes preparado para Edge Function com fallback.
 - [x] Edge Function Gemini com JWT, validação de empresa, agregação, timeout e limites.
 - [x] Gate de ativação global e allowlist manual por empresa, ambos desabilitados por padrão; opt-in auditável pelo proprietário permanece pendente.
 - [x] 33 verificações HTTP reais com JWTs no staging, sem falhas; duas empresas fictícias remanescentes e zero movimentações.
 - [x] Paginação completa no frontend, build separado de staging e teste E2E local em Chromium com mocks.
-- [x] Paginação da Edge Function, cálculo em centavos e minimização do payload versionados na branch; limite de 5.000 linhas e ausência de snapshot entre páginas permanecem limitações.
+- [x] Paginação da Edge Function, cálculo em centavos e minimização do payload versionados; limite de 5.000 linhas e ausência de snapshot entre páginas permanecem limitações.
 - [x] Hermes v11 implantado no staging em modo determinístico; login, dashboard, indicadores, movimentações e Hermes determinístico validados manualmente nesse ambiente.
 
 ## Evidências Git
@@ -30,7 +30,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 | Integração Supabase v0.4 | PR #1, merge `5ee367a` | Integrada em `new-branch` |
 | Interface v0.5 | PR #2, merge `209120b` | Integrada em `new-branch` |
 | Documentação profissional | PR #3, merge `5744db2` | Integrada em `new-branch` |
-| Hermes e proteção determinística | branch `codex/businessmind-hermes-gemini`, PR #4 | Edge Function v11 implantada no staging; revisão/merge pendentes |
+| Hermes e proteção determinística | PR #4, merge `6c6c549` | Integrado em `new-branch`; Edge Function v11 implantada no staging |
 
 ## Situação operacional do Hermes
 
@@ -46,7 +46,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 
 ## Pendências para implantação
 
-1. Revisão humana do PR Hermes e da política de tratamento de dados.
+1. Revisão humana do tratamento de dados antes de qualquer ativação generativa; o merge do PR #4 não autoriza essa ativação.
 2. Decisão explícita sobre uso do Free Tier, cujos termos permitem uso de dados para melhoria de produtos.
 3. Revisão da configuração da chave no servidor e das condições de uso, sem expor seu valor nem assumir que a presença do secret autoriza chamadas.
 4. Definição de um processo auditável de aprovação/retirada por empresa. A allowlist manual `HERMES_APPROVED_COMPANY_IDS` não é um fluxo self-service.
@@ -59,7 +59,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 ## Riscos e limitações
 
 - `app.js` ainda concentra UI, estado e acesso remoto.
-- A suíte atual registrou 51/51 testes Node e 28/28 testes Deno com mocks; o teste concorrente PostgreSQL local também passou. Mocks não comprovam o caminho generativo nem todos os cenários remotos de RLS da função.
+- A revisão local registrou 52/52 testes Node e 28/28 testes Deno com mocks; o teste concorrente PostgreSQL local passou em validação anterior. Mocks não comprovam o caminho generativo nem todos os cenários remotos de RLS da função.
 - O limite em memória atua por instância e não é garantia global.
 - E2E autenticado, SMTP, dispositivos físicos e matriz cross-browser permanecem pendentes.
 - O teste SQL de 34 casos continua sendo resultado manual informado, não reproduzido nesta branch.

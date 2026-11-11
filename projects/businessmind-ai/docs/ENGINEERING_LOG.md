@@ -185,3 +185,17 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Limites:** consulta paginada não é snapshot transacional; rate limit em memória não é global; RLS real da função e Gemini remoto não foram testados; consentimento/retirada persistente por proprietário exigiria decisão de produto e possivelmente migration autorizada.
 - **Contribuição:** requisitos, restrições e decisão de manter o serviço desativado definidos pelo responsável; implementação, testes e documentação assistidos por IA.
 - **Referência:** branch `codex/businessmind-hermes-gemini`, diff local não commitado nesta etapa; PR #4 somente após revisão e autorização para push.
+
+## ENG-014 — Revisão de apresentação para candidatura
+
+- **Identificador e objetivo técnico:** ENG-014; reduzir o tempo de avaliação do BusinessMind AI sem alterar os fluxos financeiros ou habilitar Gemini.
+- **Problema:** `new-branch` já recebeu o PR #4, mas registros de estado ainda o chamavam de pendente; rótulos da interface sugeriam atualização em tempo real ou caráter demonstrativo de alertas calculados com dados cadastrados.
+- **Requisitos e aceite:** links diretos para demonstração, arquitetura, testes, decisões e limitações; especificação derivada e autoria explícitas; Gemini bloqueado; identidade visual e funcionalidades preservadas; testes locais executados.
+- **Solução:** roteiro curto para avaliação, plano de validação futura do Gemini, atualização de estado/rastreabilidade, ajustes de texto e tipografia de apoio, teste de regressão visual estático.
+- **Arquivos:** `README.md`, `projects/businessmind-ai/README.md`, `app/{index.html,style.css}`, `docs/{PROJECT_STATUS,PROMPT_LOG,TESTING,REVIEW_GUIDE,GEMINI_VALIDATION_PLAN}.md` e `tests/visual-system.test.js`.
+- **Tecnologias:** Markdown, HTML, CSS, Node Test Runner, Deno e Chromium local. Nenhum framework, schema, workflow ou serviço foi alterado.
+- **Decisões:** manter `app.js` concentrado como dívida técnica registrada, pois separá-lo antes da candidatura acrescentaria risco de regressão sem evidência de benefício imediato; preservar documentos históricos sem reescrita silenciosa.
+- **Testes executados em 11/11/2026:** `npm run verify` (52/52 Node, 29 Markdown), `node tests/e2e-local.cjs` (cenário com mocks aprovado), `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts` (28/28 com mocks), inspeção do login em Chromium local a 1440×900 e 390×844 sem overflow horizontal, `git diff --check` sem erros. A primeira execução Deno falhou por certificado do proxy; a reexecução com CA do sistema passou sem desabilitar TLS.
+- **Resultado e limitações:** documentação e rótulos mais precisos; a captura local não validou Auth por falha de certificado do SDK externo, e o E2E usa mocks. Não houve teste remoto, deploy nem chamada ao Gemini nesta entrega.
+- **Contribuição:** objetivo, prazo, restrições e validação final definidos pelo responsável; auditoria, pequenas edições, testes e documentação assistidos por IA.
+- **Referência:** branch `codex/businessmind-portfolio-candidacy`; commit e PR desta entrega após publicação.

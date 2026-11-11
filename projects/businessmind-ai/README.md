@@ -82,7 +82,7 @@ deno test --allow-env index_test.ts
 
 De volta a `projects/businessmind-ai`, `node tests/hermes-one-shot-postgres.mjs` executa o teste transacional local; requer Docker e a imagem `postgres:17-alpine`. O teste em `supabase/tests/` depende de ambiente autorizado. Veja [TESTING.md](docs/TESTING.md).
 
-Em 11/11/2026, passaram **51/51 testes Node**, **28/28 testes Deno com mocks** e o teste concorrente em PostgreSQL local. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging. Mocks não comprovam execução generativa remota.
+Na revisão local de 11/11/2026, passaram **52/52 testes Node** e **28/28 testes Deno com mocks**. O teste concorrente em PostgreSQL local e os fluxos manuais de login, dashboard, indicadores, movimentações e Hermes determinístico no staging foram aprovados em validações anteriores, não reexecutadas nesta revisão. Mocks não comprovam execução generativa remota.
 
 ## Demonstração
 
@@ -104,7 +104,7 @@ A integração Gemini existe no código do servidor, mas não foi validada por e
 - o modo generativo do Hermes está bloqueado e não passou por teste remoto; os testes Deno usam mocks;
 - a leitura é paginada, mas o limite de 5.000 movimentações e alterações simultâneas entre páginas exigem tratamento adicional para volumes maiores;
 - auditoria formal de acessibilidade e matriz cross-browser estão pendentes;
-- a documentação e o código desta branch ainda dependem de revisão e integração ao fluxo principal do repositório.
+- `new-branch` contém os PRs #1–#4, mas permanece separada de `main`; promoção a produção depende de revisão e autorização humana.
 
 ## Documentação técnica
 
@@ -116,6 +116,8 @@ A integração Gemini existe no código do servidor, mas não foi validada por e
 - [Desenvolvimento assistido por IA](docs/AI_DEVELOPMENT_METHOD.md)
 - [Estado atual](docs/PROJECT_STATUS.md)
 - [Índice de tarefas delegadas](docs/PROMPT_LOG.md)
+- [Roteiro de avaliação](docs/REVIEW_GUIDE.md)
+- [Plano de validação Gemini](docs/GEMINI_VALIDATION_PLAN.md)
 - [Design system v0.5](docs/DESIGN_SYSTEM_V0.5.md)
 
 ## Responsabilidades
