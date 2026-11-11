@@ -10,7 +10,7 @@ Este documento não transcreve conversas privadas nem apresenta reformulações 
 | ETD-004 | Especificação técnica derivada — não é prompt literal | Modernizar o dashboard preservando funcionalidades e dados reais | `2a48236`, `df691b1`, PR #2 | Integrada em `new-branch` |
 | ETD-005 | Especificação técnica derivada — não é prompt literal | Consolidar documentação profissional e verificável | PR #3 | Integrada em `new-branch` |
 | ETD-006 | Especificação técnica derivada — não é prompt literal | Auditar/integrar PRs e preparar Hermes com Gemini sob controles de segurança | PR #4, merge `6c6c549` | Integrada em `new-branch`; Gemini bloqueado |
-| ETD-007 | Especificação técnica derivada — não é prompt literal | Facilitar avaliação técnica da candidatura sem ativar IA externa | Esta entrega; PR de revisão pendente | Em validação |
+| ETD-007 | Especificação técnica derivada — não é prompt literal | Facilitar avaliação técnica da candidatura sem ativar IA externa | PR #8, merge `a454fc8` | Integrada em `new-branch`; Gemini bloqueado |
 
 ## ETD-001 — Baseline versionada
 
@@ -64,5 +64,5 @@ O acervo anterior permanece em `docs/businessmind-ai/PROMPT_LOG.md` e `docs/busi
 - **Contexto derivado:** após o merge do PR #4, parte da documentação ainda dizia que ele estava em revisão; a interface continha rótulos que sugeriam atualização em tempo real sem essa garantia.
 - **Critérios de aceitação derivados:** preservar histórico e funcionalidades; criar um roteiro de avaliação; separar evidências locais, remotas e manuais; manter Gemini bloqueado; executar verificações e submeter PR sem merge automático.
 - **Atividade realizada com assistência de IA:** revisão do estado de `new-branch`, ajuste pontual de rótulos e legibilidade, atualização documental e plano de validação futura do Gemini.
-- **Evidências:** diff, comandos e resultados registrados na entrega correspondente de `ENGINEERING_LOG.md`; número do PR será preenchido após sua criação.
+- **Evidências:** diff, comandos e resultados registrados na entrega correspondente de `ENGINEERING_LOG.md`; PR #8, commits `6c3c7ec` e `dea5f80`, merge `a454fc8`.
 - **Intervenção humana:** objetivo da candidatura, prazo, restrições de serviços e decisão final de aceite definidos pelo responsável. Nenhuma aprovação de ativação generativa é inferida.
