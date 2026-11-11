@@ -155,3 +155,13 @@ O workflow `.github/workflows/businessmind-ai.yml` executa em pushes fora da `ma
 
 Foi iniciado servidor HTTP local e Chromium headless em viewports mobile/desktop. O Chromium não concluiu a inicialização no sandbox (erros de diretório persistente/Crashpad e TLS externo), portanto **nenhum teste visual novo foi considerado aprovado**. A validação visual v0.5 anterior permanece como evidência histórica, não como validação do fluxo generativo.
 
+## 9. Revisão local para apresentação do portfólio — 11/11/2026
+
+- `npm run verify`: **52/52 testes Node aprovados**, 0 falhas; análise sintática aprovada; 29 arquivos Markdown verificados com links internos válidos. O teste novo verifica os rótulos não enganosos e a regra de legibilidade mobile.
+- `node tests/e2e-local.cjs`: cenário aprovado com mocks do SDK Supabase; cobriu Auth, CRUD, recarga, dashboard, CSV, alternância e isolamento **simulado**. Não acessou Supabase remoto nem prova RLS.
+- `deno check index.ts index_test.ts`: aprovado. `deno test --allow-env index_test.ts`: **28/28 aprovados**, 0 falhas, usando mocks e dados fictícios. Foi usado o binário local `/workspace/.deno/bin/deno`, `DENO_DIR=/workspace/.deno` e `DENO_TLS_CA_STORE=system`; a primeira tentativa sem essa CA falhou no certificado do proxy. Não houve chamada ao Gemini.
+- Chromium local: login inspecionado em 1440×900 e 390×844; `scrollWidth` igual à largura do viewport em ambos, rótulo de apoio com 11 px no mobile e nota com 13 px. A carga do SDK externo falhou nesse navegador local por certificado do ambiente; portanto, a captura não valida autenticação remota nem as telas autenticadas. O E2E acima usa mocks.
+- `git diff --check`: sem erros após as edições desta revisão.
+
+Os resultados remotos de staging descritos nas seções anteriores são evidências históricas separadas; não foram reexecutados nesta revisão de portfólio. Auditoria formal de acessibilidade, cross-browser e validação generativa permanecem pendentes.
+

@@ -5,11 +5,12 @@ Este documento não transcreve conversas privadas nem apresenta reformulações 
 | ID | Classificação | Objetivo verificável | Evidência | Estado |
 | --- | --- | --- | --- | --- |
 | ETD-001 | Especificação técnica derivada — não é prompt literal | Importar e preservar a interface v0.3 e os artefatos da Etapa 1 | `b79c7fa` | Concluída |
-| ETD-002 | Especificação técnica derivada — não é prompt literal | Integrar Auth, empresa, PostgreSQL, RLS e CRUD sem segredo administrativo no cliente | `08b2180`, PR #1 | Implementada, em revisão |
-| ETD-003 | Especificação técnica derivada — não é prompt literal | Automatizar testes e preparar Hermes atrás de Edge Function | `3cdbc19`, PR #1 | Implementada, em revisão |
-| ETD-004 | Especificação técnica derivada — não é prompt literal | Modernizar o dashboard preservando funcionalidades e dados reais | `2a48236`, `df691b1`, PR #2 | Implementada, em revisão |
+| ETD-002 | Especificação técnica derivada — não é prompt literal | Integrar Auth, empresa, PostgreSQL, RLS e CRUD sem segredo administrativo no cliente | `08b2180`, PR #1 | Integrada em `new-branch` |
+| ETD-003 | Especificação técnica derivada — não é prompt literal | Automatizar testes e preparar Hermes atrás de Edge Function | `3cdbc19`, PR #1 | Integrada; evolução Hermes no PR #4 |
+| ETD-004 | Especificação técnica derivada — não é prompt literal | Modernizar o dashboard preservando funcionalidades e dados reais | `2a48236`, `df691b1`, PR #2 | Integrada em `new-branch` |
 | ETD-005 | Especificação técnica derivada — não é prompt literal | Consolidar documentação profissional e verificável | PR #3 | Integrada em `new-branch` |
-| ETD-006 | Especificação técnica derivada — não é prompt literal | Auditar/integrar PRs e preparar Hermes com Gemini sob controles de segurança | branch `codex/businessmind-hermes-gemini` | Implementada, em revisão |
+| ETD-006 | Especificação técnica derivada — não é prompt literal | Auditar/integrar PRs e preparar Hermes com Gemini sob controles de segurança | PR #4, merge `6c6c549` | Integrada em `new-branch`; Gemini bloqueado |
+| ETD-007 | Especificação técnica derivada — não é prompt literal | Facilitar avaliação técnica da candidatura sem ativar IA externa | Esta entrega; PR de revisão pendente | Em validação |
 
 ## ETD-001 — Baseline versionada
 
@@ -22,28 +23,28 @@ Este documento não transcreve conversas privadas nem apresenta reformulações 
 
 - **Necessidade derivada:** remover mecanismos demonstrativos e persistir dados por usuário/empresa.
 - **Critérios derivados:** Auth completo, onboarding, CRUD, RLS, indicadores reais e somente credenciais públicas no frontend.
-- **Resultado verificável:** implementação nos commits `08b2180` e `3cdbc19`; PR #1 aberto.
-- **Limitação:** E2E remoto e SMTP ainda dependem de validação humana/controlada.
+- **Resultado verificável:** implementação nos commits `08b2180` e `3cdbc19`; PR #1 posteriormente integrado em `new-branch`.
+- **Limitação:** SMTP e E2E remoto automatizado ainda dependem de validação controlada; verificações HTTP reais posteriores estão registradas em `TESTING.md`.
 
 ## ETD-003 — Qualidade e Hermes
 
 - **Necessidade derivada:** repetir verificações sem segredos e definir uma fronteira segura para IA externa.
 - **Critérios derivados:** testes locais, CI e função servidor sem deploy automático.
 - **Resultado verificável:** testes em `tests/`, workflow e scaffold em `supabase/functions/hermes/`.
-- **Limitação:** nenhum provedor generativo foi aprovado ou implantado.
+- **Limitação histórica desta entrega:** nenhum provedor generativo foi implantado no PR #1; a evolução do Hermes no staging consta em ETD-006.
 
 ## ETD-004 — v0.5 Visual
 
 - **Necessidade derivada:** elevar legibilidade, hierarquia e responsividade do dashboard.
 - **Critérios derivados:** preservar a identidade, todos os fluxos v0.4 e dados reais; suportar teclado e movimento reduzido; evitar dependências injustificadas.
-- **Resultado verificável:** commits `2a48236` e `df691b1`; previews e PR #2.
-- **Limitação:** validação visual final e promoção a produção dependem do responsável.
+- **Resultado verificável:** commits `2a48236` e `df691b1`; previews e PR #2 posteriormente integrado em `new-branch`.
+- **Limitação:** auditoria visual formal e promoção a produção dependem do responsável.
 
 ## ETD-005 — Documentação de engenharia
 
 - **Necessidade derivada:** substituir a apresentação desatualizada por documentação compatível com a implementação real, sem apagar o histórico.
 - **Critérios derivados:** documentos canônicos, autoria transparente, evidências e checagem automatizada.
-- **Resultado verificável:** arquivos desta branch e futuro PR de documentação.
+- **Resultado verificável:** documentos canônicos e PR #3 integrado em `new-branch`.
 - **Limitação:** fatos sobre produto, experiência e validações humanas continuam sujeitos à confirmação do responsável.
 
 ## Registros históricos
@@ -54,5 +55,14 @@ O acervo anterior permanece em `docs/businessmind-ai/PROMPT_LOG.md` e `docs/busi
 
 - **Necessidade derivada:** consolidar as três entregas dependentes e substituir o scaffold genérico por uma integração Gemini segura e desativada por padrão.
 - **Critérios derivados:** preservar histórico, não alterar `main`, validar JWT/empresa, manter cálculos em código, usar agregados, impor limites e bloquear envio real até consentimento.
-- **Resultado verificável:** merges #1–#3 em `new-branch`; implementação e testes na branch Hermes.
-- **Limitações:** sem deploy, secrets, chamada real ao Gemini, dados reais ou teste remoto; ativação depende de decisão humana.
+- **Resultado verificável:** merges #1–#4 em `new-branch`; Hermes v11 determinístico no staging e evidências discriminadas em `TESTING.md`.
+- **Limitações atuais:** integração Gemini bloqueada e sem teste generativo remoto; ativação depende de decisão humana. A redação inicial desta especificação descrevia o estado anterior ao deploy da função.
+
+## ETD-007 — Apresentação para candidatura
+
+- **Objetivo técnico derivado:** permitir que um avaliador encontre rapidamente demonstração, capacidades, arquitetura, testes, decisões e limitações.
+- **Contexto derivado:** após o merge do PR #4, parte da documentação ainda dizia que ele estava em revisão; a interface continha rótulos que sugeriam atualização em tempo real sem essa garantia.
+- **Critérios de aceitação derivados:** preservar histórico e funcionalidades; criar um roteiro de avaliação; separar evidências locais, remotas e manuais; manter Gemini bloqueado; executar verificações e submeter PR sem merge automático.
+- **Atividade realizada com assistência de IA:** revisão do estado de `new-branch`, ajuste pontual de rótulos e legibilidade, atualização documental e plano de validação futura do Gemini.
+- **Evidências:** diff, comandos e resultados registrados na entrega correspondente de `ENGINEERING_LOG.md`; número do PR será preenchido após sua criação.
+- **Intervenção humana:** objetivo da candidatura, prazo, restrições de serviços e decisão final de aceite definidos pelo responsável. Nenhuma aprovação de ativação generativa é inferida.

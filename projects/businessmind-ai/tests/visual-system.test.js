@@ -38,3 +38,10 @@ test('navegação usa sprite Lucide SVG e mantém rótulos acessíveis', () => {
 test('não adiciona ECharts ou framework ao runtime', () => {
   assert.doesNotMatch(html, /echarts|react|next\.js/i);
 });
+
+test('rótulos não prometem atualização em tempo real e mantêm leitura mobile', () => {
+  assert.match(html, /Dados carregados/);
+  assert.doesNotMatch(html, />Ao vivo</);
+  assert.match(html, /Alertas calculados por regras simples/);
+  assert.match(css, /@media\(max-width:430px\)\{\.product-pill\{font-size:11px\}\}/);
+});
