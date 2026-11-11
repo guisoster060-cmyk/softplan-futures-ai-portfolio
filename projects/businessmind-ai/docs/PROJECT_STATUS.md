@@ -1,10 +1,10 @@
 # Estado atual do BusinessMind AI
 
-Atualizado em: 11/11/2026
+Atualizado em: 11/11/2026 (após merge do PR #4)
 
 ## Resumo executivo
 
-As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` recebeu o workflow manual de staging pelo PR #5. Na branch `codex/businessmind-hermes-gemini`, a Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
+As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em `new-branch` pelos PRs #1, #2 e #3. A `main` recebeu o workflow manual de staging pelo PR #5. Após o merge do PR #4 em `new-branch` (commit `6c6c54902297536e99f812931e72ae1fb629e60f`), o código do Hermes está integrado. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
 
 ## Entregas concluídas
 
@@ -30,7 +30,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 | Integração Supabase v0.4 | PR #1, merge `5ee367a` | Integrada em `new-branch` |
 | Interface v0.5 | PR #2, merge `209120b` | Integrada em `new-branch` |
 | Documentação profissional | PR #3, merge `5744db2` | Integrada em `new-branch` |
-| Hermes e proteção determinística | branch `codex/businessmind-hermes-gemini`, PR #4 | Edge Function v11 implantada no staging; revisão/merge pendentes |
+| Hermes e proteção determinística | PR #4, merge `6c6c549` | Integrada em `new-branch`; Edge Function v11 implantada somente no staging |
 
 ## Situação operacional do Hermes
 
@@ -46,7 +46,7 @@ As entregas v0.4, v0.5 Visual e documentação profissional foram integradas em 
 
 ## Pendências para implantação
 
-1. Revisão humana do PR Hermes e da política de tratamento de dados.
+1. Revisão humana da política de tratamento de dados antes de qualquer ativação generativa.
 2. Decisão explícita sobre uso do Free Tier, cujos termos permitem uso de dados para melhoria de produtos.
 3. Revisão da configuração da chave no servidor e das condições de uso, sem expor seu valor nem assumir que a presença do secret autoriza chamadas.
 4. Definição de um processo auditável de aprovação/retirada por empresa. A allowlist manual `HERMES_APPROVED_COMPANY_IDS` não é um fluxo self-service.
