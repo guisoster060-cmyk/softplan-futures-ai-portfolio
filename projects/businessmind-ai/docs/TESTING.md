@@ -165,3 +165,9 @@ Foi iniciado servidor HTTP local e Chromium headless em viewports mobile/desktop
 
 Os resultados remotos de staging descritos nas seções anteriores são evidências históricas separadas; não foram reexecutados nesta revisão de portfólio. Auditoria formal de acessibilidade, cross-browser e validação generativa permanecem pendentes.
 
+## 10. Missão 1 — auditoria local após os PRs #8 e #9
+
+Em 11/11/2026, `npm run verify` passou com **52/52 testes Node**, análise sintática e 30 arquivos documentais com links internos válidos. `deno check index.ts index_test.ts` passou e `deno test --allow-env index_test.ts` passou com **28/28 testes com mocks**. O cenário `node tests/e2e-local.cjs` passou com SDK Supabase simulado: cadastro, login, onboarding, CRUD, recarga, indicadores, CSV, troca de empresa, logout e menu móvel com Escape; o teste móvel confirmou ausência de overflow a 390×844 e alternância de `aria-expanded`. Hermes determinístico está coberto pela suíte Node/Deno com mocks, não por nova requisição remota nesta missão. `git diff --check` passou.
+
+**Limite:** esta missão não usou credenciais de teste nem alterou o Supabase. Não reexecutou os 33 testes HTTP com JWT, os testes SQL, o teste PostgreSQL concorrente ou a validação manual do staging. O E2E local não é prova de RLS real; Gemini continua bloqueado e sem teste generativo remoto.
+

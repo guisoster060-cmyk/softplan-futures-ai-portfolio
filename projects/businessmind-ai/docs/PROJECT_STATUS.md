@@ -4,7 +4,7 @@ Atualizado em: 11/11/2026
 
 ## Resumo executivo
 
-As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4 e #8; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
+As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4, #8 e #9; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
 
 ## Entregas concluídas
 
@@ -14,7 +14,7 @@ As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integr
 - [x] Indicadores, gráficos e CSV derivados de dados autorizados.
 - [x] Interface v0.5 responsiva e Hermes determinístico.
 - [x] Documentação canônica, testes e GitHub Actions.
-- [x] Integração dos PRs #1–#4 e #8 em `new-branch`, ainda sem promoção a `main`.
+- [x] Integração dos PRs #1–#4, #8 e #9 em `new-branch`, ainda sem promoção a `main`.
 - [x] Cliente Hermes preparado para Edge Function com fallback.
 - [x] Edge Function Gemini com JWT, validação de empresa, agregação, timeout e limites.
 - [x] Gate de ativação global e allowlist manual por empresa, ambos desabilitados por padrão; opt-in auditável pelo proprietário permanece pendente.

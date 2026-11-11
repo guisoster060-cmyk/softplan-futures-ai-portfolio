@@ -33,6 +33,7 @@ test('navegação usa sprite Lucide SVG e mantém rótulos acessíveis', () => {
   }
   assert.match(html, /class="skip-link"/);
   assert.match(html, /aria-live="polite"/);
+  assert.match(html, /id="mobile-menu"[^>]*aria-controls="sidebar"[^>]*aria-expanded="false"/);
 });
 
 test('não adiciona ECharts ou framework ao runtime', () => {

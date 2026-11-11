@@ -1,6 +1,6 @@
 # Roteiro de avaliação — BusinessMind AI
 
-Estado de referência: `new-branch` após o merge do PR #4 (11/11/2026). Este roteiro é um índice, não uma nova fonte de resultados.
+Estado de referência: `new-branch` após os merges dos PRs #4, #8 e #9 (11/11/2026). Este roteiro é um índice, não uma nova fonte de resultados.
 
 ## Em poucos minutos
 
@@ -19,3 +19,8 @@ Estado de referência: `new-branch` após o merge do PR #4 (11/11/2026). Este ro
 - Recuperação/confirmação de e-mail depende da configuração do serviço; auditoria formal de acessibilidade e matriz cross-browser ainda faltam.
 
 O histórico v0.3 e os documentos antigos foram preservados para rastreabilidade; consulte os documentos acima para o estado atual.
+
+## Prioridades antes da apresentação
+
+- **P0:** confirmar a disponibilidade da URL de staging e de uma conta fictícia autorizada para a demonstração; sem credenciais neste repositório, esta revisão local não prova um novo login remoto.
+- **P1:** executar auditoria acessível com leitor de tela e testes em Firefox/Safari; automatizar E2E com JWT real em ambiente isolado. Esses itens não são tratados como concluídos por testes com mocks.
