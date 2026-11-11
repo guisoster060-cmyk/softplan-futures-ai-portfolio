@@ -1,5 +1,16 @@
 # Diário de engenharia do BusinessMind AI
 
+## ENG-011 — Demonstração isolada para avaliação (especificação técnica derivada)
+
+- **Objetivo e necessidade:** permitir inspeção do produto sem distribuir credenciais de staging e sem atribuir dados fictícios a clientes reais.
+- **Critérios de aceite:** build local segregado, identificação visível da simulação, ausência de requisições externas, preservação do aplicativo autenticado e testes em desktop/mobile.
+- **Solução e arquivos:** adaptador de dados fictícios em `preview/demo-sdk.js`, entrada/estilo próprios, `scripts/build-demo-preview.mjs`, testes e `docs/REVIEW_GUIDE.md`; `app/` não foi alterado.
+- **Tecnologias e decisão:** HTML/CSS/JavaScript e `localStorage`; a Content Security Policy do build impede conexões externas. O modo não simula segurança do Supabase e não será publicado por este PR.
+- **Evidência:** ver `TESTING.md` para comandos e resultados desta missão; o staging público foi inspecionado apenas até a tela de entrada, sem credenciais.
+- **Limitações:** experiência autenticada remota, RLS e SMTP não foram revalidados aqui. A publicação do modo fictício exige decisão humana separada.
+- **Responsabilidades:** objetivo, limites de acesso e aprovação final definidos pelo responsável; implementação, teste e documentação assistidos por IA. Este registro é uma especificação técnica derivada, não um prompt literal.
+- **Referência:** PR desta missão; commit identificado pelo histórico Git.
+
 Este registro consolida entregas verificáveis do código versionado. Solicitações informais foram convertidas em requisitos técnicos; não são reproduzidas como autoria literal. Resultados manuais informados pelo responsável são identificados como tais.
 
 ## ENG-001 — Baseline v0.3 e schema inicial

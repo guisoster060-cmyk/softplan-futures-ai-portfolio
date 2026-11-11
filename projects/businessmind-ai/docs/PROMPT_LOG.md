@@ -1,5 +1,12 @@
 # Índice técnico de tarefas delegadas à IA
 
+## ETD-009 — Acesso de avaliação sem credenciais (especificação técnica derivada)
+
+- **Objetivo/contexto:** tornar o MVP examinável por recrutador sem distribuir senhas e sem alterar ambientes remotos.
+- **Critérios de aceite:** separar a simulação local dos fluxos reais; identificar dados fictícios; bloquear tráfego externo; verificar desktop/mobile e regressões.
+- **Atividade e evidências:** build local isolado, teste de navegador e atualização do roteiro; resultados em `TESTING.md` e referência Git no diário de engenharia.
+- **Intervenção humana:** responsável definiu finalidade, restrições de segurança e deve aprovar qualquer publicação futura. Texto técnico derivado; não é reprodução literal de solicitação informal.
+
 Este documento não transcreve conversas privadas nem apresenta reformulações como prompts originais. Cada item abaixo é uma **especificação técnica derivada — não é prompt literal**, construída a partir de artefatos, commits e registros disponíveis.
 
 | ID | Classificação | Objetivo verificável | Evidência | Estado |

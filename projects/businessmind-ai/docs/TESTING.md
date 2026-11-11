@@ -1,5 +1,16 @@
 # Estratégia e evidências de testes
 
+## Missão 2 — demonstração para avaliação (11/11/2026)
+
+- Site público `businessmind-ai-staging.pages.dev`: `index.html`, `app.js` e `config.js` responderam HTTP 200. `index.html` e `app.js` têm hashes idênticos aos arquivos do commit `d15282a`; `config.js` coincide com `preview/staging-config.js` de `new-branch`. O site carrega a tela de login em Chromium 1440×900 e 390×844, sem exceções JavaScript nem overflow horizontal nessa tela. Nenhuma sessão remota foi usada; não são resultados de fluxo autenticado.
+- `npm run verify`: **54/54 testes Node aprovados**, análise sintática e 30 arquivos documentais com links internos válidos.
+- `node tests/e2e-demo.cjs`: Chromium com adaptador local e dados fictícios, cobrindo indicadores, criação de receita, recarga, mobile, Hermes determinístico, logout e reentrada; **zero requisições externas observadas**. Não comprova Supabase Auth, RLS ou persistência PostgreSQL.
+- `node tests/e2e-local.cjs`: cobre os fluxos existentes com mock do SDK, não com serviço remoto.
+- `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts`: **28/28 testes Deno com mocks aprovados**. A primeira tentativa de `deno check` falhou pela CA do proxy; após `DENO_DIR=/workspace/.deno DENO_TLS_CA_STORE=system`, a verificação e os testes passaram. Nenhuma chamada remota à função ou ao Gemini ocorreu.
+- O build `npm run build:demo-preview` usa configuração `demo.invalid`, remove a SDK CDN e aplica CSP `connect-src 'none'`. Nenhum deploy foi executado.
+
+O staging publicado ainda não contém as mudanças de interface do PR #10. Uma apresentação autenticada remota exige conta fictícia controlada por canal seguro e revalidação específica; não se deve publicar credenciais nem declarar Gemini generativo como ativo.
+
 ## 1. Princípio
 
 Um resultado só é tratado como validado quando existe evidência de execução. Declarações provenientes de arquivos importados ou relatos do responsável são identificadas separadamente de testes reproduzidos nesta branch.

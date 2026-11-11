@@ -2,7 +2,7 @@
 
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 11/11/2026: os PRs #1–#4 e #8 estão integrados em `new-branch`, ainda separada de `main`. A interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
+> Estado em 11/11/2026: os PRs #1–#4 e #8–#10 estão integrados em `new-branch`, ainda separada de `main`. O staging público serve a interface anterior ao PR #10. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
 
 ## Avaliação rápida
 
@@ -36,7 +36,9 @@ O navegador serve a aplicação estática e usa a publishable key para autentica
 - [BusinessMind AI staging](https://businessmind-ai-staging.pages.dev)
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-O código do PR #8 foi integrado em `new-branch` (merge `a454fc8`), sem promoção automática ao staging. O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
+Os PRs #8–#10 foram integrados em `new-branch`, sem promoção automática ao staging. O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
+
+Para avaliação sem compartilhar credenciais, consulte o [roteiro do recrutador](projects/businessmind-ai/docs/REVIEW_GUIDE.md). Há uma demonstração fictícia isolada para execução local; ela não foi publicada e não comprova Auth ou RLS remotos.
 
 ## Executar e verificar
 
@@ -62,7 +64,7 @@ deno test --allow-env index_test.ts
 
 Execute esses comandos a partir de `projects/businessmind-ai`. O teste de concorrência PostgreSQL local está documentado no [README do projeto](projects/businessmind-ai/README.md).
 
-Na revisão local de 11/11/2026, passaram 52/52 testes Node e 28/28 testes Deno com mocks. O teste concorrente em PostgreSQL local foi aprovado anteriormente, mas não reexecutado nesta revisão. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging em validações anteriores; essas evidências não equivalem a uma auditoria completa nem a teste generativo real.
+Na Missão 2 (11/11/2026), passaram 54/54 testes Node e 28/28 testes Deno com mocks. O teste concorrente em PostgreSQL local foi aprovado anteriormente, mas não reexecutado nesta missão. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging em validações anteriores; essas evidências não equivalem a uma auditoria completa nem a teste generativo real.
 
 ## Documentação
 
