@@ -1,15 +1,23 @@
 # Roteiro de avaliação — BusinessMind AI
 
-Estado de referência: `new-branch` após o merge do PR #10 (`1f5cc996`, 11/11/2026). Este roteiro é um índice, não uma nova fonte de resultados.
+Estado de referência: staging validado manualmente em 11/11/2026; correção financeira documentada no PR #13 (merge `5b2a5898`). Este roteiro distingue observações atuais de resultados históricos.
 
 ## Em poucos minutos
 
 1. **Problema e solução:** o [README principal](../../../README.md) descreve o MVP para registrar receitas e despesas por empresa e analisar somente dados autorizados.
-2. **Demonstração:** [staging](https://businessmind-ai-staging.pages.dev) carrega publicamente, mas `index.html` e `app.js` servidos correspondem ao commit `d15282a`, anterior ao PR #10. A tela autenticada exige conta autorizada; não há senha pública. Para explorar a interface sem credenciais nem rede, use a demonstração fictícia local abaixo. Ela ainda não está publicada.
+2. **Demonstração:** [staging real](https://businessmind-ai-staging.pages.dev), publicado manualmente com o build de staging do commit `4a1a28e` (Cloudflare Pages, implantação `db87031b-8e47-4c3a-be1b-1e2ed9b6e5f9`, status de sucesso em 11/11/2026). A tela autenticada exige conta autorizada; não há senha pública. A demonstração fictícia local abaixo é um artefato distinto e não publicado.
 3. **Fluxo principal:** autenticação, seleção/criação de empresa, movimentações, indicadores e Hermes determinístico. O [README do projeto](../README.md) explica a execução local.
 4. **Engenharia:** [arquitetura](ARCHITECTURE.md), [requisitos](REQUIREMENTS.md) e [decisões](TECHNICAL_DECISIONS.md) mostram componentes, critérios e trade-offs.
-5. **Evidência:** [testes](TESTING.md) distinguem Node e Deno com mocks, PostgreSQL local, HTTP com JWT no staging e validação manual. A revisão do PR #10 registrou 52 testes Node e 28 Deno com mocks; não os confunda com execução remota nesta missão.
+5. **Evidência:** [testes](TESTING.md) distinguem Node e Deno com mocks, PostgreSQL local, HTTP com JWT no staging e validação manual. No build da Missão 2, `npm run verify` aprovou 54/54 testes Node e 28/28 Deno com mocks; não são testes remotos.
 6. **Transparência:** [estado atual](PROJECT_STATUS.md), [diário](ENGINEERING_LOG.md), [método assistido por IA](AI_DEVELOPMENT_METHOD.md) e [especificações técnicas derivadas](PROMPT_LOG.md) separam implementação, validação e responsabilidades.
+
+## Validação complementar em staging — 11/11/2026
+
+- Duas contas proprietárias de empresas diferentes foram utilizadas manualmente na interface. Login, persistência após recarga, indicadores e resposta determinística do Hermes foram observados; não houve teste com perfil de gerente ou funcionário, que ficam fora do escopo do MVP atual.
+- RLS: em consultas PostgreSQL com `SET LOCAL ROLE authenticated` e identidade simulada por `request.jwt.claim.sub`, o proprietário A leu 5 registros próprios e 0 da empresa B; o proprietário B leu 3 próprios e 0 da empresa A (antes da nova movimentação). A edição de um registro próprio afetou 1 linha; edição e exclusão de registros alheios afetaram 0. Os testes de escrita foram revertidos com `ROLLBACK`.
+- Quatro políticas de `public.transactions` foram alteradas **somente no Supabase staging** para exigir `is_company_owner(company_id)` em SELECT, INSERT, UPDATE e DELETE; INSERT também exige `created_by = auth.uid()`. A migração correspondente está em `supabase/staging-migrations/20261111_owner_only_financial_transactions.sql`, integrada pelo PR #13. **Não executar em produção sem revisão e autorização específicas.**
+- Na empresa fictícia de teste, o banco contém quatro movimentações: despesa de R$ 100.000,00 em outubro; receita de R$ 1.500,00 e despesas de R$ 350,00 e R$ 500,00 em novembro. O Hermes apresentou receitas de R$ 1.500,00, despesas de R$ 850,00, resultado de R$ 650,00 e 3 movimentações no mês (4 cadastradas); o responsável confirmou os mesmos valores nos indicadores.
+- Permanecem pendentes testes novos de escrita via HTTP/JWT após a mudança de policies, testes negativos de INSERT em outra empresa e regressão remota da Edge Function. Não declarar auditoria completa ou IA generativa ativa.
 
 ## Limites importantes
 
