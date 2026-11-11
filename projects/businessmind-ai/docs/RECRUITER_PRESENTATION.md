@@ -7,7 +7,7 @@
 
 - **[Demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)** — dados fictícios locais, sem Supabase e sem IA externa; permite explorar as quatro telas, criar movimentações e perguntar ao Hermes determinístico.
 - **[Sistema real de testes (staging)](https://businessmind-ai-staging.pages.dev)** — permite cadastro com confirmação de e-mail, criação de empresa e persistência PostgreSQL sob RLS. Use somente dados fictícios. Entrega de e-mail sujeita aos limites do serviço.
-- [Código e documentação](../../README.md) · [Testes](TESTING.md) · [Arquitetura](ARCHITECTURE.md) · [Decisões técnicas](TECHNICAL_DECISIONS.md)
+- [Código e documentação](../README.md) · [Testes](TESTING.md) · [Arquitetura](ARCHITECTURE.md) · [Decisões técnicas](TECHNICAL_DECISIONS.md)
 
 ## Roteiro sugerido
 
