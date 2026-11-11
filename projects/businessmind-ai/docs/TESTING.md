@@ -31,6 +31,8 @@ O comando executa:
 
 ### Resultado reproduzido
 
+Em 11/11/2026, a suíte da branch registrou **51/51 testes Node** e **28/28 testes Deno com mocks**; o teste concorrente em PostgreSQL local também foi aprovado. Login, dashboard, indicadores, movimentações e Hermes determinístico foram validados manualmente no staging. O Hermes v11 está ACTIVE nesse ambiente, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`: retorna antes da RPC de uso único e do fetch ao Gemini. Não houve validação generativa remota. Os resultados anteriores abaixo são preservados como histórico de execução, não como estado atual da suíte.
+
 Em 10/11/2026, após a implementação local do Hermes, `npm run verify` executou **25 testes aprovados e 0 falhas**. A análise sintática também concluiu sem erro e o verificador confirmou 25 arquivos Markdown, links internos válidos e todos os documentos canônicos presentes.
 
 ### Cobertura adicionada para Hermes
@@ -67,11 +69,11 @@ Em 10/11/2026, `node tests/e2e-local.cjs` foi executado com Chromium e Playwrigh
 
 O mock implementa a regra de isolamento para exercitar a interface; **não valida RLS real**. O arquivo `tests/e2e-local.cjs` não integra a CI porque o projeto ainda não declara Playwright/Chromium como dependências reproduzíveis. Sua execução exige Playwright e Chromium locais. O primeiro ajuste do teste corrigiu apenas a navegação após recarga: a aplicação volta à Visão geral, ocultando a lista até entrar em Indicadores.
 
-### Procedimento remoto pendente
+### Procedimento remoto inicialmente pendente — registro histórico
 
-Usar exclusivamente um projeto Supabase separado de produção, com schema equivalente e duas contas de teste criadas por pessoa autorizada. As permissões necessárias são: acesso de teste ao Auth, leitura/escrita de movimentações das duas empresas e, para o teste SQL de policies, acesso administrativo somente ao projeto isolado. O executor deve receber credenciais efêmeras por secret local/CI, nunca por commit ou conversa. Executar cadastro/confirmar e-mail, login, onboarding, CRUD e tentativas cruzadas via cliente público + JWT de cada conta. Registrar identificador do ambiente, data, comandos, resultados e limpeza das contas fictícias. Não executar esse procedimento no projeto publicado sem autorização explícita.
+Na preparação anterior, o procedimento previsto era usar exclusivamente um projeto Supabase separado de produção, com schema equivalente e duas contas de teste criadas por pessoa autorizada. As permissões necessárias eram: acesso de teste ao Auth, leitura/escrita de movimentações das duas empresas e, para o teste SQL de policies, acesso administrativo somente ao projeto isolado. Credenciais deveriam chegar por secret local/CI, nunca por commit ou conversa. O resultado HTTP real posterior está registrado na seção “HTTP real no staging” abaixo; confirmação de entrega de e-mail e testes generativos permanecem fora dessa evidência.
 
-O roteiro reproduzível e a opção de execução pelo celular estão em [SUPABASE_TEST_PLAN.md](SUPABASE_TEST_PLAN.md). O script `scripts/verify-supabase-test.mjs` está preparado, mas não foi executado contra qualquer serviço nesta etapa.
+O roteiro reproduzível e a opção de execução pelo celular estão em [SUPABASE_TEST_PLAN.md](SUPABASE_TEST_PLAN.md). Naquela etapa, o script `scripts/verify-supabase-test.mjs` ainda não havia sido executado contra qualquer serviço.
 
 Na Etapa 4A, `npm run verify` executou 29 testes (29 aprovados, 0 falhas), incluindo quatro testes do bloqueio de ambiente de teste; 26 documentos foram verificados. Nenhum teste remoto foi executado.
 
@@ -79,7 +81,7 @@ Na Etapa 4A, `npm run verify` executou 29 testes (29 aprovados, 0 falhas), inclu
 
 Em 10/11/2026, o arquivo versionado `supabase/tests/isolation_test.sql` foi executado exclusivamente no staging `ogypzmxnvjbomamkejkh`. Relatório retornado: **34 casos OK, 0 falhas**. O erro final `P0001` é intencional e reverte a transação. Consulta posterior confirmou zero usuários de teste, zero perfis, empresas, associações e movimentações; o trigger `enforce_transaction_limit` permaneceu habilitado.
 
-Foram exercitadas as policies de leitura e atualização de perfil; leitura, atualização e exclusão de empresa; leitura de associação; e leitura, inserção, atualização e exclusão de movimentações. O script simula os papéis e claims JWT no PostgreSQL; não autentica usuários por e-mail/senha nem usa JWT emitido pelo Auth. Assim, os fluxos HTTP de login, sessão e PostgREST com duas contas reais continuam pendentes.
+Foram exercitadas as policies de leitura e atualização de perfil; leitura, atualização e exclusão de empresa; leitura de associação; e leitura, inserção, atualização e exclusão de movimentações. O script simula os papéis e claims JWT no PostgreSQL; não autentica usuários por e-mail/senha nem usa JWT emitido pelo Auth. Essa era a limitação do teste SQL: posteriormente, 33 verificações HTTP reais com JWTs individuais foram executadas no staging, conforme registro abaixo. Testes remotos adicionais da Edge Function Hermes, inclusive isolamento e rate limit, continuam pendentes; as verificações HTTP de Auth/CRUD/RLS não os substituem.
 
 ### Staging real — preparação dos testes HTTP com três contas
 
@@ -111,7 +113,7 @@ O script contém casos de leitura, escrita, isolamento entre empresas, acesso an
 
 **Evidência disponível:** o responsável informou execução manual com 34 casos aprovados e zero falhas.
 
-**Limite:** o teste não foi reexecutado pelo Codex durante as entregas v0.4, v0.5 ou esta revisão documental. O comentário antigo no SQL que afirma “ainda não executado” está desatualizado em relação ao relato do responsável e foi preservado para não alterar a migração importada.
+**Limite:** o teste não foi reexecutado nesta revisão documental. Além do relato histórico do responsável, há o registro de execução no staging descrito acima; a simulação de claims SQL não substitui JWT emitido pelo Auth. O comentário antigo no SQL que afirma “ainda não executado” foi preservado no arquivo histórico.
 
 ## 4. Validação visual v0.5
 
@@ -138,14 +140,14 @@ O workflow `.github/workflows/businessmind-ai.yml` executa em pushes fora da `ma
 
 ## 7. Lacunas e próximos testes
 
-- E2E com cadastro, confirmação de e-mail, login, onboarding e CRUD em ambiente de teste.
+- E2E automatizado com cadastro, confirmação de e-mail, login, onboarding e CRUD em ambiente de teste; os testes HTTP reais de Auth/CRUD/RLS e a validação manual dos fluxos no staging já ocorreram.
 - Teste automatizado real de RLS no pipeline com projeto efêmero ou banco local.
 - Recuperação de senha após configuração SMTP.
-- Edge Function Hermes implantada e testada com autenticação e rate limit.
+- Ampliar validação remota automatizada da Edge Function v11 para autenticação, isolamento e rate limit; sua implantação e validação manual determinística no staging já ocorreram.
 - Auditoria com leitor de tela e ferramentas especializadas de acessibilidade.
 - Firefox, Safari/iOS e dispositivos físicos.
 - Volume, paginação e desempenho próximo ao limite de 5.000 movimentações.
-- Edge Function em runtime Deno local ou ambiente de staging.
+- Verificação de regressão da Edge Function em runtime Deno local com mocks e no staging; mocks não comprovam RLS remoto nem o caminho generativo.
 - Respostas reais do Gemini para sucesso, `429`, `5xx`, payload inválido e timeout, usando somente dados fictícios.
 - Concorrência e rate limit distribuído entre múltiplas instâncias.
 
