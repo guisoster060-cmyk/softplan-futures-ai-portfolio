@@ -2,7 +2,7 @@
 
 Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
 
-> Estado em 11/11/2026: os PRs #1–#4 estão integrados em `new-branch`, ainda separada de `main`. A interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
+> Estado em 11/11/2026: os PRs #1–#4 e #8 estão integrados em `new-branch`, ainda separada de `main`. A interface e os fluxos financeiros estão disponíveis no staging para demonstração. Hermes v11 está ACTIVE nesse ambiente em modo exclusivamente determinístico. A integração Gemini existe no código, mas permanece bloqueada e não foi validada em execução generativa remota.
 
 ## Avaliação rápida
 
@@ -36,7 +36,7 @@ O navegador serve a aplicação estática e usa a publishable key para autentica
 - [BusinessMind AI staging](https://businessmind-ai-staging.pages.dev)
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
+O código do PR #8 foi integrado em `new-branch` (merge `a454fc8`), sem promoção automática ao staging. O staging é um ambiente de demonstração, não uma produção aprovada. Fluxos autenticados exigem conta de teste autorizada; não use dados financeiros reais.
 
 ## Executar e verificar
 
