@@ -86,12 +86,15 @@ Na Missão 2 (11/11/2026), passaram **54/54 testes Node** e **28/28 testes Deno 
 
 ## Demonstração
 
-- [Aplicação no staging](https://businessmind-ai-staging.pages.dev)
+- **[Demonstração pública — acesso imediato, sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**: dados fictícios armazenados somente no navegador, sem chamadas ao Supabase ou a IA externa. Use para conhecer as quatro telas e experimentar movimentações e Hermes determinístico.
+- **[Sistema real de testes — staging](https://businessmind-ai-staging.pages.dev)**: cadastro por e-mail, confirmação, criação de empresa e movimentações persistidas em PostgreSQL sob RLS. Use somente dados fictícios.
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
 O staging é exclusivo para demonstração e validação com contas e dados fictícios; não é uma implantação de produção aprovada.
 
-Sem credenciais, há um [roteiro de avaliação](docs/REVIEW_GUIDE.md) e um build local isolado com dados fictícios (`npm run build:demo-preview`). Esse modo não consulta Supabase e ainda não está publicado; não equivale a testar Auth ou RLS reais.
+Sem credenciais, o recrutador pode abrir a demonstração pública, também reproduzível localmente com `npm run build:demo-preview`. Esse modo não consulta Supabase e **não equivale a testar Auth ou RLS reais**. Consulte o [roteiro de avaliação](docs/REVIEW_GUIDE.md).
+
+Em 11/11/2026, foi realizado no staging um teste manual completo de cadastro de usuário novo, confirmação de e-mail, criação de empresa e primeira movimentação. Consulta de leitura ao banco confirmou quatro usuários Auth confirmados, a empresa de teste recém-criada e uma movimentação. A entrega de e-mail depende dos limites e da disponibilidade do provedor configurado; não há garantia de disponibilidade irrestrita para visitantes.
 
 ## Hermes
 
@@ -101,12 +104,12 @@ A integração Gemini existe no código do servidor, mas não foi validada por e
 
 ## Limitações conhecidas
 
-- confirmação e recuperação por e-mail dependem da configuração SMTP do projeto Supabase;
+- confirmação e recuperação por e-mail dependem do serviço de e-mail e de seus limites; o cadastro com confirmação foi testado manualmente no staging em 11/11/2026, mas não foi realizado teste de carga nem de recuperação;
 - E2E autenticado com conta real não integra a CI pública;
 - o modo generativo do Hermes está bloqueado e não passou por teste remoto; os testes Deno usam mocks;
 - a leitura é paginada, mas o limite de 5.000 movimentações e alterações simultâneas entre páginas exigem tratamento adicional para volumes maiores;
 - auditoria formal de acessibilidade e matriz cross-browser estão pendentes;
-- `new-branch` contém os PRs #1–#4, mas permanece separada de `main`; promoção a produção depende de revisão e autorização humana.
+- `new-branch` é a branch de trabalho e permanece separada de `main`; promoção a produção depende de revisão e autorização humana.
 
 ## Documentação técnica
 
