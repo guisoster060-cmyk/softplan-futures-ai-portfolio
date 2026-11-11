@@ -449,8 +449,8 @@ function navigate(id) {
   document.querySelectorAll('.nav').forEach(n => n.classList.toggle('active', n.dataset.page === id));
   window.scrollTo(0, 0); closeDrawer();
 }
-function openDrawer() { $('sidebar').classList.add('open'); $('drawer-backdrop').hidden = false; }
-function closeDrawer() { $('sidebar').classList.remove('open'); $('drawer-backdrop').hidden = true; }
+function openDrawer() { $('sidebar').classList.add('open'); $('drawer-backdrop').hidden = false; $('mobile-menu').setAttribute('aria-expanded', 'true'); $('mobile-menu').setAttribute('aria-label', 'Fechar menu'); }
+function closeDrawer() { $('sidebar').classList.remove('open'); $('drawer-backdrop').hidden = true; $('mobile-menu').setAttribute('aria-expanded', 'false'); $('mobile-menu').setAttribute('aria-label', 'Abrir menu'); }
 function activateTab(btn) {
   const scr = btn.closest('.screen');
   scr.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b === btn));

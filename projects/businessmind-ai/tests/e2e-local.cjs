@@ -71,7 +71,16 @@ const server = createServer(async (req, res) => {
     await page.getByText('Confirme seu e-mail', { exact: true }).waitFor(); await page.locator('#modal-ok').click();
     await page.locator('#email').fill('a@example.invalid'); await page.locator('#password').fill('senha123'); await page.locator('#auth-submit').click();
     await page.locator('#onboarding-screen').waitFor({ state: 'visible' }); await page.locator('#company-name').fill('Empresa A'); await page.locator('#company-form button[type=submit]').click();
-    await page.locator('#app').waitFor({ state: 'visible' }); await page.locator('[data-page=indicators]').first().click();
+    await page.locator('#app').waitFor({ state: 'visible' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 390);
+    assert.equal(await page.locator('#mobile-menu').getAttribute('aria-expanded'), 'false');
+    await page.locator('#mobile-menu').click();
+    assert.equal(await page.locator('#mobile-menu').getAttribute('aria-expanded'), 'true');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#mobile-menu').getAttribute('aria-expanded'), 'false');
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.locator('[data-page=indicators]').first().click();
     await page.locator('#new-tx').click(); await page.locator('#tx-desc').fill('Venda fictícia'); await page.locator('#tx-amount').fill('100'); await page.locator('#tx-form button[type=submit]').click();
     await page.getByText('Venda fictícia').waitFor(); await page.reload(); await page.locator('#app').waitFor({ state: 'visible' });
     await page.locator('[data-page=indicators]').first().click(); await page.getByText('Venda fictícia').waitFor();

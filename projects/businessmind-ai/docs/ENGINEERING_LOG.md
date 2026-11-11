@@ -198,4 +198,15 @@ Toda alteração relevante deve acrescentar uma seção com objetivo, necessidad
 - **Testes executados em 11/11/2026:** `npm run verify` (52/52 Node, 29 Markdown), `node tests/e2e-local.cjs` (cenário com mocks aprovado), `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts` (28/28 com mocks), inspeção do login em Chromium local a 1440×900 e 390×844 sem overflow horizontal, `git diff --check` sem erros. A primeira execução Deno falhou por certificado do proxy; a reexecução com CA do sistema passou sem desabilitar TLS.
 - **Resultado e limitações:** documentação e rótulos mais precisos; a captura local não validou Auth por falha de certificado do SDK externo, e o E2E usa mocks. Não houve teste remoto, deploy nem chamada ao Gemini nesta entrega.
 - **Contribuição:** objetivo, prazo, restrições e validação final definidos pelo responsável; auditoria, pequenas edições, testes e documentação assistidos por IA.
-- **Referência:** branch `codex/businessmind-portfolio-candidacy`; commit e PR desta entrega após publicação.
+- **Referência:** branch `codex/businessmind-portfolio-candidacy`; PR #8, commits `6c3c7ec` e `dea5f80`, merge `a454fc8`.
+
+## ENG-015 — Auditoria final e estado acessível do menu móvel
+
+- **Objetivo e necessidade:** auditar a base `new-branch` após os PRs #8 e #9 e corrigir a ausência de estado acessível no botão que abre a navegação móvel.
+- **Critérios de aceite:** preservar Auth, onboarding, CRUD, indicadores e Hermes; sincronizar `aria-expanded`/rótulo com o drawer; verificar a interação por teclado e viewport móvel; registrar separadamente testes locais e validações remotas anteriores.
+- **Solução e arquivos:** atributo inicial em `app/index.html`; atualização de `openDrawer` e `closeDrawer` em `app/app.js`; asserções em `tests/e2e-local.cjs` e `tests/visual-system.test.js`; atualização de `docs/{REVIEW_GUIDE,PROJECT_STATUS,PROMPT_LOG,TESTING,ENGINEERING_LOG}.md`.
+- **Tecnologias e decisão:** HTML/ARIA, JavaScript puro, Node Test Runner, Playwright/Chromium e Deno. A alteração é restrita ao estado do menu; não refatora os fluxos financeiros antes da candidatura.
+- **Testes desta entrega:** `npm run verify` (52/52 Node e 30 documentos), `node tests/e2e-local.cjs` (cenário aprovado com SDK simulado, incluindo menu móvel e Escape), `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts` (28/28 com mocks); `git diff --check` sem erros.
+- **Resultados e limites:** os testes locais não comprovam Auth/RLS remotos nem Gemini generativo. Os 33 testes HTTP com JWT e a validação manual no staging são evidências anteriores, não repetidas aqui. Auditoria formal com leitor de tela e Firefox/Safari permanecem pendentes.
+- **Responsabilidades:** objetivo, prazo, restrições externas e aceitação final definidos pelo responsável; inspeção, correção, testes e registro técnico assistidos por IA.
+- **Referência:** branch `codex/businessmind-mission1-audit`; commit e PR desta entrega após publicação.
