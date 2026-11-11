@@ -1,6 +1,6 @@
-# BusinessMind AI v0.5 Visual
+# BusinessMind AI — MVP para demonstração
 
-MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. O produto registra movimentações financeiras por empresa, calcula indicadores a partir dos dados autorizados e oferece análises determinísticas por meio do Hermes.
+MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. Ele reúne movimentações financeiras por empresa, calcula indicadores a partir de dados autorizados e oferece análises determinísticas pelo Hermes. O objetivo é tornar receitas, despesas e resultados consultáveis em uma interface única, preservando o isolamento entre empresas.
 
 ## Capacidades atuais
 
@@ -12,16 +12,17 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. O produto r
 - exportação CSV;
 - experiência responsiva para desktop, tablet e celular;
 - estados vazios, carregamento, erros, feedback, foco visível e `prefers-reduced-motion`;
-- Hermes determinístico funcional e integração Gemini preparada no servidor, desativada por padrão.
+- leitura paginada de movimentações, com validação de completude antes de calcular totais;
+- Hermes determinístico no staging e integração Gemini preparada no servidor, porém bloqueada.
 
 ## Tecnologias e decisões
 
 | Camada | Tecnologia |
 | --- | --- |
 | Interface | HTML semântico, CSS custom properties, JavaScript ES modules e SVG |
-| Backend gerenciado | Supabase Auth, PostgREST, RPC e Edge Functions (scaffold) |
+| Backend gerenciado | Supabase Auth, PostgREST, RPC e Edge Function Hermes |
 | Dados | PostgreSQL com RLS |
-| Qualidade | Node.js Test Runner, verificações estáticas e GitHub Actions |
+| Qualidade | Node.js Test Runner, Deno, PostgreSQL local, verificações estáticas e GitHub Actions |
 | Preview | Cloudflare Pages |
 
 A aplicação permanece estática e sem framework. O build opcional de staging somente copia os arquivos para uma saída isolada com configuração pública de teste; não altera `app/config.js`. A avaliação de Apache ECharts concluiu que o gráfico SVG existente atende ao MVP com menor custo de dependência.
@@ -34,8 +35,9 @@ projects/businessmind-ai/
 ├── docs/                 # documentação técnica canônica
 ├── scripts/              # verificações locais/CI
 ├── supabase/
-│   ├── functions/hermes/ # scaffold da integração generativa
+│   ├── functions/hermes/ # assistente determinístico e integração generativa bloqueada
 │   ├── migrations/       # schema versionado
+│   ├── staging-migrations/ # trava de teste, exclusiva do staging
 │   └── tests/            # teste SQL manual/controlado
 ├── tests/                # testes automatizados sem segredos
 └── versions/v0.3/        # baseline histórica preservada
@@ -70,29 +72,39 @@ Detalhes e limites de confiança estão em [ARCHITECTURE.md](docs/ARCHITECTURE.m
 npm run verify
 ```
 
-O comando executa análise estática, testes Node e consistência documental. Ele não acessa o Supabase remoto. O teste em `supabase/tests/` deve ser executado somente em ambiente autorizado; o resultado manual histórico não substitui uma execução reproduzível. Veja [TESTING.md](docs/TESTING.md).
+O comando executa análise estática, testes Node e consistência documental. Ele não acessa o Supabase remoto. Para a Edge Function, instale Deno 2.5.6 e execute:
+
+```bash
+cd supabase/functions/hermes
+deno check index.ts index_test.ts
+deno test --allow-env index_test.ts
+```
+
+De volta a `projects/businessmind-ai`, `node tests/hermes-one-shot-postgres.mjs` executa o teste transacional local; requer Docker e a imagem `postgres:17-alpine`. O teste em `supabase/tests/` depende de ambiente autorizado. Veja [TESTING.md](docs/TESTING.md).
+
+Em 11/11/2026, passaram **51/51 testes Node**, **28/28 testes Deno com mocks** e o teste concorrente em PostgreSQL local. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging. Mocks não comprovam execução generativa remota.
 
 ## Demonstração
 
-- [Preview da branch v0.5](https://codex-businessmind-v0-5-visu.businessmind-ai.pages.dev)
-- [Preview imutável](https://1cd5c052.businessmind-ai.pages.dev)
+- [Aplicação no staging](https://businessmind-ai-staging.pages.dev)
+- [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
-São previews de revisão, não uma implantação de produção aprovada.
+O staging é exclusivo para demonstração e validação com contas e dados fictícios; não é uma implantação de produção aprovada.
 
 ## Hermes
 
-A análise determinística funciona no frontend e permanece como fallback. A função em `supabase/functions/hermes/` valida JWT, confirma a associação usuário–empresa sob RLS, calcula agregados em código e está preparada para chamar `gemini-3.5-flash-lite` com timeout e limites.
+A análise determinística funciona no frontend e permanece como fallback. A Edge Function Hermes v11 está ACTIVE no Supabase staging: valida JWT, confirma a associação usuário–empresa sob RLS e calcula agregados em código. O `STAGING_DETERMINISTIC_ONLY = true` retorna antes da reivindicação de uso único e de qualquer chamada ao Gemini, inclusive se os demais controles generativos estiverem ativos.
 
-A integração começa desativada em duas camadas. Nenhuma chave, deploy ou chamada real foi realizada. Antes da ativação é obrigatória a aprovação do tratamento de agregados, pois os termos do Free Tier informam que dados podem ser usados para melhoria de produtos. Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
+A integração Gemini existe no código do servidor, mas não foi validada por execução generativa remota e não está habilitada para a demonstração. Qualquer ativação futura requer revisão da proteção, autorização explícita para tratamento de dados e testes próprios; não é uma funcionalidade concluída do MVP. Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
 
 ## Limitações conhecidas
 
 - confirmação e recuperação por e-mail dependem da configuração SMTP do projeto Supabase;
 - E2E autenticado com conta real não integra a CI pública;
-- a Edge Function Hermes não foi implantada, não possui secrets configurados e não foi testada remotamente;
-- paginação e estratégia para grandes volumes ainda não foram implementadas;
+- o modo generativo do Hermes está bloqueado e não passou por teste remoto; os testes Deno usam mocks;
+- a leitura é paginada, mas o limite de 5.000 movimentações e alterações simultâneas entre páginas exigem tratamento adicional para volumes maiores;
 - auditoria formal de acessibilidade e matriz cross-browser estão pendentes;
-- v0.4, v0.5 e documentação estão integradas em `new-branch`, ainda fora da `main`.
+- a documentação e o código desta branch ainda dependem de revisão e integração ao fluxo principal do repositório.
 
 ## Documentação técnica
 
