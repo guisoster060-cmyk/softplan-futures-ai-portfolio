@@ -5,6 +5,7 @@ type Transaction = { id: string; type: 'income' | 'expense'; category: string; a
 type RateEntry = { startedAt: number; count: number };
 const rateByUser = new Map<string, RateEntry>();
 export const dependencies = { createClient, fetch: globalThis.fetch };
+const STAGING_DETERMINISTIC_ONLY = true;
 
 function corsHeaders(request: Request) {
   const origin = request.headers.get('Origin') ?? '';
@@ -114,6 +115,8 @@ export async function handleRequest(request: Request) {
   let summary;
   try { summary = aggregateTransactions(await completeTransactions(client, membership.company_id, deadline)); }
   catch { return json(request, { error: 'A consulta financeira não retornou dados completos e válidos; nenhum total foi calculado.' }, 503); }
+
+  if (STAGING_DETERMINISTIC_ONLY) return json(request, { mode: 'deterministic', summary, message: 'Hermes generativo desativado durante a validação do staging; usei somente cálculos determinísticos.' });
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
   const apiKey = Deno.env.get('GEMINI_API_KEY');

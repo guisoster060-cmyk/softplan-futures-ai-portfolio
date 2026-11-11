@@ -46,8 +46,9 @@ try {
   started = true;
   let ready = false;
   for (let attempt = 0; attempt < 40; attempt++) {
+    const logs = spawnSync('docker', ['logs', name], { encoding: 'utf8' });
     const status = spawnSync('docker', ['exec', name, 'pg_isready', '-U', 'postgres'], { encoding: 'utf8' });
-    if (status.status === 0) { ready = true; break; }
+    if ((logs.stdout + logs.stderr).includes('PostgreSQL init process complete; ready for start up.') && status.status === 0) { ready = true; break; }
     await new Promise(resolve => setTimeout(resolve, 100));
   }
   assert.ok(ready, 'PostgreSQL local não ficou pronto');
