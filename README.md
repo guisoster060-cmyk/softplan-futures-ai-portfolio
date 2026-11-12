@@ -4,6 +4,8 @@
 
 > Estado em 11/11/2026: `new-branch` contém as atualizações de documentação e o MVP; o staging real foi testado manualmente com cadastro por e-mail, confirmação, criação de empresa e movimentação. O Hermes opera em modo determinístico; Gemini generativo não está ativado. A demonstração pública fictícia está publicada separadamente.
 
+**Revisão de 12/11/2026:** o frontend público do staging coincide byte a byte com o PR #24 e pode consultar a Edge Function, mas continua exibindo o cálculo mensal local. A função remota v12 segue determinística. A preparação generativa desta branch não foi publicada nem validada com uma chamada real. O [plano de ensaio](projects/businessmind-ai/docs/GEMINI_VALIDATION_PLAN.md) registra as pré-condições e o bloqueio de segurança encontrado.
+
 ## Avaliação em dois minutos
 
 1. Abra a [demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev): os dados são fictícios e ficam somente no navegador. A versão com Supabase Auth e PostgreSQL está no [staging](https://businessmind-ai-staging.pages.dev); use apenas dados fictícios.

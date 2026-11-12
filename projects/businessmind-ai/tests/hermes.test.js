@@ -93,6 +93,26 @@ test('prompt separa cálculos de interpretação e limita saída', async () => {
   assert.equal(request.generationConfig.maxOutputTokens, LIMITS.outputTokens);
 });
 
+test('payload generativo separa mês atual de histórico e não inventa categorias', async () => {
+  const { aggregateTransactions, buildGeminiRequest } = await corePromise;
+  const summary = aggregateTransactions([
+    { type: 'income', category: 'Cliente identificável', amount: '1000.00', occurred_on: '2026-10-01' },
+    { type: 'income', category: 'Vendas', amount: '1500.00', occurred_on: '2026-11-01' },
+    { type: 'expense', category: 'Custos', amount: '850.00', occurred_on: '2026-11-02' }
+  ]);
+  const request = buildGeminiRequest('lucro do mês', summary, new Date('2026-11-12T12:00:00Z'));
+  const payload = JSON.parse(request.contents[0].parts[0].text.split('Indicadores agregados: ')[1]);
+  assert.equal(payload.referenceMonthUTC, '2026-11');
+  assert.deepEqual(payload.currentMonthTotals, { income: 1500, expense: 850, profit: 650 });
+  assert.equal('totals' in payload, false);
+  assert.doesNotMatch(JSON.stringify(request), /Cliente identificável|lucro do mês/);
+  const emptyMonth = buildGeminiRequest('lucro do mês', summary, new Date('2026-12-01T00:00:00Z'));
+  const emptyPayload = JSON.parse(emptyMonth.contents[0].parts[0].text.split('Indicadores agregados: ')[1]);
+  assert.deepEqual(emptyPayload.currentMonthTotals, { income: 0, expense: 0, profit: 0 });
+  const categoryRequest = buildGeminiRequest('categorias da empresa', summary, new Date('2026-11-12T12:00:00Z'));
+  assert.match(categoryRequest.contents[0].parts[0].text, /distribuição por categorias não foi compartilhada/i);
+});
+
 test('extrai resposta Gemini válida e rejeita payload inválido', async () => {
   const { extractGeminiText } = await corePromise;
   assert.equal(extractGeminiText({ candidates: [{ content: { parts: [{ text: 'Análise' }] } }] }), 'Análise');

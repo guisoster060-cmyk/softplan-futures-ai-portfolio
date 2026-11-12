@@ -1,5 +1,11 @@
 # Estratégia e evidências de testes
 
+## Missão 05 — revisão integrada (12/11/2026)
+
+O frontend público do staging respondeu por HTTPS e `app.js`, `config.js` e `index.html` tiveram hashes SHA-256 iguais aos arquivos do PR #24 (`ab1c27c5…`, `5f660d2b…`, `d5cf9dcb…`). A consulta de metadados do Supabase encontrou `hermes` ACTIVE v12 e `verify_jwt=false`; a leitura de fonte confirmou o bloqueio determinístico e ausência da exigência explícita de proprietário presente nesta branch. São observações remotas de leitura, **não** testes de JWT, RLS, chamada ao Gemini ou conteúdo de secrets. A invocação autenticada é um resultado informado pelo responsável e não foi repetida aqui.
+
+`npm ci && npm run verify` aprovou **61/61 testes Node**, análise sintática e 31 documentos; `npm run build:staging-preview && npm run validate:staging-preview` aprovou a configuração isolada. `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts` aprovaram **44/44 testes Deno com mocks**. O teste novo confirma mês de referência e ausência de total histórico no payload preparado, além de não enviar nomes de categoria ou pergunta livre. `node tests/e2e-local.cjs` e `node tests/e2e-demo.cjs` passaram em Chromium; o primeiro simula Auth/RLS e o segundo usa dados fictícios locais sem requisições externas. `node tests/hermes-one-shot-postgres.mjs` passou com PostgreSQL local: uma reivindicação em duas transações concorrentes, ACL, RLS e repetição. Os testes Deno de concorrência usam uma RPC simulada; não comprovam atomicidade remota. A primeira aquisição de pacotes Deno falhou por CA desconhecida do proxy; `DENO_TLS_CA_STORE=system` permitiu checagem e testes sem desligar a validação TLS.
+
 ## Missão 04 — rota remota determinística preparada (12/11/2026)
 
 - `npm ci && npm run verify`: **60/60 testes Node aprovados**, análise sintática e 31 documentos com links internos válidos. Os testes de `ask` cobrem flag local/produção, sessão ausente ou inválida, empresa não associada, 401/403 sem dados, rede/timeout com fallback, resposta generativa recusada, contagem divergente, troca de empresa durante espera e botão liberado.
