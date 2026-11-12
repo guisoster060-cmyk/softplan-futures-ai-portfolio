@@ -139,7 +139,7 @@ return async function handleRequest(request: Request) {
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
   const apiKey = Deno.env.get('GEMINI_API_KEY');
-  const model = Deno.env.get('GEMINI_MODEL') ?? 'gemini-2.5-flash-lite';
+  const model = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.5-flash-lite';
   const companyApproved = approvedCompany(membership.company_id, Deno.env.get('HERMES_APPROVED_COMPANY_IDS'));
   if (!approved || !companyApproved || !apiKey || summary.transactionCount < LIMITS.minRowsForGemini) return json(request, { mode: 'deterministic', summary, message: 'IA generativa não habilitada para esta empresa ou sem dados suficientes; usei somente cálculos determinísticos.' });
 
@@ -165,7 +165,7 @@ return async function handleRequest(request: Request) {
       body: JSON.stringify(buildGeminiRequest(validation.question, summary)), signal: controller.signal, redirect: 'error'
     });
     if (!providerResponse.ok) {
-      geminiDiagnostic('provider', providerStatusClass(providerResponse.status));
+      geminiDiagnostic('provider', `${providerStatusClass(providerResponse.status)}_${providerResponse.status}`);
       return json(request, { mode: 'deterministic', summary, message: 'Gemini indisponível; usei o fallback determinístico.' });
     }
     const payload = JSON.parse(await limitedText(providerResponse.body, LIMITS.responseBytes));
