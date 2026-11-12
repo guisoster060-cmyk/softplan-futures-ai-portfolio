@@ -27,7 +27,7 @@ function setup(options: Options = {}) {
     auth: { getUser: async () => options.invalid ? { data: { user: null }, error: Error('invalid') } : { data: { user: { id: userId } }, error: null } },
     rpc: async (name: string, args: { p_company_id: string }) => {
       calls.push('claim');
-      assertEquals(name, 'claim_hermes_test_once');
+      assertEquals(name, 'claim_hermes_test_second_once');
       assertEquals(args.p_company_id, company);
       if (options.claim === 'error') return { data: null, error: Error('unavailable') };
       if (options.claim === 'denied' || claimed) return { data: false, error: null };
