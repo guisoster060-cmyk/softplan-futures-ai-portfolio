@@ -19,7 +19,9 @@
 - Chamada SQL com contexto não autenticado rejeitada, sem consumir quota; permissões `anon=false`, `authenticated=true`; tabelas de quota vazias na verificação inicial.
 - Função Edge `hermes-recruiter` v1 publicada e ativa.
 - Interface da branch configurada para invocar `hermes-recruiter` quando `hermesRecruiterEnabled=true`.
-- **Pendente:** confirmar CI do commit final, cadastrar uma conta nova com e-mail, validar confirmação e login, e fazer uma única consulta real no novo endpoint com usuário autorizado. Não confundir com a validação anterior de `hermes` v25.
+- **Validação real aprovada em 12/11/2026 às 22:09 UTC:** `OPTIONS /functions/v1/hermes-recruiter` HTTP 204, log `claim=accepted`, log `provider=accepted`, `POST /functions/v1/hermes-recruiter` HTTP 200. O usuário confirmou na interface o cálculo local separado da interpretação generativa.
+- **Quota após o teste:** 1 consulta global consumida em 12/11/2026 (UTC). Não foram expostos identificadores de usuários.
+- **Pendente:** validar cadastro e confirmação de e-mail de uma conta nova, conferir CI do commit final e revisar o acesso do recrutador em janela anônima.
 
 ## Evidência anterior
 A consulta única anterior ao Gemini foi validada na função `hermes`, e está documentada em [HERMES_GEMINI_VALIDATION_2026-11-12.md](HERMES_GEMINI_VALIDATION_2026-11-12.md). Ela não é prova de que o novo endpoint já foi exercitado por um recrutador.
