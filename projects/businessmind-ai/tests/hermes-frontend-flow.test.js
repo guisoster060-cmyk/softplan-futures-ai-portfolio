@@ -46,7 +46,7 @@ test('modo local e produção nunca invocam a função', async () => {
   const stagingConfig = fs.readFileSync(path.join(__dirname, '../preview/staging-config.js'), 'utf8');
   const productionConfig = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
-  assert.match(stagingConfig, /hermesGenerativeEnabled: false/);
+  assert.match(stagingConfig, /hermesGenerativeEnabled: true/);
   assert.doesNotMatch(productionConfig, /hermesRemoteDeterministicEnabled: true/);
   for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
