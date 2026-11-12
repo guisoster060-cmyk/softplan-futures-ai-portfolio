@@ -17,7 +17,8 @@ export function buildDemoPreview() {
   copyFileSync(resolve(root, 'preview/demo-entry.js'), resolve(output, 'demo-entry.js'));
   copyFileSync(resolve(root, 'preview/demo.css'), resolve(output, 'demo.css'));
   const appScript = readFileSync(resolve(output, 'app.js'), 'utf8')
-    .replaceAll('movimentações reais carregadas', 'movimentações fictícias locais');
+    .replaceAll('movimentações reais carregadas', 'movimentações fictícias locais')
+    .replaceAll('https://ogypzmxnvjbomamkejkh.supabase.co', 'https://demo.invalid');
   if (appScript.includes('movimentações reais carregadas')) throw Error('Texto de dados reais permaneceu na demonstração.');
   writeFileSync(resolve(output, 'app.js'), appScript);
   const result = html.replace(cdn, '<script src="demo-sdk.js" defer></script>')

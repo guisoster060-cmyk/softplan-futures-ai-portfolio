@@ -18,9 +18,18 @@ const mock = `window.supabase = { createClient() {
       onAuthStateChange(fn) { listener = fn; setTimeout(emit, 0); return { data: { subscription: { unsubscribe() {} } } }; },
       async signUp({ email, password, options }) { if (db.users[email]) return { error: { message: 'User already registered' } }; db.users[email] = { id: email, email, password, user_metadata: options.data }; save(); return { data: { session: null }, error: null }; },
       async signInWithPassword({ email, password }) { const u = db.users[email]; if (!u || u.password !== password) return { error: { message: 'Invalid login credentials' } }; db.session = { user: u }; save(); emit(); return { error: null }; },
+      async getSession() { return { data: { session: db.session ? { ...db.session, access_token: 'jwt-ficticio-local' } : null }, error: null }; },
       async signOut() { db.session = null; save(); emit(); return { error: null }; },
       async resetPasswordForEmail() { return { error: null }; }
     },
+    functions: { async invoke(name, { body }) {
+      window.__hermesInvokeCount = (window.__hermesInvokeCount || 0) + 1;
+      if (name !== 'hermes' || !db.session || db.companies[body.companyId]?.owner !== db.session.user.id) return { data: null, error: { context: { status: 403 } } };
+      const rows = db.rows.filter(row => row.company_id === body.companyId);
+      const income = rows.filter(row => row.type === 'income').reduce((sum, row) => sum + Number(row.amount), 0);
+      const expense = rows.filter(row => row.type === 'expense').reduce((sum, row) => sum + Number(row.amount), 0);
+      return { data: { mode: 'deterministic', summary: { transactionCount: rows.length, totals: { income, expense, profit: income - expense } } }, error: null };
+    } },
     rpc(name, args) { const id = 'company-' + db.nextId++; db.companies[id] = { id, name: args.p_name, owner: db.session.user.id }; save(); return Promise.resolve({ data: id, error: null }); },
     from(table) {
       const q = { filters: {}, operation: 'select', payload: null };
@@ -63,6 +72,7 @@ const server = createServer(async (req, res) => {
   await context.addInitScript(value => { window.__fixture = JSON.parse(localStorage.getItem('__e2e_fixture') || 'null') || value; }, fixtures);
   const page = await context.newPage();
   await page.route('https://cdn.jsdelivr.net/**', route => route.fulfill({ status: 200, contentType: 'text/javascript', body: mock }));
+  await page.route('**/config.js', async route => route.fulfill({ status: 200, contentType: 'text/javascript', body: await readFile(resolve(__dirname, '../preview/staging-config.js'), 'utf8') }));
   const url = `http://127.0.0.1:${server.address().port}`;
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   try {
@@ -89,6 +99,12 @@ const server = createServer(async (req, res) => {
     await page.getByText('Venda editada').waitFor();
     await page.locator('#new-tx').click(); await page.locator('#tx-type').selectOption('expense'); await page.locator('#tx-desc').fill('Custo fictício'); await page.locator('#tx-amount').fill('40'); await page.locator('#tx-form button[type=submit]').click();
     await page.getByText('Custo fictício').waitFor();
+    await page.locator('[data-page=intelligence]').first().click();
+    await page.locator('#chat-input').fill('Qual foi meu lucro este mês?');
+    await page.locator('#chat-form button[type=submit]').click();
+    await page.locator('#hermes-status').getByText(/Consulta autenticada à função concluída/).waitFor();
+    assert.equal(await page.evaluate(() => window.__hermesInvokeCount), 1);
+    await page.locator('[data-page=indicators]').first().click();
     await page.locator('#f-type').selectOption('expense'); assert.match(await page.locator('#f-count').innerText(), /1 movimentação/);
     await page.locator('#f-type').selectOption('all'); await page.locator('[data-page=overview]').first().click();
     assert.match(await page.locator('#overview-kpis').innerText(), /R\$\s*60,00/);

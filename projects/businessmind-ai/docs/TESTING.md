@@ -1,5 +1,13 @@
 # Estratégia e evidências de testes
 
+## Missão 04 — rota remota determinística preparada (12/11/2026)
+
+- `npm ci && npm run verify`: **60/60 testes Node aprovados**, análise sintática e 31 documentos com links internos válidos. Os testes de `ask` cobrem flag local/produção, sessão ausente ou inválida, empresa não associada, 401/403 sem dados, rede/timeout com fallback, resposta generativa recusada, contagem divergente, troca de empresa durante espera e botão liberado.
+- `deno check index.ts index_test.ts`: aprovado; `deno test --allow-env index_test.ts`: **28/28 testes Deno com mocks aprovados**, incluindo JWT ausente/inválido, empresa não autorizada e zero chamadas simuladas ao Gemini/RPC com a trava determinística. O código da função não foi alterado nesta missão.
+- `npm run build:staging-preview && npm run validate:staging-preview`: aprovados localmente; o validador exige URL e chave pública exatas do staging, modo generativo `false`, controle remoto determinístico `true`, ausência de referência à produção e ausência de padrões de segredos.
+- `node tests/e2e-local.cjs`: aprovado em Chromium com SDK e sessão **simulados**. Exercitou login, CRUD, alternância e isolamento simulado de empresas, chat remoto determinístico por mock e layout mobile. `node tests/e2e-demo.cjs`: aprovado em Chromium com demonstração fictícia local e zero requisições externas observadas.
+- **Pendente:** teste HTTP real da Edge Function com JWT, RLS e isolamento no staging; confirmação remota de invocações/logs; publicação autorizada do novo pacote. Nenhum deploy, Gemini ou Supabase remoto foi chamado nesta missão.
+
 ## Missão 03 — diagnóstico da integração Hermes (12/11/2026)
 
 - `npm ci && npm run verify`: **58/58 testes Node aprovados**, análise sintática e 31 documentos com links internos válidos. Quatro testes novos executam a função `ask` do frontend em contexto local sem SDK: flag desligado, caminho hipotético com empresa ativa, falhas de comunicação/autorização e fallback. Nenhuma chamada externa.

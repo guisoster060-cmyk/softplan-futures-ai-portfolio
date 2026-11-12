@@ -342,30 +342,49 @@ function hermesOutOfScope(question) {
   const injection = /\b(ignore|desconsidere|esqueca|contorne|finja que)\b.{0,80}\b(regras|instruc|restric|sistema|escopo)\w*\b/.test(text);
   return (external && (request || injection)) || !business;
 }
-function summaryFacts(summary) {
-  const totals = summary?.totals;
-  if (!totals) return '';
-  return `Dados calculados pelo sistema: ${summary.transactionCount} movimentações; receitas ${brl.format(totals.income)}; despesas ${brl.format(totals.expense)}; resultado ${brl.format(totals.profit)}.`;
-}
 async function ask(q) {
   q = q.trim(); if (!q) return;
+  if ($('chat-submit').disabled) return;
   addMsg('user', q);
   if (hermesOutOfScope(q)) { addMsg('bot', HERMES_SCOPE_MESSAGE); return; }
   const config = window.BUSINESSMIND_CONFIG;
   const localAnswer = () => addMsg('bot', answer(q));
-  if (!config?.hermesGenerativeEnabled || !transactions.length || has(norm(q), 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) { localAnswer(); return; }
-  const submit = $('chat-submit'); submit.disabled = true; setHermesStatus('Hermes está analisando agregados autorizados…', 'loading');
+  if (!config?.hermesRemoteDeterministicEnabled || config.hermesGenerativeEnabled ||
+      config.supabaseUrl !== 'https://ogypzmxnvjbomamkejkh.supabase.co' ||
+      !transactions.length || has(norm(q), 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) { localAnswer(); return; }
+  if (!currentUser?.id || !currentCompany?.id || !availableCompanies.some(company => company.id === currentCompany.id)) {
+    addMsg('bot', 'Sessão ou empresa indisponível. Entre novamente para consultar o Hermes.'); return;
+  }
+  const userId = currentUser.id, companyId = currentCompany.id;
+  const stillActive = () => currentUser?.id === userId && currentCompany?.id === companyId;
+  const submit = $('chat-submit'); submit.disabled = true; setHermesStatus('Consultando o Hermes da empresa ativa…', 'loading');
   try {
-    const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId: currentCompany.id } });
-    if (error || !data) throw error || new Error('Resposta vazia');
-    if (data.mode === 'out_of_scope') { addMsg('bot', HERMES_SCOPE_MESSAGE); return; }
-    if (data.mode !== 'generative' || !data.answer) {
-      localAnswer(); setHermesStatus(data.message || 'Gemini indisponível; fallback determinístico ativo.', 'error'); return;
+    let authData, authError;
+    try { ({ data: authData, error: authError } = await supabase.auth.getSession()); }
+    catch { authError = true; }
+    if (!stillActive()) return;
+    if (authError || !authData?.session?.access_token || authData.session.user?.id !== userId) {
+      addMsg('bot', 'Sessão indisponível. Entre novamente para consultar o Hermes.');
+      setHermesStatus('Sessão indisponível.', 'error'); return;
     }
-    addMsg('bot', `${summaryFacts(data.summary)}\n\nInterpretação gerada pelo Gemini:\n${data.answer}`);
-    setHermesStatus('Resposta gerada com Gemini a partir de agregados calculados.');
+    // O SDK usa a sessão atual para enviar o JWT; o navegador não o registra nem o copia.
+    const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId }, timeout: 22000 });
+    if (!stillActive()) return;
+    const status = error?.context?.status ?? error?.status;
+    if (status === 401 || status === 403) {
+      addMsg('bot', 'Sessão ou empresa não autorizada. Entre novamente ou selecione uma empresa permitida.');
+      setHermesStatus('Acesso não autorizado à função.', 'error'); return;
+    }
+    if (error || !data) throw error || new Error('Resposta vazia');
+    if (data.mode !== 'deterministic' || !Number.isInteger(data.summary?.transactionCount) ||
+        data.summary.transactionCount !== transactions.length ||
+        !['income', 'expense', 'profit'].every(key => Number.isFinite(data.summary?.totals?.[key]))) {
+      throw Error('Resposta determinística inválida.');
+    }
+    localAnswer();
+    setHermesStatus('Consulta autenticada à função concluída; resposta calculada localmente.');
   } catch {
-    localAnswer(); setHermesStatus('Integração indisponível; fallback determinístico ativo.', 'error');
+    if (stillActive()) { localAnswer(); setHermesStatus('Função indisponível; fallback determinístico ativo no navegador.', 'error'); }
   } finally { submit.disabled = false; }
 }
 

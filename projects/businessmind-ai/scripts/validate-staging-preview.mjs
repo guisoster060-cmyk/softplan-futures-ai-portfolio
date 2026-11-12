@@ -18,8 +18,8 @@ function publishedFiles(directory) {
 function checkConfig(contents) {
   // Aceita somente a declaração pública esperada; código extra ou propriedades duplicadas falham.
   const clean = contents.replace(/^\s*\/\/[^\n]*(?:\n|$)/gm, '').replace(/\/\*[\s\S]*?\*\//g, '').trim();
-  const match = clean.match(/^['"]use strict['"];\s*window\.BUSINESSMIND_CONFIG\s*=\s*Object\.freeze\(\{\s*supabaseUrl:\s*(['"])([^'"\r\n]+)\1,\s*supabasePublishableKey:\s*(['"])([^'"\r\n]+)\3,\s*hermesGenerativeEnabled:\s*(true|false)\s*,?\s*\}\);?$/);
-  if (!match || match[2] !== stagingUrl || match[4] !== stagingPublishableKey || match[5] !== 'false') {
+  const match = clean.match(/^['"]use strict['"];\s*window\.BUSINESSMIND_CONFIG\s*=\s*Object\.freeze\(\{\s*supabaseUrl:\s*(['"])([^'"\r\n]+)\1,\s*supabasePublishableKey:\s*(['"])([^'"\r\n]+)\3,\s*hermesGenerativeEnabled:\s*(true|false),\s*hermesRemoteDeterministicEnabled:\s*(true|false)\s*,?\s*\}\);?$/);
+  if (!match || match[2] !== stagingUrl || match[4] !== stagingPublishableKey || match[5] !== 'false' || match[6] !== 'true') {
     throw Error('config.js: configuração pública de staging ausente ou inválida.');
   }
 }
