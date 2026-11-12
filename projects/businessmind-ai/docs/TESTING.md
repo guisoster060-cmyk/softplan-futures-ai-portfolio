@@ -1,5 +1,13 @@
 # Estratégia e evidências de testes
 
+## Missão 03 — diagnóstico da integração Hermes (12/11/2026)
+
+- `npm ci && npm run verify`: **58/58 testes Node aprovados**, análise sintática e 31 documentos com links internos válidos. Quatro testes novos executam a função `ask` do frontend em contexto local sem SDK: flag desligado, caminho hipotético com empresa ativa, falhas de comunicação/autorização e fallback. Nenhuma chamada externa.
+- `node tests/e2e-local.cjs`: aprovado com SDK Supabase simulado; Auth, CRUD, recarga, dashboard, CSV e isolamento entre empresas **simulado**.
+- `node tests/e2e-demo.cjs`: aprovado em Chromium com dados fictícios locais, Hermes determinístico e **zero requisições externas observadas**.
+- Arquivos públicos do staging `index.html`, `app.js` e `config.js` responderam HTTP 200; hashes SHA-256 coincidem com `new-branch`/config de preview. Isso confirma o código entregue, não o resultado de uma sessão autenticada nem o ID do deploy.
+- Os logs com zero invocações foram relatados pelo responsável; não foram consultados nesta missão. Nenhum teste remoto com JWT, autorização/RLS real ou Edge Function foi executado. A proposta de integração permanece sem implementação em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
+
 ## Preparação final do GitHub (12/11/2026)
 
 - `npm ci` e `npm run verify` na branch de revisão: **54/54 testes Node aprovados**, análise sintática e **31 documentos** com links internos válidos; sem credenciais remotas.
