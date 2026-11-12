@@ -36,3 +36,13 @@ Sem grupo comparativo, não atribuir ganho de tempo ao produto. Com amostra pequ
 
 ## Valor demonstrado hoje
 **Capacidade técnica:** reunir registros e produzir cálculos rastreáveis e uma explicação generativa limitada. **Valor de negócio potencial:** menos esforço para leitura de indicadores e maior compreensão dos números. **Impacto medido:** ainda não disponível.
+
+## Cenário reproduzível para o avaliador (dados 100% fictícios)
+
+1. Registre uma receita de **R$ 500,00** e uma despesa de **R$ 50,00** no **mesmo mês**.
+2. Confira se a visão geral mostra **receitas R$ 500,00**, **despesas R$ 50,00**, **resultado R$ 450,00** e **margem de resultado 90%**, caso a interface exiba esse indicador.
+3. Abra **Inteligência** e peça: “Explique meu resultado e indique riscos com base somente nos lançamentos disponíveis”.
+4. **Critério de sucesso:** os números exibidos devem coincidir com os valores de referência; a resposta do assistente deve separar fatos dos dados de hipóteses e não inventar períodos ou lançamentos.
+5. **Critério de falha:** total incorreto, ausência de informação sobre período, recomendação afirmada como fato sem sustentação, ou falha de acesso não sinalizada.
+
+**Resultado deste cenário:** este documento define um gabarito matemático e um roteiro de teste; **não comprova que o teste foi executado nesta sessão** nem mede ganho real de produtividade.
