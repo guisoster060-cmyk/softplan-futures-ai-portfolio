@@ -1,20 +1,24 @@
 # Comece aqui — BusinessMind AI (Softplan Futures)
 
-**Tempo estimado:** 5–10 minutos. **Status:** MVP de portfólio, não produto financeiro em produção. **Dados:** use somente valores fictícios.
+**O jeito mais rápido de avaliar: abra a [DEMONSTRAÇÃO IMEDIATA — sem login](https://businessmind-ai-demo.guisoster060.workers.dev).** A demo possui dados fictícios locais, quatro telas e Hermes determinístico. **Não chama Gemini e não comprova autenticação nem banco real.**
 
-## Acesso rápido
+**Quer avaliar o Gemini e a integração Supabase?** Abra a [PRÉVIA COMPLETA — com cadastro](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev), crie uma conta própria, confirme o e-mail e registre ao menos uma movimentação fictícia. O Gemini tem quotas e fallback determinístico. **Não existe login/senha universal para o banco real**, para preservar isolamento de contas e evitar compartilhamento de dados.
 
-- **Prévia com autenticação e Gemini limitado:** https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev
-- **Demo pública sem cadastro (dados locais, Hermes determinístico):** https://businessmind-ai-demo.guisoster060.workers.dev
-- **Código e documentação:** https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai
+## Roteiro rápido — 2 minutos, sem cadastro
 
-## Teste guiado
+1. Abra a **demonstração imediata**. Se aparecer a entrada de demonstração, toque em **Entrar na demonstração**.
+2. Em **Visão geral**, observe receitas, despesas e resultado dos dados ilustrativos.
+3. Em **Indicadores**, crie uma movimentação fictícia e confira o recálculo; teste a exportação CSV se desejar.
+4. Em **Inteligência**, peça ao Hermes um resumo. Nesta demo, a resposta é **determinística**, não Gemini.
+5. Em **Configurações**, examine o perfil ilustrativo. Use **Restaurar dados fictícios** para reiniciar o cenário.
 
-1. Abra a **prévia com autenticação** em uma janela anônima e selecione **Criar uma conta**. Use e-mail válido e senha exclusiva; confirme o link recebido. Se o e-mail não chegar, confira spam e aguarde antes de repetir; o envio gratuito tem limites.
-2. Entre, informe seu nome e uma **empresa fictícia**.
-3. Acesse **Indicadores → Nova movimentação**. Cadastre uma receita fictícia e uma despesa fictícia. Confira os totais em **Visão geral** e a lista em **Indicadores**; opcionalmente exporte CSV.
-4. Em **Inteligência → Assistente**, pergunte: “Analise as receitas, despesas e o resultado da minha empresa e recomende três melhorias”. Verifique o **cálculo local separado da interpretação generativa**. Se o limite de consultas for atingido ou o provedor não estiver disponível, o sistema pode usar modo determinístico e deve sinalizá-lo.
-5. Em **Configurações**, confira perfil e empresa. Finalize usando **Sair** no menu.
+## Roteiro completo — 5 a 10 minutos, com Gemini limitado
+
+1. Abra a [prévia autenticada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) em janela anônima, selecione **Criar uma conta** e confirme o e-mail recebido (confira spam).
+2. Entre e cadastre uma **empresa fictícia**.
+3. Em **Indicadores**, registre uma receita e uma despesa fictícias; confira os totais em **Visão geral**.
+4. Em **Inteligência → Assistente**, peça uma análise. Verifique cálculo local separado da interpretação generativa; por quota ou indisponibilidade pode haver fallback determinístico.
+5. Confira **Configurações** e use **Sair**.
 
 ## O que este MVP comprova
 
