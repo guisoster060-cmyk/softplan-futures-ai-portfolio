@@ -177,10 +177,8 @@ test('frontend mantém fallback determinístico quando a função falha', () => 
 });
 
 
-test('frontend Hermes exposes only safe error categories and explicit abort timeout', () => {
-  assert.match(frontendSource, /new AbortController\(\)/);
-  assert.match(frontendSource, /setTimeout\(\(\) => controller\.abort\(\), 30000\)/);
-  assert.match(frontendSource, /signal: controller\.signal/);
+test('frontend Hermes exposes only safe error categories and preserves request deadline', () => {
+  assert.match(frontendSource, /timeout: 22000/);
   for (const code of ['network_or_cors', 'empty_response', 'summary_mismatch', 'generative_validation']) {
     assert.ok(frontendSource.includes(code), code);
   }
