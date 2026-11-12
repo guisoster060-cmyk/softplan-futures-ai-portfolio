@@ -60,7 +60,7 @@ test('modo local e produção nunca invocam a função', async () => {
   const productionConfig = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
   assert.match(stagingConfig, /hermesGenerativeEnabled: true/);
-  assert.match(stagingConfig, /hermesRecruiterEnabled: true/);
+  assert.match(productionConfig, /hermesRecruiterEnabled: true/); // config.js desta branch é staging, não produção
   assert.ok(productionConfig.includes('ogypzmxnvjbomamkejkh.supabase.co')); // configuração exclusiva de staging
   for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
