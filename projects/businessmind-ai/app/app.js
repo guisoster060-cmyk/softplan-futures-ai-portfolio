@@ -402,7 +402,7 @@ async function ask(q) {
       setHermesStatus('Sessão indisponível.', 'error'); return;
     }
     // O SDK usa a sessão atual para enviar o JWT; o navegador não o registra nem o copia.
-    const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId }, timeout: 22000 });
+    const { data, error } = await supabase.functions.invoke(config.hermesRecruiterEnabled === true ? 'hermes-recruiter' : 'hermes', { body: { question: q, companyId }, timeout: 22000 });
     if (!stillActive()) return;
     const status = error?.context?.status ?? error?.status;
     if (status === 401 || status === 403) {
