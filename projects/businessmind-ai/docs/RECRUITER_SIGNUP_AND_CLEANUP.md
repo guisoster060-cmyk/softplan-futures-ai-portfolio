@@ -32,3 +32,11 @@ No inventário de 12/11 havia **5 contas Auth, 5 empresas, 5 vínculos e 11 movi
 5. Preservar a conta de demonstração somente se ela tiver senha exclusiva e dados fictícios. Não divulgar senha em documentos públicos.
 
 **Não executar DELETE/TRUNCATE nem apagar usuários antes de a seleção ser aprovada.**
+
+## Verificação de autenticação em 12/11/2026
+
+Consulta administrativa somente de contagem: **5 usuários Auth, 5 e-mails confirmados, 1 conta criada nas últimas 24 horas**. Isso não prova que a confirmação por e-mail esteja sendo entregue hoje para novos cadastros.
+
+**Configuração que o proprietário precisa conferir:** Supabase staging → Authentication → URL Configuration → `Site URL` e `Redirect URLs`. A lista deve aceitar o endereço completo de staging `https://businessmind-ai-staging.pages.dev/**` e o endereço de prévia `https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev/**` (sem autorizar curingas amplos). Conferir em Authentication → Emails / SMTP se o serviço consegue entregar e-mails externos e quais são os limites.
+
+**Teste de aceite pendente:** criar uma conta com e-mail novo controlado, receber a confirmação, entrar, criar empresa fictícia, registrar movimentações, consultar Hermes, verificar isolamento e sair. Não cadastrar usuários artificiais apenas para alterar contagens, nem apagar contas existentes antes da revisão.
