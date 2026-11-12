@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const { resolve } = require('node:path');
 
-test('build staging não altera config de produção e desativa Gemini', async () => {
+test('build staging preserva a configuração da branch e usa apenas o projeto de testes', async () => {
   const root = resolve(__dirname, '..');
   const productionFile = resolve(root, 'app/config.js');
   const before = readFileSync(productionFile, 'utf8');
