@@ -134,10 +134,13 @@ test('trava de staging exige claim persistente antes de qualquer fetch Gemini', 
 
 test('modo determinístico de staging retorna antes da RPC e do Gemini', () => {
   assert.match(functionSource, /const STAGING_DETERMINISTIC_ONLY = true;/);
-  const guard = functionSource.indexOf('if (STAGING_DETERMINISTIC_ONLY) return json(');
+  assert.match(functionSource, /export const handleRequest = createHermesHandler\(STAGING_DETERMINISTIC_ONLY\);/);
+  const guard = functionSource.indexOf('if (deterministicOnly) return json(');
   assert.ok(guard > functionSource.indexOf('aggregateTransactions(await completeTransactions('));
   assert.ok(guard < functionSource.indexOf("client.rpc('claim_hermes_test_once'"));
   assert.ok(guard < functionSource.indexOf('dependencies.fetch('));
+  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') > guard);
+  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') < functionSource.indexOf("client.rpc('claim_hermes_test_once'"));
 });
 
 test('segredo Gemini permanece no servidor e compartilhamento começa desabilitado', () => {
