@@ -9,7 +9,7 @@ const originalClient = dependencies.createClient, originalFetch = dependencies.f
 let userSequence = 0;
 type Row = { id: string; type: string; category: string; amount: number | string; occurred_on: string; description?: string };
 type Options = { invalid?: boolean; member?: boolean; memberRole?: 'owner' | 'member'; staging?: boolean; rows?: Row[]; pageLimit?: number; countShift?: boolean;
-  duplicate?: boolean; provider?: 'ok' | 'bad' | 'down' | 'timeout' | 'redirect' | 'quota' | 'numeric' | 'oversized';
+  duplicate?: boolean; provider?: 'ok' | 'bad' | 'down' | 'timeout' | 'redirect' | 'quota' | 'numeric' | 'oversized' | 'model_not_found';
   approved?: boolean; companyApproved?: boolean; claim?: 'denied' | 'error'; origin?: string };
 
 function row(index: number, amount: number | string = '1.00'): Row {
@@ -60,6 +60,7 @@ function setup(options: Options = {}) {
     if (options.provider === 'down' || options.provider === 'redirect') throw Error('provider failure');
     if (options.provider === 'timeout') throw new DOMException('abort', 'AbortError');
     if (options.provider === 'quota') return new Response('{}', { status: 429 });
+    if (options.provider === 'model_not_found') return new Response('{}', { status: 404 });
     if (options.provider === 'oversized') return new Response('x'.repeat(16385));
     if (options.provider === 'bad') return Response.json({ candidates: [] });
     return Response.json({ candidates: [{ content: { parts: [{ text: options.provider === 'numeric' ? 'Lucro de 999.' : 'Receitas superam despesas.' }] } }] });
@@ -192,7 +193,7 @@ Deno.test('ensaio local envia somente agregados, sem pergunta livre ou registro 
   const originalMockFetch = dependencies.fetch;
   dependencies.fetch = (async (url, init) => {
     const body = String(init?.body);
-    assertEquals(url, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent');
+    assertEquals(url, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent');
     assertEquals(body.includes('customer-name'), false);
     assertEquals(body.includes('person@example.test'), false);
     assertEquals(body.includes('pergunta-original-privada'), false);
@@ -217,7 +218,7 @@ Deno.test('ensaio local concorrente permite apenas uma chamada fictícia', async
   } finally { restore(); }
 });
 
-for (const provider of ['bad', 'down', 'timeout', 'redirect', 'quota', 'numeric', 'oversized'] as const) {
+for (const provider of ['bad', 'down', 'timeout', 'redirect', 'quota', 'numeric', 'oversized', 'model_not_found'] as const) {
   Deno.test(`ensaio local: ${provider} retorna fallback sem segunda chamada`, async () => {
     const { calls } = setup({ staging: true, approved: true, companyApproved: true, provider });
     try {
@@ -392,7 +393,7 @@ Deno.test('CORS rejeita origem não aprovada', async () => {
 Deno.test('diagnóstico distingue quota, resposta rejeitada e sucesso sem registrar dados', async () => {
   const originalInfo = console.info;
   const scenarios = [
-    { provider: 'quota' as const, expected: '"result":"quota"' },
+    { provider: 'quota' as const, expected: '"result":"quota_429"' },
     { provider: 'numeric' as const, expected: '"result":"empty_or_rejected"' },
     { provider: 'ok' as const, expected: '"result":"accepted"' }
   ];
