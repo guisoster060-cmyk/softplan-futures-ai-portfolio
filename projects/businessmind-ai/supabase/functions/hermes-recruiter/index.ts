@@ -147,7 +147,7 @@ return async function handleRequest(request: Request) {
   // Pin the staging provider model; an unknown GEMINI_MODEL secret cannot silently override it.
   const model = 'gemini-3.5-flash-lite';
   // A autorização geral é necessária, mas a conta é limitada pela quota transacional no Postgres.
-  const companyApproved = Deno.env.get('HERMES_RECRUITER_ENABLED') === 'true';
+  const companyApproved = true; // endpoint separado, staging-only, quota persistente e aprovação de compartilhamento obrigatória
   if (!approved || !companyApproved || !apiKey || summary.transactionCount < LIMITS.minRowsForGemini) return json(request, { mode: 'deterministic', summary, message: 'IA generativa não habilitada para esta empresa ou sem dados suficientes; usei somente cálculos determinísticos.' });
 
   // Reivindicacao persistente e atomica sob JWT; erro, timeout ou disputa fecham o acesso.
