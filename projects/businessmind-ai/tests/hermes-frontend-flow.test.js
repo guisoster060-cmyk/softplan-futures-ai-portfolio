@@ -68,7 +68,7 @@ test('resposta generativa fica separada do cálculo local e exige flag explícit
   const disabled = harness({ remote: true, invoke: response });
   await disabled.ask('lucro do mês');
   assert.equal(disabled.messages.at(-1).text, 'Resultado determinístico local');
-  assert.match(disabled.statuses.at(-1).text, /fallback determinístico ativo/);
+  assert.match(disabled.statuses.at(-1).text, /resposta calculada no navegador/);
   for (const answer of ['Lucro R$ 999', 'Contato teste@example.test', 'https://example.test']) {
     const invalid = harness({ remote: true, generative: true,
       invoke: async () => ({ data: { mode: 'generative', summary, answer }, error: null }) });
@@ -87,7 +87,7 @@ test('sessão e empresa ativa permitem somente consulta determinística', async 
   assert.equal(h.calls[0][1].timeout, 22000);
   assert.equal(JSON.stringify(h.calls[0]).includes('token-ficticio-local'), false);
   assert.equal(h.messages.at(-1).text, 'Resultado determinístico local');
-  assert.match(h.statuses.at(-1).text, /Consulta autenticada/);
+  assert.match(h.statuses.at(-1).text, /Função remota consultada/);
   assert.equal(h.submit.disabled, false);
 });
 
@@ -128,7 +128,7 @@ test('rede, timeout e resposta inválida preservam fallback local', async () => 
     await h.ask('lucro do mês');
     assert.equal(h.calls.length, 1);
     assert.equal(h.messages.at(-1).text, 'Resultado determinístico local');
-    assert.match(h.statuses.at(-1).text, /fallback determinístico ativo/);
+    assert.match(h.statuses.at(-1).text, /resposta calculada no navegador/);
     assert.equal(h.submit.disabled, false);
   }
 });
