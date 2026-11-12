@@ -337,19 +337,19 @@ function addHermesInterpretation(raw) {
   const msg = el('div', 'msg bot hermes-interpretation');
   const heading = el('div', 'hermes-interpretation-label', 'Interpretação generativa · sem cálculo financeiro');
   msg.append(heading);
-  const lines = raw.replace(/\\r\\n?/g, '\\n').split('\\n');
+  const lines = raw.replace(/\r\n?/g, '\n').split('\n');
   let list = null;
   for (const original of lines) {
     const line = original.trim();
     if (!line) { list = null; continue; }
-    const bullet = /^(?:[-*•]\\s+)(.+)$/.exec(line);
+    const bullet = /^(?:[-*•]\s+)(.+)$/.exec(line);
     if (bullet) {
       if (!list) { list = document.createElement('ul'); msg.append(list); }
       appendSafeEmphasis(elAndAppend(list, 'li'), bullet[1]);
       continue;
     }
     list = null;
-    const match = /^#{1,4}\\s+(.+)$/.exec(line);
+    const match = /^#{1,4}\s+(.+)$/.exec(line);
     const node = el(match ? 'h4' : 'p');
     appendSafeEmphasis(node, match ? match[1] : line);
     msg.append(node);
@@ -359,7 +359,7 @@ function addHermesInterpretation(raw) {
 }
 function elAndAppend(parent, tag) { const node = document.createElement(tag); parent.append(node); return node; }
 function appendSafeEmphasis(parent, source) {
-  const chunks = source.split(/(\\*\\*[^*\\n]+\\*\\*)/g);
+  const chunks = source.split(/(\*\*[^*\n]+\*\*)/g);
   for (const chunk of chunks) {
     if (!chunk) continue;
     if (chunk.startsWith('**') && chunk.endsWith('**')) parent.append(el('strong', '', chunk.slice(2, -2)));
