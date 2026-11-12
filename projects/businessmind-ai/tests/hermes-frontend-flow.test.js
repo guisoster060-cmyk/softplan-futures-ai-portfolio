@@ -87,7 +87,8 @@ test('sessão e empresa ativa permitem somente consulta determinística', async 
   assert.equal(h.calls[0][1].timeout, 22000);
   assert.equal(JSON.stringify(h.calls[0]).includes('token-ficticio-local'), false);
   assert.equal(h.messages.at(-1).text, 'Resultado determinístico local');
-  assert.match(h.statuses.at(-1).text, /Função remota consultada/);
+  assert.match(h.statuses.at(-1).text, /Hermes remoto respondeu em modo determinístico/);
+  assert.match(h.statuses.at(-1).text, /Gemini não foi utilizado/);
   assert.equal(h.submit.disabled, false);
 });
 
