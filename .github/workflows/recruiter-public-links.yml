@@ -1,0 +1,35 @@
+name: Recruiter public links smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - .github/workflows/recruiter-public-links.yml
+  schedule:
+    - cron: '20 12 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-entrypoints:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check public entrypoints without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          urls=(
+            "https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio"
+            "https://businessmind-ai-demo.guisoster060.workers.dev"
+            "https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev"
+          )
+          for url in "${urls[@]}"; do
+            echo "::group::Checking ${url}"
+            curl --fail --location --silent --show-error --retry 2 --retry-delay 2 --max-time 20 --output /dev/null "${url}"
+            echo "HTTP success: ${url}"
+            echo "::endgroup::"
+          done
