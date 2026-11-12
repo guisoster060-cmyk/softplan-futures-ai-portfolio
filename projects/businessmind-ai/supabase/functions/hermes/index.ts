@@ -139,14 +139,15 @@ return async function handleRequest(request: Request) {
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
   const apiKey = Deno.env.get('GEMINI_API_KEY');
-  const model = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.5-flash-lite';
+  // Pin the staging provider model; an unknown GEMINI_MODEL secret cannot silently override it.
+  const model = 'gemini-3.5-flash-lite';
   const companyApproved = approvedCompany(membership.company_id, Deno.env.get('HERMES_APPROVED_COMPANY_IDS'));
   if (!approved || !companyApproved || !apiKey || summary.transactionCount < LIMITS.minRowsForGemini) return json(request, { mode: 'deterministic', summary, message: 'IA generativa não habilitada para esta empresa ou sem dados suficientes; usei somente cálculos determinísticos.' });
 
   // Reivindicacao persistente e atomica sob JWT; erro, timeout ou disputa fecham o acesso.
   // A autorizacao e consumida antes do fetch e nao e rearmada se o provedor falhar.
   try {
-    const claim = await withTimeout(client.rpc('claim_hermes_test_second_once', { p_company_id: membership.company_id }), remaining());
+    const claim = await withTimeout(client.rpc('claim_hermes_test_third_once', { p_company_id: membership.company_id }), remaining());
     if (claim.error || claim.data !== true) {
       geminiDiagnostic('claim', claim.error ? 'rpc_error' : 'not_authorized');
       return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });

@@ -149,7 +149,7 @@ test('trava de staging exige claim persistente antes de qualquer fetch Gemini', 
   assert.match(oneShotSql, /m\.role = 'owner'/i);
   assert.match(oneShotSql, /revoke all on hermes_test\.one_shot from public, anon, authenticated/i);
   assert.doesNotMatch(oneShotSql, /grant (insert|update|delete) on hermes_test\.one_shot to authenticated/i);
-  assert.ok(functionSource.indexOf("client.rpc('claim_hermes_test_second_once'") < functionSource.indexOf('dependencies.fetch('));
+  assert.ok(functionSource.indexOf("client.rpc('claim_hermes_test_third_once'") < functionSource.indexOf('dependencies.fetch('));
 });
 
 test('modo determinístico de staging retorna antes da RPC e do Gemini', () => {
@@ -157,10 +157,10 @@ test('modo determinístico de staging retorna antes da RPC e do Gemini', () => {
   assert.match(functionSource, /export const handleRequest = createHermesHandler\(STAGING_DETERMINISTIC_ONLY\);/);
   const guard = functionSource.indexOf('if (deterministicOnly) return json(');
   assert.ok(guard > functionSource.indexOf('aggregateTransactions(await completeTransactions('));
-  assert.ok(guard < functionSource.indexOf("client.rpc('claim_hermes_test_second_once'"));
+  assert.ok(guard < functionSource.indexOf("client.rpc('claim_hermes_test_third_once'"));
   assert.ok(guard < functionSource.indexOf('dependencies.fetch('));
   assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') > functionSource.indexOf('const client = dependencies.createClient('));
-  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') < functionSource.indexOf("client.rpc('claim_hermes_test_second_once'"));
+  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') < functionSource.indexOf("client.rpc('claim_hermes_test_third_once'"));
 });
 
 test('segredo Gemini permanece no servidor e compartilhamento começa desabilitado', () => {
