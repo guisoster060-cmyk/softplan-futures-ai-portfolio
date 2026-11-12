@@ -66,7 +66,8 @@ test('resposta generativa fica separada do cálculo local e exige flag explícit
   await enabled.ask('lucro do mês');
   assert.equal(enabled.calls.length, 1);
   assert.equal(enabled.messages.at(-2).text, 'Resultado determinístico local');
-  assert.match(enabled.messages.at(-1).text, /^Interpretação generativa \(sem cálculo financeiro\):/);
+  assert.equal(enabled.chatLog.children.length, 1);
+  assert.match(enabled.chatLog.children[0].children[0].textContent, /Interpretação generativa/);
   assert.equal(enabled.submit.disabled, false);
 
   const disabled = harness({ remote: true, invoke: response });
