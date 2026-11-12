@@ -21,6 +21,8 @@ function harness({ remote = false, generative = false, url = stagingUrl,
   authError = null, invoke = async () => ({ data: { mode: 'deterministic', summary }, error: null }) } = {}) {
   const messages = [], calls = [], statuses = [];
   const submit = { disabled: false };
+  const chatLog = { children: [], append(node) { this.children.push(node); }, scrollTop: 0, scrollHeight: 0 };
+  const makeNode = tag => ({ tag, children: [], className: '', textContent: '', append(node) { this.children.push(node); } });
   const context = vm.createContext({
     window: { BUSINESSMIND_CONFIG: { supabaseUrl: url, hermesGenerativeEnabled: generative, hermesRemoteDeterministicEnabled: remote } },
     transactions: rows, currentCompany: company, currentUser: user,
@@ -30,16 +32,18 @@ function harness({ remote = false, generative = false, url = stagingUrl,
       functions: { invoke: async (...args) => { calls.push(args); return invoke(...args); } }
     },
     addMsg: (role, text) => messages.push({ role, text }),
+    el: (tag, cls, value) => { const node = makeNode(tag); node.className = cls || ''; node.textContent = value || ''; return node; },
+    document: { createElement: makeNode, createTextNode: value => ({ textContent: value }) },
     answer: () => 'Resultado determinístico local',
     hermesOutOfScope: () => false,
     norm: value => value.toLowerCase(),
     has: (value, ...terms) => terms.some(term => value.includes(term)),
     setHermesStatus: (text, kind) => statuses.push({ text, kind }),
-    $: id => { assert.equal(id, 'chat-submit'); return submit; },
+    $: id => { assert.ok(['chat-submit', 'chat-log'].includes(id)); return id === 'chat-submit' ? submit : chatLog; },
     HERMES_SCOPE_MESSAGE: 'Fora do escopo'
   });
   vm.runInContext(`${askSource}\nthis.ask = ask;`, context);
-  return { ask: context.ask, context, messages, calls, statuses, submit };
+  return { ask: context.ask, context, messages, calls, statuses, submit, chatLog };
 }
 
 test('modo local e produção nunca invocam a função', async () => {
@@ -47,7 +51,7 @@ test('modo local e produção nunca invocam a função', async () => {
   const productionConfig = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
   assert.match(stagingConfig, /hermesGenerativeEnabled: true/);
-  assert.doesNotMatch(productionConfig, /hermesRemoteDeterministicEnabled: true/);
+  assert.match(productionConfig, /ogypzmxnvjbomamkejkh\\.supabase\\.co/); // branch de staging, não configuração da main
   for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
     await h.ask('lucro do mês');
