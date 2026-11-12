@@ -14,11 +14,11 @@ begin
     raise exception 'First trial must remain consumed';
   end if;
 end $$;
-do $ begin
+do $$ begin
  if not exists (select 1 from hermes_test.second_one_shot where company_id='53ec445f-610a-4d80-a6d7-da4acd9c14e1'::uuid and claimed_at is not null) then
   raise exception 'Second trial must remain consumed';
  end if;
-end $;
+end $$;
 create table hermes_test.third_one_shot (
   company_id uuid primary key,
   claimed_at timestamptz,
