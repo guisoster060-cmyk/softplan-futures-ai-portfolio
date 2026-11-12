@@ -9,7 +9,7 @@ const validConfig = `'use strict';
 window.BUSINESSMIND_CONFIG = Object.freeze({
   supabaseUrl: 'https://ogypzmxnvjbomamkejkh.supabase.co',
   supabasePublishableKey: 'sb_publishable_Lq05mBXfQqm9Rt9udW2fww_wXTEL6WM',
-  hermesGenerativeEnabled: false,
+  hermesGenerativeEnabled: true,
   hermesRemoteDeterministicEnabled: true
 });`;
 
@@ -26,7 +26,7 @@ async function withBuild(config, extra, callback) {
   }
 }
 
-test('aceita build público isolado e Hermes desativado', async () => {
+test('aceita build público isolado com exibição generativa controlada', async () => {
   await withBuild(validConfig, null, (check) => assert.equal(check(), 2));
 });
 
@@ -40,7 +40,7 @@ test('rejeita URL de produção no config e em outro arquivo publicado', async (
 test('rejeita URL não exata, Gemini habilitado e configuração ausente', async () => {
   await withBuild(validConfig.replace('https://ogypzmxnvjbomamkejkh.supabase.co', 'http://ogypzmxnvjbomamkejkh.supabase.co'), null,
     (check) => assert.throws(check, /inválida/));
-  await withBuild(validConfig.replace('hermesGenerativeEnabled: false', 'hermesGenerativeEnabled: true'), null,
+  await withBuild(validConfig.replace('hermesGenerativeEnabled: true', 'hermesGenerativeEnabled: false'), null,
     (check) => assert.throws(check, /inválida/));
   await withBuild(validConfig.replace('hermesRemoteDeterministicEnabled: true', 'hermesRemoteDeterministicEnabled: false'), null,
     (check) => assert.throws(check, /inválida/));
