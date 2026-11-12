@@ -175,3 +175,15 @@ test('frontend mantém fallback determinístico quando a função falha', () => 
   assert.match(frontendSource, /localAnswer\(\)/);
   assert.match(frontendSource, /resposta calculada no navegador/);
 });
+
+
+test('frontend Hermes exposes only safe error categories and explicit abort timeout', () => {
+  assert.match(frontendSource, /new AbortController\(\)/);
+  assert.match(frontendSource, /setTimeout\(\(\) => controller\.abort\(\), 30000\)/);
+  assert.match(frontendSource, /signal: controller\.signal/);
+  for (const code of ['network_or_cors', 'empty_response', 'summary_mismatch', 'generative_validation']) {
+    assert.ok(frontendSource.includes(code), code);
+  }
+  assert.ok(!frontendSource.includes('console.log(error)'));
+  assert.ok(!frontendSource.includes('console.info(error)'));
+});
