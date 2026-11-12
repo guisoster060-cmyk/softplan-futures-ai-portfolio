@@ -393,7 +393,7 @@ Deno.test('CORS rejeita origem não aprovada', async () => {
 Deno.test('diagnóstico distingue quota, resposta rejeitada e sucesso sem registrar dados', async () => {
   const originalInfo = console.info;
   const scenarios = [
-    { provider: 'quota' as const, expected: '"result":"quota"' },
+    { provider: 'quota' as const, expected: '"result":"quota_429"' },
     { provider: 'numeric' as const, expected: '"result":"empty_or_rejected"' },
     { provider: 'ok' as const, expected: '"result":"accepted"' }
   ];
