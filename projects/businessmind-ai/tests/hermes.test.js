@@ -173,5 +173,5 @@ test('segredo Gemini permanece no servidor e compartilhamento começa desabilita
 test('frontend mantém fallback determinístico quando a função falha', () => {
   assert.match(frontendSource, /supabase\.functions\.invoke\('hermes'/);
   assert.match(frontendSource, /localAnswer\(\)/);
-  assert.match(frontendSource, /fallback determinístico ativo/);
+  assert.match(frontendSource, /resposta calculada no navegador/);
 });
