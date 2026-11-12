@@ -1,5 +1,7 @@
 # Roteiro de avaliação — BusinessMind AI
 
+> **Atualização verificada em 12/11/2026:** o staging recebeu novo deploy e uma consulta Hermes retornou HTTP 200, com resposta determinística observada no Android. A autorização única de teste Gemini foi consumida, mas **não há evidência de resposta generativa**. O Gemini permanece experimental e não deve ser anunciado como validado. As referências históricas abaixo descrevem versões anteriores. [Estado de entrega e evidências](DELIVERY_STATUS_2026-11-12.md).
+
 Estado de referência: staging validado manualmente em 11/11/2026; correção financeira documentada no PR #13 (merge `5b2a5898`). Este roteiro distingue observações atuais de resultados históricos.
 
 ## Em poucos minutos
