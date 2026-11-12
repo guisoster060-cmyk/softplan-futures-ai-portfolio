@@ -5,8 +5,20 @@ type Transaction = { id: string; type: 'income' | 'expense'; category: string; a
 type RateEntry = { startedAt: number; count: number };
 const rateByUser = new Map<string, RateEntry>();
 export const dependencies = { createClient, fetch: globalThis.fetch };
-const STAGING_DETERMINISTIC_ONLY = true;
+const STAGING_DETERMINISTIC_ONLY = false;
 const STAGING_SUPABASE_URL = 'https://ogypzmxnvjbomamkejkh.supabase.co';
+
+// Apenas marcadores fixos: nunca registrar perguntas, IDs, tokens, respostas ou payloads.
+function geminiDiagnostic(stage: string, result: string) {
+  console.info('hermes_gemini_diagnostic', JSON.stringify({ stage, result }));
+}
+function providerStatusClass(status: number) {
+  if (status === 429) return 'quota';
+  if (status === 401 || status === 403) return 'provider_auth';
+  if (status >= 500) return 'provider_5xx';
+  if (status >= 400) return 'provider_4xx';
+  return 'unexpected_status';
+}
 
 function corsHeaders(request: Request) {
   const origin = request.headers.get('Origin') ?? '';
@@ -127,19 +139,25 @@ return async function handleRequest(request: Request) {
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
   const apiKey = Deno.env.get('GEMINI_API_KEY');
-  const model = Deno.env.get('GEMINI_MODEL') ?? 'gemini-2.5-flash-lite';
+  // Pin the staging provider model; an unknown GEMINI_MODEL secret cannot silently override it.
+  const model = 'gemini-3.5-flash-lite';
   const companyApproved = approvedCompany(membership.company_id, Deno.env.get('HERMES_APPROVED_COMPANY_IDS'));
   if (!approved || !companyApproved || !apiKey || summary.transactionCount < LIMITS.minRowsForGemini) return json(request, { mode: 'deterministic', summary, message: 'IA generativa não habilitada para esta empresa ou sem dados suficientes; usei somente cálculos determinísticos.' });
 
   // Reivindicacao persistente e atomica sob JWT; erro, timeout ou disputa fecham o acesso.
   // A autorizacao e consumida antes do fetch e nao e rearmada se o provedor falhar.
   try {
-    const claim = await withTimeout(client.rpc('claim_hermes_test_once', { p_company_id: membership.company_id }), remaining());
-    if (claim.error || claim.data !== true) return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
+    const claim = await withTimeout(client.rpc('claim_hermes_test_fourth_once', { p_company_id: membership.company_id }), remaining());
+    if (claim.error || claim.data !== true) {
+      geminiDiagnostic('claim', claim.error ? 'rpc_error' : 'not_authorized');
+      return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
+    }
   } catch {
+    geminiDiagnostic('claim', 'rpc_timeout_or_exception');
     return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
   }
 
+  geminiDiagnostic('claim', 'accepted');
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), Math.min(LIMITS.providerTimeoutMs, remaining()));
   try {
@@ -147,12 +165,25 @@ return async function handleRequest(request: Request) {
       method: 'POST', headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify(buildGeminiRequest(validation.question, summary)), signal: controller.signal, redirect: 'error'
     });
-    if (!providerResponse.ok) return json(request, { mode: 'deterministic', summary, message: 'Gemini indisponível; usei o fallback determinístico.' });
-    const answer = extractGeminiText(JSON.parse(await limitedText(providerResponse.body, LIMITS.responseBytes)));
-    if (!answer) return json(request, { mode: 'deterministic', summary, message: 'Resposta generativa inválida; usei o fallback determinístico.' });
+    if (!providerResponse.ok) {
+      geminiDiagnostic('provider', `${providerStatusClass(providerResponse.status)}_${providerResponse.status}`);
+      return json(request, { mode: 'deterministic', summary, message: 'Gemini indisponível; usei o fallback determinístico.' });
+    }
+    const payload = JSON.parse(await limitedText(providerResponse.body, LIMITS.responseBytes));
+    const answer = extractGeminiText(payload);
+    if (!answer) {
+      // Não registrar finishReason bruto: pode ser controlado pelo provedor.
+      const reason = payload?.candidates?.[0]?.finishReason;
+      const safeReason = ['MAX_TOKENS', 'SAFETY', 'RECITATION', 'BLOCKLIST', 'PROHIBITED_CONTENT', 'SPII', 'OTHER'].includes(reason) ? reason.toLowerCase() : 'empty_or_rejected';
+      geminiDiagnostic('validation', safeReason);
+      return json(request, { mode: 'deterministic', summary, message: 'Resposta generativa inválida; usei o fallback determinístico.' });
+    }
+    geminiDiagnostic('provider', 'accepted');
     return json(request, { mode: 'generative', answer, summary, model });
   } catch (error) {
-    const message = error instanceof DOMException && error.name === 'AbortError' ? 'Tempo limite do Gemini atingido; usei o fallback determinístico.' : 'Gemini indisponível; usei o fallback determinístico.';
+    const aborted = error instanceof DOMException && error.name === 'AbortError';
+    geminiDiagnostic('provider', aborted ? 'timeout' : 'exception_or_invalid_payload');
+    const message = aborted ? 'Tempo limite do Gemini atingido; usei o fallback determinístico.' : 'Gemini indisponível; usei o fallback determinístico.';
     return json(request, { mode: 'deterministic', summary, message });
   } finally { clearTimeout(timeout); }
 }
