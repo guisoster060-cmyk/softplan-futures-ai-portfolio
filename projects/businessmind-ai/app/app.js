@@ -375,22 +375,31 @@ async function ask(q) {
       addMsg('bot', 'Sessão ou empresa não autorizada. Entre novamente ou selecione uma empresa permitida.');
       setHermesStatus('Acesso não autorizado à função.', 'error'); return;
     }
-    if (error || !data) throw error || new Error('Resposta vazia');
+    if (error || !data) {
+      const httpStatus = error?.context?.status ?? error?.status;
+      console.info('hermes_client_diagnostic', Number.isInteger(httpStatus) ? `http_${httpStatus}` : error ? 'network_or_cors' : 'empty_response');
+      throw error || new Error('Resposta vazia');
+    }
     if (!['deterministic', 'generative'].includes(data.mode) || !Number.isInteger(data.summary?.transactionCount) ||
         data.summary.transactionCount !== transactions.length ||
         !['income', 'expense', 'profit'].every(key => Number.isFinite(data.summary?.totals?.[key]))) {
-      throw Error('Resposta determinística inválida.');
+      console.info('hermes_client_diagnostic', 'summary_mismatch');
+      throw Error('Resumo remoto inválido.');
     }
     if (data.mode === 'generative') {
       if (!config.hermesGenerativeEnabled || typeof data.answer !== 'string' || !data.answer.trim() ||
-          data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) throw Error('Interpretação generativa inválida.');
+          data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) {
+        console.info('hermes_client_diagnostic', 'generative_validation');
+        throw Error('Interpretação generativa inválida.');
+      }
       localAnswer();
       addMsg('bot', `Interpretação generativa (sem cálculo financeiro): ${data.answer.trim()}`);
       setHermesStatus('Cálculo local e interpretação generativa exibidos separadamente.');
       return;
     }
     localAnswer();
-    setHermesStatus('Função remota consultada; cálculo financeiro realizado no navegador.');
+    console.info('hermes_client_diagnostic', 'deterministic_mode');
+    setHermesStatus('Hermes remoto respondeu em modo determinístico; Gemini não foi utilizado nesta resposta. Cálculo financeiro realizado no navegador.');
   } catch {
     if (stillActive()) { localAnswer(); setHermesStatus('Falha na consulta remota; resposta calculada no navegador.', 'error'); }
   } finally { submit.disabled = false; }
