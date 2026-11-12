@@ -2,11 +2,14 @@
 
 **O que é:** MVP de apoio à leitura de indicadores financeiros para pequenos negócios brasileiros. **Escopo:** demonstração técnica, não serviço financeiro de produção.
 
-## Experimente em 5 minutos
-1. [Prévia com autenticação e Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) — criar conta, confirmar e-mail, cadastrar empresa fictícia.
-2. Em **Indicadores**, lançar receita e despesa fictícias; verificar totais em **Visão geral**.
-3. Em **Inteligência**, solicitar análise ao Hermes. Os cálculos são determinísticos; a interpretação generativa é complementar e sujeita a quotas.
-4. [Roteiro completo](START_HERE_RECRUITER.md) ou [demo sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev) (sem Gemini).
+## Comece pela demonstração — 2 minutos, sem cadastro
+
+1. **[ABRIR BUSINESSMIND AI — DEMO IMEDIATA](https://businessmind-ai-demo.guisoster060.workers.dev)**. Use os dados fictícios locais; se necessário clique em **Entrar na demonstração**.
+2. Visite **Visão geral → Indicadores → Inteligência → Configurações**.
+3. Registre uma receita fictícia e confira os totais. Na demo, o Hermes é **determinístico**, sem Gemini.
+4. Para conferir integração real com autenticação, banco e IA generativa, use a **[PRÉVIA COMPLETA — CADASTRO INDIVIDUAL](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev)**; exige confirmação de e-mail e está sujeita a quotas.
+
+[Guia de avaliação passo a passo](START_HERE_RECRUITER.md) · [Auditoria e limites](RECRUITER_EXPERIENCE_AUDIT_2026-11-12.md).
 
 ## Problema → solução → prova
 | Questão | Resposta concisa | Evidência |
