@@ -1,10 +1,9 @@
 'use strict';
-
-// Estes dois valores são públicos por desenho. Nunca adicione service_role,
-// secret key ou chave de provedor de IA ao frontend.
+// Configuração pública SOMENTE desta branch de preview; produção permanece em outra branch.
+// Chaves publishable são públicas; nunca colocar service_role ou segredo de IA aqui.
 window.BUSINESSMIND_CONFIG = Object.freeze({
-  supabaseUrl: 'https://cqiuryqnsdmsjchejclo.supabase.co',
-  supabasePublishableKey: 'sb_publishable_sS8suJBU8N-tkIGDbF4JRw_CyU4RU_t',
-  // Ative somente depois do deploy da função e da autorização de tratamento de dados.
-  hermesGenerativeEnabled: false
+  supabaseUrl: 'https://ogypzmxnvjbomamkejkh.supabase.co',
+  supabasePublishableKey: 'sb_publishable_Lq05mBXfQqm9Rt9udW2fww_wXTEL6WM',
+  hermesGenerativeEnabled: true,
+  hermesRemoteDeterministicEnabled: true
 });
