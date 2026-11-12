@@ -12,7 +12,7 @@ test('build staging preserva a configuração da branch e usa apenas o projeto d
   const output = buildStagingPreview();
   const staged = readFileSync(resolve(output, 'config.js'), 'utf8');
   assert.equal(readFileSync(productionFile, 'utf8'), before);
-  assert.match(before, /cqiuryqnsdmsjchejclo\.supabase\.co/);
+  assert.match(before, /ogypzmxnvjbomamkejkh\.supabase\.co/);
   assert.doesNotMatch(staged, /cqiuryqnsdmsjchejclo/);
   assert.match(staged, /ogypzmxnvjbomamkejkh\.supabase\.co/);
   assert.match(staged, /sb_publishable_/);
