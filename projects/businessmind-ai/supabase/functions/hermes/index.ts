@@ -6,6 +6,7 @@ type RateEntry = { startedAt: number; count: number };
 const rateByUser = new Map<string, RateEntry>();
 export const dependencies = { createClient, fetch: globalThis.fetch };
 const STAGING_DETERMINISTIC_ONLY = true;
+const STAGING_SUPABASE_URL = 'https://ogypzmxnvjbomamkejkh.supabase.co';
 
 function corsHeaders(request: Request) {
   const origin = request.headers.get('Origin') ?? '';
@@ -74,7 +75,10 @@ async function completeTransactions(client: ReturnType<typeof createClient<any, 
   } finally { clearTimeout(timeout); }
 }
 
-export async function handleRequest(request: Request) {
+// O handler publico permanece bloqueado. O factory permite exercitar o ramo
+// generativo somente em testes locais com dependencias ficticias.
+export function createHermesHandler(deterministicOnly: boolean) {
+return async function handleRequest(request: Request) {
   const deadline = Date.now() + LIMITS.requestTimeoutMs;
   const remaining = () => Math.max(1, deadline - Date.now());
   const cors = corsHeaders(request);
@@ -107,16 +111,19 @@ export async function handleRequest(request: Request) {
 
   // O ID enviado é apenas uma solicitação; a associação retornada sob RLS é a autoridade.
   let membership, membershipError;
-  try { ({ data: membership, error: membershipError } = await withTimeout(client.from('company_members').select('company_id')
+  try { ({ data: membership, error: membershipError } = await withTimeout(client.from('company_members').select('company_id,role')
     .eq('user_id', userData.user.id).eq('company_id', requestedCompanyId).maybeSingle(), remaining())); }
   catch { return json(request, { error: 'Não foi possível verificar a associação.' }, 503); }
   if (membershipError || !membership?.company_id) return json(request, { error: 'Empresa não autorizada.' }, 403);
+  if (membership.role !== 'owner') return json(request, { error: 'Empresa não autorizada.' }, 403);
   if (!classifyQuestion(validation.question).allowed) return json(request, { mode: 'out_of_scope', message: OUT_OF_SCOPE_MESSAGE });
   let summary;
   try { summary = aggregateTransactions(await completeTransactions(client, membership.company_id, deadline)); }
   catch { return json(request, { error: 'A consulta financeira não retornou dados completos e válidos; nenhum total foi calculado.' }, 503); }
 
-  if (STAGING_DETERMINISTIC_ONLY) return json(request, { mode: 'deterministic', summary, message: 'Hermes generativo desativado durante a validação do staging; usei somente cálculos determinísticos.' });
+  if (deterministicOnly) return json(request, { mode: 'deterministic', summary, message: 'Hermes generativo desativado durante a validação do staging; usei somente cálculos determinísticos.' });
+  // Impede uso generativo se esta revisao for implantada fora do projeto isolado.
+  if (supabaseUrl !== STAGING_SUPABASE_URL) return json(request, { mode: 'deterministic', summary, message: 'IA generativa disponível somente no staging autorizado; usei cálculos determinísticos.' });
 
   const approved = Deno.env.get('HERMES_DATA_SHARING_APPROVED') === 'true';
   const apiKey = Deno.env.get('GEMINI_API_KEY');
@@ -149,5 +156,8 @@ export async function handleRequest(request: Request) {
     return json(request, { mode: 'deterministic', summary, message });
   } finally { clearTimeout(timeout); }
 }
+}
+
+export const handleRequest = createHermesHandler(STAGING_DETERMINISTIC_ONLY);
 
 if (import.meta.main) Deno.serve(handleRequest);

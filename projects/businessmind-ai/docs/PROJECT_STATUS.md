@@ -1,5 +1,7 @@
 # Estado atual do BusinessMind AI
 
+> **Revisão de 12/11/2026:** o frontend público do staging corresponde ao PR #24 e mantém Gemini desligado. A função remota `hermes` está ACTIVE v12 e determinística; metadados consultados indicam `verify_jwt=false`. A branch experimental combina os controles dos PRs #21/#22 com a rota do PR #24, mas ainda não foi publicada. O teste generativo real, a validação remota da autorização de uso único e a configuração do gateway exigem revisão e autorização separadas. Evidências em [TESTING.md](TESTING.md) e procedimento em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
+
 Atualizado em: 11/11/2026
 
 Nota da Missão 2: o staging público ainda serve arquivos de interface idênticos aos do commit `d15282a`, não os ajustes do PR #10. Sua tela de login carregou em desktop e mobile; nenhum login remoto foi refeito nesta missão. Um modo de demonstração fictício, isolado e local foi preparado, mas não publicado. Consulte `REVIEW_GUIDE.md` e `TESTING.md` antes de oferecer acesso a avaliadores.

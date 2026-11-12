@@ -5,7 +5,7 @@ Estado de referência: staging validado manualmente em 11/11/2026; correção fi
 ## Em poucos minutos
 
 1. **Problema e solução:** o [README principal](../../../README.md) descreve o MVP para registrar receitas e despesas por empresa e analisar somente dados autorizados.
-2. **Demonstração:** [staging real](https://businessmind-ai-staging.pages.dev), publicado manualmente com o build de staging do commit `4a1a28e` (Cloudflare Pages, implantação `db87031b-8e47-4c3a-be1b-1e2ed9b6e5f9`, status de sucesso em 11/11/2026). A tela autenticada exige conta autorizada; não há senha pública. A demonstração fictícia local abaixo é um artefato distinto e não publicado.
+2. **Demonstração:** [demo pública fictícia, sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev) para avaliação rápida; [staging real](https://businessmind-ai-staging.pages.dev) exige conta autorizada e usa Supabase. Os dados da demo ficam somente no navegador e não comprovam Auth/RLS. Em 12/11, os arquivos públicos do staging coincidiram com o PR #24; a função v12 permanece determinística.
 3. **Fluxo principal:** autenticação, seleção/criação de empresa, movimentações, indicadores e Hermes determinístico. O [README do projeto](../README.md) explica a execução local.
 4. **Engenharia:** [arquitetura](ARCHITECTURE.md), [requisitos](REQUIREMENTS.md) e [decisões](TECHNICAL_DECISIONS.md) mostram componentes, critérios e trade-offs.
 5. **Evidência:** [testes](TESTING.md) distinguem Node e Deno com mocks, PostgreSQL local, HTTP com JWT no staging e validação manual. No build da Missão 2, `npm run verify` aprovou 54/54 testes Node e 28/28 Deno com mocks; não são testes remotos.
@@ -21,11 +21,11 @@ Estado de referência: staging validado manualmente em 11/11/2026; correção fi
 
 ## Limites importantes
 
-### Demonstração isolada, somente local nesta revisão
+### Demonstração isolada, também reproduzível localmente
 
 Em `projects/businessmind-ai/`, execute `npm run build:demo-preview` e sirva `dist-demo/` com `python3 -m http.server 8080 --directory dist-demo`. Abra `http://localhost:8080`. O modo entra automaticamente com uma identidade fictícia e movimentações ilustrativas. Crie uma movimentação em **Indicadores**, recarregue, examine **Visão geral** e **Inteligência** (Hermes determinístico), depois use **Sair** e **Entrar na demonstração**. **Restaurar dados fictícios** reinicia os dados locais.
 
-O banner identifica a simulação; `config.js` usa `demo.invalid`, a SDK é substituída por adaptador em `localStorage` e a CSP bloqueia conexões externas. Não há Supabase Auth, PostgreSQL nem RLS reais nesse modo. O build é artefato local não versionado e **não deve ser confundido com o staging real**. Publicá-lo separadamente exigirá autorização e nova verificação do destino; este PR não altera hospedagem.
+O banner identifica a simulação; `config.js` usa `demo.invalid`, a SDK é substituída por adaptador em `localStorage` e a CSP bloqueia conexões externas. Não há Supabase Auth, PostgreSQL nem RLS reais nesse modo. O mesmo modo está acessível no link público acima; o build local é artefato não versionado e **não deve ser confundido com o staging real**. Este PR não altera hospedagem.
 
 - Gemini está no código, mas bloqueado por `STAGING_DETERMINISTIC_ONLY=true` e pelo frontend; não houve validação generativa remota. O [plano de validação](GEMINI_VALIDATION_PLAN.md) não autoriza ativação.
 - A leitura de movimentações valida paginação e completude, mas há limite de 5.000 linhas e não existe snapshot entre páginas.

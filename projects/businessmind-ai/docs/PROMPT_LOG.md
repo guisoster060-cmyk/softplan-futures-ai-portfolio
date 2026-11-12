@@ -1,5 +1,12 @@
 # Índice técnico de tarefas delegadas à IA
 
+## ETD-010 — Preparação experimental do Hermes (especificação técnica derivada)
+
+- **Objetivo/contexto:** integrar as revisões dos PRs #21–#24 e corrigir o período dos agregados antes de qualquer teste generativo.
+- **Critérios:** JWT e empresa autorizada, dados fictícios, payload mínimo, fallback, trava de uso único, Gemini bloqueado no código publicável e testes locais verificáveis.
+- **Atividade/evidências:** revisão do código público e metadados da função, teste do contrato mensal, suítes Node/Deno e plano de rollback em `TESTING.md` e `GEMINI_VALIDATION_PLAN.md`.
+- **Intervenção humana:** o responsável definiu objetivo, restringiu produção, secrets e custos, e conserva a decisão sobre deploy, consentimento e única chamada real. Este resumo não é um prompt literal nem presume aprovação.
+
 ## ETD-009 — Acesso de avaliação sem credenciais (especificação técnica derivada)
 
 - **Objetivo/contexto:** tornar o MVP examinável por recrutador sem distribuir senhas e sem alterar ambientes remotos.

@@ -112,6 +112,8 @@ A análise determinística funciona no frontend e permanece como fallback. A Edg
 
 A integração Gemini existe no código do servidor, mas não foi validada por execução generativa remota e não está habilitada para a demonstração. Qualquer ativação futura requer revisão da proteção, autorização explícita para tratamento de dados e testes próprios; não é uma funcionalidade concluída do MVP. Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
 
+Na revisão local de 12/11, o frontend público de staging coincidiu com o PR #24. A função implantada é v12, determinística, mas seu metadado atual informa `verify_jwt=false`; o código realiza validação própria com `auth.getUser`. A versão preparada nesta branch exige proprietário antes da leitura financeira e corrige o contexto enviado ao modelo para distinguir mês atual de série histórica. Nada disso foi publicado. O ensaio generativo permanece bloqueado até revisão e autorização específicas; veja o [plano](docs/GEMINI_VALIDATION_PLAN.md).
+
 ## Limitações conhecidas
 
 - confirmação e recuperação por e-mail dependem do serviço de e-mail e de seus limites; o cadastro com confirmação foi testado manualmente no staging em 11/11/2026, mas não foi realizado teste de carga nem de recuperação;

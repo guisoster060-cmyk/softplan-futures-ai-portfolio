@@ -1,5 +1,15 @@
 # Diário de engenharia do BusinessMind AI
 
+## ENG-013 — Revisão integrada do Hermes (especificação técnica derivada)
+
+- **Objetivo/necessidade:** preparar interpretação generativa com dados fictícios sem confundir totais históricos com o mês atual nem publicar IA externa antes de autorização.
+- **Critérios:** manter JWT e consulta sob RLS, exigir proprietário, preservar bloqueio determinístico e trava única, enviar apenas agregados, distinguir testes locais de validação remota.
+- **Solução/arquivos:** integração local dos PRs #21/#22 sobre #24; `core.mjs` agora rotula o mês UTC e omite total histórico no payload, `hermes.test.js` cobre o contrato; `app/app.js` só aceita interpretação generativa com controle explícito e a separa do cálculo local, com teste de regressão e flag ainda desligado; READMEs e documentos de validação registram as diferenças entre branch e função v12.
+- **Tecnologias/decisões:** Deno, Supabase Auth/PostgREST, PostgreSQL RLS, Node Test Runner; manter `STAGING_DETERMINISTIC_ONLY=true`, `hermesGenerativeEnabled=false` e não alterar serviços.
+- **Testes/resultados:** veja `TESTING.md` para comandos, resultados e limites. Metadados remotos de leitura mostraram `verify_jwt=false`, pendência para aprovação antes de qualquer ensaio; nenhuma chamada a Gemini foi feita.
+- **Responsabilidades:** objetivo, limites de dados e autorização externa pertencem ao responsável; integração, correção, testes e documentação foram assistidos por IA. Esta entrada é especificação técnica derivada, não prompt original.
+- **Referência:** PR desta branch; SHAs no histórico Git.
+
 ## ENG-012 — Apresentação final e revisão de evidências (especificação técnica derivada)
 
 - **Objetivo/necessidade:** tornar o portfólio legível em poucos minutos sem sacrificar o MVP, o histórico e a transparência sobre dados fictícios.

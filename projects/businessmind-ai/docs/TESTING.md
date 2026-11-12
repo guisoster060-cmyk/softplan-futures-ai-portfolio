@@ -1,5 +1,11 @@
 # Estratégia e evidências de testes
 
+## Missão 05 — revisão integrada (12/11/2026)
+
+O frontend público do staging respondeu por HTTPS e `app.js`, `config.js` e `index.html` tiveram hashes SHA-256 iguais aos arquivos do PR #24 (`ab1c27c5…`, `5f660d2b…`, `d5cf9dcb…`). A consulta de metadados do Supabase encontrou `hermes` ACTIVE v12 e `verify_jwt=false`; a leitura de fonte confirmou o bloqueio determinístico e ausência da exigência explícita de proprietário presente nesta branch. São observações remotas de leitura, **não** testes de JWT, RLS, chamada ao Gemini ou conteúdo de secrets. A invocação autenticada é um resultado informado pelo responsável e não foi repetida aqui.
+
+`npm ci && npm run verify` aprovou **62/62 testes Node**, análise sintática e 31 documentos; `npm run build:staging-preview && npm run validate:staging-preview` aprovou a configuração isolada. `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts` aprovaram **44/44 testes Deno com mocks**. O teste novo confirma mês de referência e ausência de total histórico no payload preparado, além de não enviar nomes de categoria ou pergunta livre. `node tests/e2e-local.cjs` e `node tests/e2e-demo.cjs` passaram em Chromium; o primeiro simula Auth/RLS e o segundo usa dados fictícios locais sem requisições externas. `node tests/hermes-one-shot-postgres.mjs` passou com PostgreSQL local: uma reivindicação em duas transações concorrentes, ACL, RLS e repetição. Os testes Deno de concorrência usam uma RPC simulada; não comprovam atomicidade remota. A primeira aquisição de pacotes Deno falhou por CA desconhecida do proxy; `DENO_TLS_CA_STORE=system` permitiu checagem e testes sem desligar a validação TLS.
+
 ## Missão 04 — rota remota determinística preparada (12/11/2026)
 
 - `npm ci && npm run verify`: **60/60 testes Node aprovados**, análise sintática e 31 documentos com links internos válidos. Os testes de `ask` cobrem flag local/produção, sessão ausente ou inválida, empresa não associada, 401/403 sem dados, rede/timeout com fallback, resposta generativa recusada, contagem divergente, troca de empresa durante espera e botão liberado.
@@ -16,6 +22,19 @@
 - Arquivos públicos do staging `index.html`, `app.js` e `config.js` responderam HTTP 200; hashes SHA-256 coincidem com `new-branch`/config de preview. Isso confirma o código entregue, não o resultado de uma sessão autenticada nem o ID do deploy.
 - Os logs com zero invocações foram relatados pelo responsável; não foram consultados nesta missão. Nenhum teste remoto com JWT, autorização/RLS real ou Edge Function foi executado. A proposta de integração permanece sem implementação em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
 
+## Preparação do ensaio generativo isolado (12/11/2026)
+
+- `npm ci && npm run verify`: **54/54 testes Node aprovados**, análise sintática e 31 documentos com links válidos.
+- `deno check index.ts index_test.ts`: aprovado; `deno test --allow-env index_test.ts`: **44/44 testes Deno aprovados com mocks e dados fictícios**. O handler público mantém o bloqueio determinístico. Os testes exercitam o ramo desbloqueado por `createHermesHandler(false)` apenas em memória, sem chamada à API.
+- `node tests/hermes-one-shot-postgres.mjs`: aprovado em PostgreSQL local descartável, incluindo disputa de duas transações (uma única vencedora), ACL, RLS, autorização do proprietário e impossibilidade de repetir a reivindicação. Não comprova o estado da RPC no Supabase staging.
+- Cobertura nova: projeto não staging; membro não proprietário; JWT inválido; controles de compartilhamento ausentes; tema fora do escopo e paginação incompleta sem claim; RPC negada/indisponível; uma tentativa de provedor após claim; oito requisições simuladas concorrentes; dados individuais e pergunta livre fora do payload; erro, quota, timeout, redirect e resposta inválida com fallback sem segunda tentativa. Os mocks de concorrência não substituem o teste transacional PostgreSQL.
+- **Não executado:** consulta a secrets, chamada real ao Hermes ou Gemini, teste remoto RLS da Edge Function, confirmação de `verify_jwt`/versão/estado da linha de uso único no staging e validação de cobrança/quotas da conta Google. O plano de verificação humana está em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
+## Revisão do Hermes para ensaio generativo (12/11/2026)
+
+- `npm ci && npm run verify`: **54/54 testes Node aprovados**, análise sintática aprovada e 31 documentos conferidos. Sem credenciais ou serviços remotos.
+- `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts`: **29/29 testes Deno aprovados com mocks**, incluindo nova asserção de URL, chave pública e cabeçalho JWT passado ao cliente Supabase; nenhuma chamada ao Hermes ou Gemini remoto. A primeira tentativa de aquisição de pacotes falhou pela CA do proxy; a execução aprovada usou `DENO_DIR=/workspace/.deno DENO_TLS_CA_STORE=system`, mantendo a validação TLS.
+- A suíte cobre JWT ausente/inválido, empresa não associada, classificação, CORS, paginação completa/incompleta, valores inválidos, limites e retorno determinístico mesmo com gates simulados ativos. O bloqueio `STAGING_DETERMINISTIC_ONLY=true` impede o acesso ao ramo generativo: os casos nomeados como erro/quota/timeout do provedor comprovam **inacessibilidade do ramo**, não o funcionamento do fallback após uma chamada ao Gemini.
+- Esta revisão foi local. Não inspecionou secrets, estado remoto da autorização de uso único, função publicada, RLS remoto ou o provedor. Testes HTTP anteriores de Auth/CRUD/RLS não substituem testes da Edge Function. Pendências e sequência segura constam em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
 ## Preparação final do GitHub (12/11/2026)
 
 - `npm ci` e `npm run verify` na branch de revisão: **54/54 testes Node aprovados**, análise sintática e **31 documentos** com links internos válidos; sem credenciais remotas.

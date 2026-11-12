@@ -48,11 +48,33 @@ test('modo local e produção nunca invocam a função', async () => {
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
   assert.match(stagingConfig, /hermesGenerativeEnabled: false/);
   assert.doesNotMatch(productionConfig, /hermesRemoteDeterministicEnabled: true/);
-  for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { remote: true, generative: true }]) {
+  for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
     await h.ask('lucro do mês');
     assert.equal(h.calls.length, 0);
     assert.equal(h.messages.at(-1).text, 'Resultado determinístico local');
+  }
+});
+
+test('resposta generativa fica separada do cálculo local e exige flag explícito', async () => {
+  const response = async () => ({ data: { mode: 'generative', summary, answer: 'As receitas superam as despesas.' }, error: null });
+  const enabled = harness({ remote: true, generative: true, invoke: response });
+  await enabled.ask('lucro do mês');
+  assert.equal(enabled.calls.length, 1);
+  assert.equal(enabled.messages.at(-2).text, 'Resultado determinístico local');
+  assert.match(enabled.messages.at(-1).text, /^Interpretação gerada por IA \(não é cálculo\):/);
+  assert.equal(enabled.submit.disabled, false);
+
+  const disabled = harness({ remote: true, invoke: response });
+  await disabled.ask('lucro do mês');
+  assert.equal(disabled.messages.at(-1).text, 'Resultado determinístico local');
+  assert.match(disabled.statuses.at(-1).text, /fallback determinístico ativo/);
+  for (const answer of ['Lucro R$ 999', 'Contato teste@example.test', 'https://example.test']) {
+    const invalid = harness({ remote: true, generative: true,
+      invoke: async () => ({ data: { mode: 'generative', summary, answer }, error: null }) });
+    await invalid.ask('lucro do mês');
+    assert.equal(invalid.messages.at(-1).text, 'Resultado determinístico local');
+    assert.equal(invalid.submit.disabled, false);
   }
 });
 

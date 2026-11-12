@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { dependencies, handleRequest } from './index.ts';
+import { createHermesHandler, dependencies, handleRequest } from './index.ts';
 
 function assertEquals(actual: unknown, expected: unknown): void { assert.deepStrictEqual(actual, expected); }
 
@@ -8,7 +8,7 @@ const other = '22222222-2222-4222-8222-222222222222';
 const originalClient = dependencies.createClient, originalFetch = dependencies.fetch, originalEnv = Deno.env.get;
 let userSequence = 0;
 type Row = { id: string; type: string; category: string; amount: number | string; occurred_on: string; description?: string };
-type Options = { invalid?: boolean; member?: boolean; rows?: Row[]; pageLimit?: number; countShift?: boolean;
+type Options = { invalid?: boolean; member?: boolean; memberRole?: 'owner' | 'member'; staging?: boolean; rows?: Row[]; pageLimit?: number; countShift?: boolean;
   duplicate?: boolean; provider?: 'ok' | 'bad' | 'down' | 'timeout' | 'redirect' | 'quota' | 'numeric' | 'oversized';
   approved?: boolean; companyApproved?: boolean; claim?: 'denied' | 'error'; origin?: string };
 
@@ -46,7 +46,7 @@ function setup(options: Options = {}) {
           if (options.duplicate && start > 0) data = data.map((item, i) => i === 0 ? { ...item, id: rows[0].id } : item);
           return Promise.resolve({ data, count: rows.length + (options.countShift && start > 0 ? 1 : 0), error: null });
         },
-        maybeSingle: () => Promise.resolve({ data: options.member === false || query.company_id !== company ? null : { company_id: company }, error: null })
+        maybeSingle: () => Promise.resolve({ data: options.member === false || query.company_id !== company ? null : { company_id: company, role: options.memberRole ?? 'owner' }, error: null })
       };
       return builder;
     }
@@ -64,7 +64,7 @@ function setup(options: Options = {}) {
     if (options.provider === 'bad') return Response.json({ candidates: [] });
     return Response.json({ candidates: [{ content: { parts: [{ text: options.provider === 'numeric' ? 'Lucro de 999.' : 'Receitas superam despesas.' }] } }] });
   }) as typeof dependencies.fetch;
-  Deno.env.get = ((key: string) => ({ SUPABASE_URL: 'https://example.test', SUPABASE_ANON_KEY: 'public',
+  Deno.env.get = ((key: string) => ({ SUPABASE_URL: options.staging ? 'https://ogypzmxnvjbomamkejkh.supabase.co' : 'https://example.test', SUPABASE_ANON_KEY: 'public',
     ALLOWED_ORIGINS: 'https://example.test', HERMES_DATA_SHARING_APPROVED: options.approved ? 'true' : 'false',
     HERMES_APPROVED_COMPANY_IDS: options.companyApproved ? company : '', GEMINI_API_KEY: 'fictitious-test-key'
   } as Record<string, string>)[key]) as typeof Deno.env.get;
@@ -82,6 +82,24 @@ Deno.test('JWT ausente ou inválido bloqueia acesso', async () => {
   } finally { restore(); }
 });
 
+Deno.test('cliente público recebe o JWT do usuário, sem chave administrativa', async () => {
+  const { calls } = setup();
+  const mockedClient = dependencies.createClient;
+  dependencies.createClient = ((url, key, options) => {
+    assertEquals(url, 'https://example.test');
+    assertEquals(key, 'public');
+    assertEquals(options?.global?.headers?.Authorization, 'Bearer valid');
+    return mockedClient(url, key, options);
+  }) as typeof dependencies.createClient;
+  try {
+    assertEquals((await handleRequest(request())).status, 200);
+    assertEquals(calls.includes('company_members'), true);
+    assertEquals(calls.includes('transactions'), true);
+    assertEquals(calls.includes('claim'), false);
+    assertEquals(calls.includes('gemini'), false);
+  } finally { restore(); }
+});
+
 Deno.test('empresa não autorizada bloqueia consulta sob RLS', async () => {
   const { calls } = setup({ member: false });
   try {
@@ -91,6 +109,125 @@ Deno.test('empresa não autorizada bloqueia consulta sob RLS', async () => {
     assertEquals(calls.filter(call => call === 'gemini' || call === 'claim').length, 0);
   } finally { restore(); }
 });
+
+Deno.test('membro não proprietário não recebe dados financeiros', async () => {
+  const { calls } = setup({ memberRole: 'member' });
+  try {
+    assertEquals((await handleRequest(request())).status, 403);
+    assertEquals(calls.includes('transactions'), false);
+    assertEquals(calls.includes('claim'), false);
+  } finally { restore(); }
+});
+
+const localExperimentalHandler = createHermesHandler(false);
+
+Deno.test('ensaio local bloqueia projeto diferente do staging antes da RPC', async () => {
+  const { calls } = setup({ approved: true, companyApproved: true });
+  try {
+    assertEquals((await (await localExperimentalHandler(request())).json()).mode, 'deterministic');
+    assertEquals(calls.includes('claim'), false);
+    assertEquals(calls.includes('gemini'), false);
+  } finally { restore(); }
+});
+
+Deno.test('ensaio local exige JWT, proprietário e ambos os controles', async () => {
+  for (const options of [
+    { staging: true, invalid: true, approved: true, companyApproved: true },
+    { staging: true, member: false, approved: true, companyApproved: true },
+    { staging: true, memberRole: 'member' as const, approved: true, companyApproved: true },
+    { staging: true, approved: false, companyApproved: true },
+    { staging: true, approved: true, companyApproved: false }
+  ]) {
+    const { calls } = setup(options);
+    try {
+      const response = await localExperimentalHandler(request());
+      assertEquals(response.status, options.invalid ? 401 : options.member === false || options.memberRole === 'member' ? 403 : 200);
+      assertEquals(calls.includes('claim'), false);
+      assertEquals(calls.includes('gemini'), false);
+    } finally { restore(); }
+  }
+});
+
+Deno.test('ensaio local rejeita tema externo e consulta incompleta antes do claim', async () => {
+  for (const options of [{}, { pageLimit: 100, rows: Array.from({ length: 601 }, (_, i) => row(i + 1)) }]) {
+    const { calls } = setup({ staging: true, approved: true, companyApproved: true, ...options });
+    try {
+      const external = await localExperimentalHandler(request('valid', company, 'https://example.test', 'Conte a história do futebol.'));
+      assertEquals((await external.json()).mode, 'out_of_scope');
+      assertEquals(calls.includes('transactions'), false);
+      if ('pageLimit' in options) assertEquals((await localExperimentalHandler(request())).status, 503);
+      assertEquals(calls.includes('claim'), false);
+      assertEquals(calls.includes('gemini'), false);
+    } finally { restore(); }
+  }
+});
+
+Deno.test('ensaio local falha fechada quando a RPC nega ou falha', async () => {
+  for (const claim of ['denied', 'error'] as const) {
+    const { calls } = setup({ staging: true, approved: true, companyApproved: true, claim });
+    try {
+      assertEquals((await (await localExperimentalHandler(request())).json()).mode, 'deterministic');
+      assertEquals(calls.filter(call => call === 'claim').length, 1);
+      assertEquals(calls.includes('gemini'), false);
+    } finally { restore(); }
+  }
+});
+
+Deno.test('ensaio local consome uma reivindicação antes de uma única chamada fictícia', async () => {
+  const { calls } = setup({ staging: true, approved: true, companyApproved: true });
+  try {
+    const first = await (await localExperimentalHandler(request())).json();
+    const second = await (await localExperimentalHandler(request())).json();
+    assertEquals(first.mode, 'generative');
+    assertEquals(second.mode, 'deterministic');
+    assertEquals(calls.filter(call => call === 'claim').length, 2);
+    assertEquals(calls.filter(call => call === 'gemini').length, 1);
+    assert(calls.indexOf('claim') < calls.indexOf('gemini'));
+  } finally { restore(); }
+});
+
+Deno.test('ensaio local envia somente agregados, sem pergunta livre ou registro individual', async () => {
+  const { calls } = setup({ staging: true, approved: true, companyApproved: true,
+    rows: Array.from({ length: 5 }, (_, i) => ({ ...row(i + 1, 20), category: 'customer-name', description: 'person@example.test' })) });
+  const originalMockFetch = dependencies.fetch;
+  dependencies.fetch = (async (url, init) => {
+    const body = String(init?.body);
+    assertEquals(url, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent');
+    assertEquals(body.includes('customer-name'), false);
+    assertEquals(body.includes('person@example.test'), false);
+    assertEquals(body.includes('pergunta-original-privada'), false);
+    assertEquals(body.includes(company), false);
+    return originalMockFetch(url, init);
+  }) as typeof dependencies.fetch;
+  try {
+    const result = await (await localExperimentalHandler(request('valid', company, 'https://example.test', 'Qual lucro? pergunta-original-privada'))).json();
+    assertEquals(result.mode, 'generative');
+    assertEquals(calls.filter(call => call === 'gemini').length, 1);
+  } finally { restore(); }
+});
+
+Deno.test('ensaio local concorrente permite apenas uma chamada fictícia', async () => {
+  const { calls } = setup({ staging: true, approved: true, companyApproved: true });
+  try {
+    const results = await Promise.all(Array.from({ length: 8 }, () => localExperimentalHandler(request())));
+    const modes = await Promise.all(results.map(async response => (await response.json()).mode));
+    assertEquals(modes.filter(mode => mode === 'generative').length, 1);
+    assertEquals(modes.filter(mode => mode === 'deterministic').length, 7);
+    assertEquals(calls.filter(call => call === 'gemini').length, 1);
+  } finally { restore(); }
+});
+
+for (const provider of ['bad', 'down', 'timeout', 'redirect', 'quota', 'numeric', 'oversized'] as const) {
+  Deno.test(`ensaio local: ${provider} retorna fallback sem segunda chamada`, async () => {
+    const { calls } = setup({ staging: true, approved: true, companyApproved: true, provider });
+    try {
+      assertEquals((await (await localExperimentalHandler(request())).json()).mode, 'deterministic');
+      assertEquals((await (await localExperimentalHandler(request())).json()).mode, 'deterministic');
+      assertEquals(calls.filter(call => call === 'gemini').length, 1);
+      assertEquals(calls.filter(call => call === 'claim').length, 2);
+    } finally { restore(); }
+  });
+}
 
 Deno.test('tema externo retorna resposta padrão antes de ler finanças ou chamar Gemini', async () => {
   const { calls } = setup({ approved: true, companyApproved: true });
