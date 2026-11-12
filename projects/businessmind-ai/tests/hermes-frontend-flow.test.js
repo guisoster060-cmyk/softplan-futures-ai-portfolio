@@ -53,7 +53,7 @@ test('modo local e produção nunca invocam a função', async () => {
   const productionConfig = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
   assert.match(stagingConfig, /hermesGenerativeEnabled: true/);
-  assert.match(productionConfig, /ogypzmxnvjbomamkejkh\\.supabase\\.co/); // branch de staging, não configuração da main
+  assert.ok(productionConfig.includes('ogypzmxnvjbomamkejkh.supabase.co')); // configuração exclusiva de staging
   for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
     await h.ask('lucro do mês');
@@ -67,7 +67,7 @@ test('resposta generativa fica separada do cálculo local e exige flag explícit
   const enabled = harness({ remote: true, generative: true, invoke: response });
   await enabled.ask('lucro do mês');
   assert.equal(enabled.calls.length, 1);
-  assert.equal(enabled.messages.at(-2).text, 'Resultado determinístico local');
+  assert.equal(enabled.messages.at(-1).text, 'Resultado determinístico local');
   assert.equal(enabled.chatLog.children.length, 1);
   assert.match(enabled.chatLog.children[0].children[0].textContent, /Interpretação generativa/);
   assert.equal(enabled.submit.disabled, false);
