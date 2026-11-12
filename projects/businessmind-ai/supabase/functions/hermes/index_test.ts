@@ -82,6 +82,24 @@ Deno.test('JWT ausente ou inválido bloqueia acesso', async () => {
   } finally { restore(); }
 });
 
+Deno.test('cliente público recebe o JWT do usuário, sem chave administrativa', async () => {
+  const { calls } = setup();
+  const mockedClient = dependencies.createClient;
+  dependencies.createClient = ((url, key, options) => {
+    assertEquals(url, 'https://example.test');
+    assertEquals(key, 'public');
+    assertEquals(options?.global?.headers?.Authorization, 'Bearer valid');
+    return mockedClient(url, key, options);
+  }) as typeof dependencies.createClient;
+  try {
+    assertEquals((await handleRequest(request())).status, 200);
+    assertEquals(calls.includes('company_members'), true);
+    assertEquals(calls.includes('transactions'), true);
+    assertEquals(calls.includes('claim'), false);
+    assertEquals(calls.includes('gemini'), false);
+  } finally { restore(); }
+});
+
 Deno.test('empresa não autorizada bloqueia consulta sob RLS', async () => {
   const { calls } = setup({ member: false });
   try {

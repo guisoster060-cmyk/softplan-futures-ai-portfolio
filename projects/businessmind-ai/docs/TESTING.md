@@ -1,5 +1,12 @@
 # Estratégia e evidências de testes
 
+## Revisão do Hermes para ensaio generativo (12/11/2026)
+
+- `npm ci && npm run verify`: **54/54 testes Node aprovados**, análise sintática aprovada e 31 documentos conferidos. Sem credenciais ou serviços remotos.
+- `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts`: **29/29 testes Deno aprovados com mocks**, incluindo nova asserção de URL, chave pública e cabeçalho JWT passado ao cliente Supabase; nenhuma chamada ao Hermes ou Gemini remoto. A primeira tentativa de aquisição de pacotes falhou pela CA do proxy; a execução aprovada usou `DENO_DIR=/workspace/.deno DENO_TLS_CA_STORE=system`, mantendo a validação TLS.
+- A suíte cobre JWT ausente/inválido, empresa não associada, classificação, CORS, paginação completa/incompleta, valores inválidos, limites e retorno determinístico mesmo com gates simulados ativos. O bloqueio `STAGING_DETERMINISTIC_ONLY=true` impede o acesso ao ramo generativo: os casos nomeados como erro/quota/timeout do provedor comprovam **inacessibilidade do ramo**, não o funcionamento do fallback após uma chamada ao Gemini.
+- Esta revisão foi local. Não inspecionou secrets, estado remoto da autorização de uso único, função publicada, RLS remoto ou o provedor. Testes HTTP anteriores de Auth/CRUD/RLS não substituem testes da Edge Function. Pendências e sequência segura constam em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
+
 ## Preparação final do GitHub (12/11/2026)
 
 - `npm ci` e `npm run verify` na branch de revisão: **54/54 testes Node aprovados**, análise sintática e **31 documentos** com links internos válidos; sem credenciais remotas.
