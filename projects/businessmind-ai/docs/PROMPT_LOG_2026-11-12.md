@@ -54,3 +54,20 @@
 - Prompts do Claude e outros modelos só devem ser marcados como literais se o texto original estiver disponível.
 - Código gerado ou modificado por IA deve ser identificado como trabalho assistido, revisado pelo candidato.
 - Nunca registrar senhas, e-mails privados, chaves, JWTs ou dados reais de empresas.
+
+## CHATGPT-025 — Corrigir limite para contas novas e comprovar Gemini
+
+- **Ferramentas:** ChatGPT (GPT-6), GitHub, Supabase; Gemini como provedor de respostas.
+- **Data:** 12/11/2026.
+- **Prompt literal:** “Faça a próxima etapa então”.
+- **Contexto e decisão humana:** após o teste com conta recém-criada e quatro movimentações, o usuário enviou captura mostrando resposta determinística, e depois uma nova captura com interpretação generativa.
+- **Resultado verificável:** mínimo de movimentações da função `hermes-recruiter` reduzido de 5 para 1 na branch de testes; função v2 publicada no staging. Logs de 22:45 UTC: autorização `accepted` e provedor `accepted`. Quota global em 2 usos no dia.
+- **Limite:** o print foi fornecido pelo usuário, não capturado automaticamente pelo assistente; não inclui credenciais nem identifica o usuário.
+
+## CHATGPT-026 — Finalizar evidências e imagens para recrutamento
+
+- **Ferramentas:** ChatGPT (GPT-6), GitHub.
+- **Data:** 12/11/2026.
+- **Prompt literal:** “Faça isso e tire você mesmo print das telas necessárias se conseguir”.
+- **Resultado:** consulta do GitHub Actions com execução #43322922898 aprovada; revisão dos READMEs e roteiro do recrutador; reutilização da galeria já existente de seis capturas da demonstração fictícia. O ambiente atual não dispõe de navegador autenticado para tirar capturas novas da conta de staging; não apresentar imagens antigas como provas do Gemini.
+- **Próximas evidências desejadas:** captura da tela de cadastro/login, dashboard com dados fictícios, indicadores, resposta Gemini e configurações na mesma versão isolada, removendo e-mails e outras informações pessoais antes da publicação.
