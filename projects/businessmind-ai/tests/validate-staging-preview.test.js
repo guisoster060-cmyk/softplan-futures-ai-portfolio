@@ -9,7 +9,8 @@ const validConfig = `'use strict';
 window.BUSINESSMIND_CONFIG = Object.freeze({
   supabaseUrl: 'https://ogypzmxnvjbomamkejkh.supabase.co',
   supabasePublishableKey: 'sb_publishable_Lq05mBXfQqm9Rt9udW2fww_wXTEL6WM',
-  hermesGenerativeEnabled: false
+  hermesGenerativeEnabled: false,
+  hermesRemoteDeterministicEnabled: true
 });`;
 
 async function withBuild(config, extra, callback) {
@@ -40,6 +41,8 @@ test('rejeita URL não exata, Gemini habilitado e configuração ausente', async
   await withBuild(validConfig.replace('https://ogypzmxnvjbomamkejkh.supabase.co', 'http://ogypzmxnvjbomamkejkh.supabase.co'), null,
     (check) => assert.throws(check, /inválida/));
   await withBuild(validConfig.replace('hermesGenerativeEnabled: false', 'hermesGenerativeEnabled: true'), null,
+    (check) => assert.throws(check, /inválida/));
+  await withBuild(validConfig.replace('hermesRemoteDeterministicEnabled: true', 'hermesRemoteDeterministicEnabled: false'), null,
     (check) => assert.throws(check, /inválida/));
   await withBuild(null, null, (check) => assert.throws(check, /incompleto/));
   await withBuild(validConfig.replace(/sb_publishable_[A-Za-z0-9_-]+/, 'sb_publishable_invalid'), null,

@@ -17,5 +17,6 @@ test('build staging não altera config de produção e desativa Gemini', async (
   assert.match(staged, /ogypzmxnvjbomamkejkh\.supabase\.co/);
   assert.match(staged, /sb_publishable_/);
   assert.match(staged, /hermesGenerativeEnabled: false/);
+  assert.match(staged, /hermesRemoteDeterministicEnabled: true/);
   assert.match(readFileSync(resolve(output, 'index.html'), 'utf8'), /transactions-loader\.js/);
 });
