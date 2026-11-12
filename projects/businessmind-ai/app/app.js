@@ -368,6 +368,8 @@ async function ask(q) {
       setHermesStatus('Sessão indisponível.', 'error'); return;
     }
     // O SDK usa a sessão atual para enviar o JWT; o navegador não o registra nem o copia.
+    // A request-scoped timeout is supplied for compatible SDK transports.
+    // The server also enforces its own strict 20-second deadline.
     const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId }, timeout: 22000 });
     if (!stillActive()) return;
     const status = error?.context?.status ?? error?.status;
@@ -375,15 +377,25 @@ async function ask(q) {
       addMsg('bot', 'Sessão ou empresa não autorizada. Entre novamente ou selecione uma empresa permitida.');
       setHermesStatus('Acesso não autorizado à função.', 'error'); return;
     }
-    if (error || !data) throw error || new Error('Resposta vazia');
+    if (error || !data) {
+      const code = error?.context?.status === 401 || error?.context?.status === 403 ? 'auth' :
+        Number.isInteger(error?.context?.status) ? 'http_' + error.context.status :
+        error ? 'network_or_cors' : 'empty_response';
+      console.info('hermes_client_diagnostic', code);
+      throw error || new Error('Resposta vazia');
+    }
     if (!['deterministic', 'generative'].includes(data.mode) || !Number.isInteger(data.summary?.transactionCount) ||
         data.summary.transactionCount !== transactions.length ||
         !['income', 'expense', 'profit'].every(key => Number.isFinite(data.summary?.totals?.[key]))) {
+      console.info('hermes_client_diagnostic', 'summary_mismatch');
       throw Error('Resposta determinística inválida.');
     }
     if (data.mode === 'generative') {
       if (!config.hermesGenerativeEnabled || typeof data.answer !== 'string' || !data.answer.trim() ||
-          data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) throw Error('Interpretação generativa inválida.');
+          data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) {
+        console.info('hermes_client_diagnostic', 'generative_validation');
+        throw Error('Interpretação generativa inválida.');
+      }
       localAnswer();
       addMsg('bot', `Interpretação generativa (sem cálculo financeiro): ${data.answer.trim()}`);
       setHermesStatus('Cálculo local e interpretação generativa exibidos separadamente.');
