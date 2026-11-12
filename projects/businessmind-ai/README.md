@@ -1,5 +1,7 @@
 # BusinessMind AI — MVP para demonstração
 
+> **Atualização verificada em 12/11/2026:** o staging recebeu novo deploy e uma consulta Hermes retornou HTTP 200, com resposta determinística observada no Android. A autorização única de teste Gemini foi consumida, mas **não há evidência de resposta generativa**. O Gemini permanece experimental e não deve ser anunciado como validado. As referências históricas abaixo descrevem versões anteriores. [Estado de entrega e evidências](docs/DELIVERY_STATUS_2026-11-12.md).
+
 MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. Ele reúne movimentações financeiras por empresa, calcula indicadores a partir de dados autorizados e oferece análises determinísticas pelo Hermes. O objetivo é tornar receitas, despesas e resultados consultáveis em uma interface única, preservando o isolamento entre empresas.
 
 ## Capacidades atuais
