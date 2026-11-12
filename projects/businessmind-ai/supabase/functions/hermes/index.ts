@@ -23,6 +23,10 @@ function providerStatusClass(status: number) {
 function corsHeaders(request: Request) {
   const origin = request.headers.get('Origin') ?? '';
   const allowed = (Deno.env.get('ALLOWED_ORIGINS') ?? '').split(',').map(value => value.trim()).filter(Boolean);
+  // Preview de staging isolado; jamais ampliar a lista de produção.
+  if (Deno.env.get('SUPABASE_URL') === 'https://ogypzmxnvjbomamkejkh.supabase.co') {
+    allowed.push('https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev');
+  }
   const headers: Record<string, string> = { 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Vary': 'Origin' };
   if (origin && allowed.includes(origin)) headers['Access-Control-Allow-Origin'] = origin;
   return { headers, originAllowed: !origin || allowed.includes(origin) };
