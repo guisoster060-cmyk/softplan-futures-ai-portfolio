@@ -4,6 +4,8 @@
 
 **[Índice da documentação e organização do código](projects/businessmind-ai/docs/INDEX.md)** — ponto de entrada para recrutadores e avaliadores técnicos.
 
+> **Estado da publicação (12/11/2026):** links públicos aprovados no teste HTTP automatizado; o Worker da demo ainda usa implantação de 11/11/2026. A melhoria de perguntas abertas do Hermes foi incorporada ao código da `main`, mas aguarda atualização segura dos assets da Cloudflare. A demo atual permanece disponível.
+
 **Resumo em uma frase:** MVP para organizar receitas e despesas de pequenos negócios, calcular indicadores e ajudar a interpretar os resultados com o assistente Hermes.
 
 **Para avaliar a IA generativa:** [Prévia isolada com cadastro e Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). É uma versão distinta da demo imediata; exige confirmação de e-mail, dados fictícios e está sujeita a quotas.
