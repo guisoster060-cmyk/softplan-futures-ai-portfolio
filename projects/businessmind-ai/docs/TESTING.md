@@ -1,5 +1,16 @@
 # Estratégia e evidências de testes
 
+## Preparação final do GitHub (12/11/2026)
+
+- `npm ci` e `npm run verify` na branch de revisão: **54/54 testes Node aprovados**, análise sintática e **31 documentos** com links internos válidos; sem credenciais remotas.
+- `node tests/e2e-local.cjs`: aprovado em Chromium com mock do SDK. A primeira execução falhou de forma reproduzível porque o mock disparava `SIGNED_IN` ao concluir a RPC `create_company`, criando duas cargas concorrentes da empresa ativa. O mock foi corrigido para refletir a RPC real; as asserções de criação, alternância e isolamento foram mantidas e passaram.
+- `node tests/e2e-demo.cjs`: aprovado em Chromium; Auth fictício, CRUD local, recarga, mobile, Hermes determinístico e logout/reentrada. Zero requisições externas observadas. Não representa teste de RLS remoto.
+- `deno check index.ts index_test.ts` e `deno test --allow-env index_test.ts`: **28/28 testes Deno com mocks aprovados**. Não houve chamada remota ao Hermes nem ao Gemini.
+- Demonstração pública e staging responderam HTTP 200 em Chromium mobile (591/390 px), sem exceções JavaScript nem rolagem horizontal na tela verificada. O staging foi visto apenas até o login nesta revisão; o teste manual autenticado anterior não foi repetido.
+- Quatro JPGs recebidos foram convertidos a PNG com pixels decodificados idênticos; duas capturas adicionais foram obtidas do site público em Chromium, sem edição de valores. Proveniência em `screenshots/README.md`.
+
+O build de demonstração local passou a identificar corretamente o armazenamento fictício em Configurações e no rodapé. O site público ainda precisa de publicação autorizada para refletir essa redação. Nenhum deploy foi realizado nesta revisão.
+
 ## Missão 2 — demonstração para avaliação (11/11/2026)
 
 - Site público `businessmind-ai-staging.pages.dev`: `index.html`, `app.js` e `config.js` responderam HTTP 200. `index.html` e `app.js` têm hashes idênticos aos arquivos do commit `d15282a`; `config.js` coincide com `preview/staging-config.js` de `new-branch`. O site carrega a tela de login em Chromium 1440×900 e 390×844, sem exceções JavaScript nem overflow horizontal nessa tela. Nenhuma sessão remota foi usada; não são resultados de fluxo autenticado.

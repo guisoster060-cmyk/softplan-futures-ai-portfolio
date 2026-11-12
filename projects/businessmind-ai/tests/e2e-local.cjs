@@ -21,7 +21,7 @@ const mock = `window.supabase = { createClient() {
       async signOut() { db.session = null; save(); emit(); return { error: null }; },
       async resetPasswordForEmail() { return { error: null }; }
     },
-    rpc(name, args) { const id = 'company-' + db.nextId++; db.companies[id] = { id, name: args.p_name, owner: db.session.user.id }; save(); return Promise.resolve({ data: id, error: null }).then(result => { emit(); return result; }); },
+    rpc(name, args) { const id = 'company-' + db.nextId++; db.companies[id] = { id, name: args.p_name, owner: db.session.user.id }; save(); return Promise.resolve({ data: id, error: null }); },
     from(table) {
       const q = { filters: {}, operation: 'select', payload: null };
       const run = () => {

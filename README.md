@@ -1,14 +1,24 @@
 # Softplan Futures — BusinessMind AI
 
-Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP para pequenos negócios que precisam acompanhar receitas, despesas e resultados sem depender de planilhas dispersas. A aplicação registra movimentações por empresa e transforma somente dados autorizados em indicadores, gráficos e análises determinísticas.
+**Problema:** pequenos negócios podem registrar receitas e despesas em fontes dispersas e perder visibilidade do resultado. **Solução:** o BusinessMind AI reúne movimentações por empresa, calcula indicadores a partir dos registros carregados e oferece explicações determinísticas pelo Hermes. É um MVP de portfólio, não um produto comercial validado.
 
 > Estado em 11/11/2026: `new-branch` contém as atualizações de documentação e o MVP; o staging real foi testado manualmente com cadastro por e-mail, confirmação, criação de empresa e movimentação. O Hermes opera em modo determinístico; Gemini generativo não está ativado. A demonstração pública fictícia está publicada separadamente.
 
-## Avaliação rápida
+## Avaliação em dois minutos
 
-1. Abra a [demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev), com dados fictícios isolados no navegador. Para testar cadastro real, abra o [staging](https://businessmind-ai-staging.pages.dev) e use somente dados fictícios.
-2. Consulte o [roteiro de apresentação de 5 minutos](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) e o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) para localizar os fluxos, a arquitetura, os testes e as limitações sem percorrer todo o histórico.
-3. Examine [requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md), [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) e [evidências de testes](projects/businessmind-ai/docs/TESTING.md). Testes locais, HTTP com JWT e validação manual estão identificados separadamente.
+1. Abra a [demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev): os dados são fictícios e ficam somente no navegador. A versão com Supabase Auth e PostgreSQL está no [staging](https://businessmind-ai-staging.pages.dev); use apenas dados fictícios.
+2. Veja as quatro telas abaixo; depois, se quiser testar o fluxo, crie uma movimentação em **Indicadores**, confira o dashboard e pergunte ao Hermes em **Inteligência**.
+3. Para avaliar engenharia e limites, consulte o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md), a [arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) e as [evidências de testes](projects/businessmind-ai/docs/TESTING.md).
+
+## Quatro telas principais
+
+Capturas do **modo público fictício**, em celular. Não comprovam autenticação nem RLS remotos. [Galeria e origem das imagens](projects/businessmind-ai/screenshots/README.md).
+
+| Visão geral — resultado do mês | Indicadores — filtros e movimentações |
+| --- | --- |
+| ![Visão geral no celular](projects/businessmind-ai/screenshots/01-visao-geral.png) | ![Indicadores no celular](projects/businessmind-ai/screenshots/02-indicadores.png) |
+| Inteligência — Hermes determinístico | Configurações — perfil de demonstração |
+| ![Hermes no celular](projects/businessmind-ai/screenshots/03-inteligencia.png) | ![Configurações no celular](projects/businessmind-ai/screenshots/04-configuracoes.png) |
 
 ## Funcionalidades implementadas
 
@@ -23,7 +33,7 @@ Portfólio de engenharia de software centrado no **BusinessMind AI**, um MVP par
 
 ## Tecnologias
 
-HTML semântico, CSS, JavaScript ES modules, SVG, Supabase JS, Supabase Auth, PostgreSQL, RLS, Supabase Edge Functions, Deno, Node.js Test Runner, GitHub Actions e Cloudflare Pages para staging e previews.
+HTML semântico, CSS, JavaScript, SVG, Supabase JS/Auth, PostgreSQL com RLS, Supabase Edge Functions, Deno, Node.js Test Runner e GitHub Actions. O staging usa Cloudflare Pages; a demonstração fictícia pública é servida por Cloudflare Workers.
 
 Não foram introduzidos React ou Vite. A integração com Gemini está preparada no servidor, mas `STAGING_DETERMINISTIC_ONLY = true` impede chamadas ao provedor e o consumo da autorização única; nenhuma chave privada está no frontend.
 
@@ -35,7 +45,7 @@ O navegador serve a aplicação estática e usa a publishable key para autentica
 
 - [Demonstração pública, sem senha, com dados fictícios](https://businessmind-ai-demo.guisoster060.workers.dev)
 - [Sistema real de testes, com cadastro e PostgreSQL](https://businessmind-ai-staging.pages.dev)
-- [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
+- [Galeria complementar: navegação mobile e indicadores em detalhe](projects/businessmind-ai/screenshots/README.md)
 
 O staging é um ambiente de testes, não uma produção aprovada. Em 11/11/2026 foi confirmado um cadastro novo com e-mail, criação de empresa e persistência de uma movimentação. A disponibilidade de confirmação de e-mail continua sujeita aos limites do serviço. Não use dados financeiros reais.
 
@@ -81,7 +91,7 @@ Na Missão 2 (11/11/2026), passaram 54/54 testes Node e 28/28 testes Deno com mo
 | [Estado atual](projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído, pendências e riscos |
 | [Índice de tarefas delegadas](projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações técnicas derivadas, não prompts literais |
 | [Roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) | Caminho curto para demonstração e evidências |
-| [Apresentação para recrutador](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) | Demonstração de cinco minutos e perguntas técnicas |
+| [Apresentação para recrutador](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) | Roteiros opcionais de 2–3 e 5 minutos; nenhum vídeo gravado |
 | [Plano de validação Gemini](projects/businessmind-ai/docs/GEMINI_VALIDATION_PLAN.md) | Condições para eventual ativação, ainda não autorizada |
 | [Acervo histórico](docs/businessmind-ai/README.md) | Planejamento, validação e registros preservados |
 

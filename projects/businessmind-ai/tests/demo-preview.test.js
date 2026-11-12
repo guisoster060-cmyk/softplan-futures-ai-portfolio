@@ -11,6 +11,8 @@ test('build fictício usa somente recursos locais e identifica claramente a simu
   const config = readFileSync(resolve(output, 'config.js'), 'utf8');
   assert.match(html, /connect-src 'none'/);
   assert.match(html, /DEMONSTRAÇÃO FICTÍCIA E LOCAL/);
+  assert.match(html, /Nome e empresa fictícios são salvos apenas neste navegador/);
+  assert.doesNotMatch(html, /salvos no Supabase|Supabase Auth · PostgreSQL · RLS/);
   assert.doesNotMatch(html, /https:\/\/cdn\./);
   assert.match(config, /hermesGenerativeEnabled: false/);
   assert.doesNotMatch(config, /supabase\.co|sb_publishable_|sb_secret_/);

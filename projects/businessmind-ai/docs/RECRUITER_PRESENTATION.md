@@ -1,7 +1,19 @@
-# BusinessMind AI — apresentação de 5 minutos para recrutadores
+# BusinessMind AI — roteiros de apresentação para recrutadores
 
 **Projeto:** MVP web de apoio à gestão financeira de pequenos negócios brasileiros.  
 **Objetivo:** reunir movimentações financeiras, indicadores e explicações baseadas em dados autorizados.
+
+## Roteiro opcional de vídeo (2–3 minutos)
+
+Este é apenas um roteiro; **nenhum vídeo foi gravado nesta entrega**. Use a demonstração pública fictícia, sem inserir dados reais.
+
+- **0:00–0:25 — Problema:** receitas e despesas dispersas dificultam enxergar o resultado de um pequeno negócio.
+- **0:25–0:55 — Solução:** abrir **Visão geral**, mostrar receitas, despesas, lucro e evolução calculados a partir das movimentações fictícias locais.
+- **0:55–1:35 — Uso:** em **Indicadores**, mostrar filtros, criar uma movimentação fictícia e voltar ao dashboard para ver os números atualizados. Explicar que a demo guarda dados apenas no navegador; o staging usa Supabase.
+- **1:35–2:05 — Hermes:** em **Inteligência**, perguntar pelo lucro do mês e comparar a resposta com os indicadores. Esclarecer que Hermes é determinístico e Gemini está desativado.
+- **2:05–2:40 — Engenharia e aprendizado:** mencionar HTML/CSS/JavaScript, Supabase Auth, PostgreSQL/RLS, testes locais e validações controladas no staging. Distinguir decisões e validações humanas da assistência de IA na implementação. Encerrar com uma limitação real e próximo passo.
+
+Se não houver tempo para gravar, o [README principal](../../../README.md) e as [capturas verificadas](../screenshots/README.md) permitem a avaliação sem vídeo.
 
 ## Links para avaliação
 
