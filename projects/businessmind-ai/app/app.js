@@ -368,12 +368,9 @@ async function ask(q) {
       setHermesStatus('Sessão indisponível.', 'error'); return;
     }
     // O SDK usa a sessão atual para enviar o JWT; o navegador não o registra nem o copia.
-    // Keep the request in the Supabase SDK, but make the timeout explicit and observable.
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-    let data, error;
-    try { ({ data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId }, signal: controller.signal })); }
-    finally { clearTimeout(timeoutId); }
+    // A request-scoped timeout is supplied for compatible SDK transports.
+    // The server also enforces its own strict 20-second deadline.
+    const { data, error } = await supabase.functions.invoke('hermes', { body: { question: q, companyId }, timeout: 22000 });
     if (!stillActive()) return;
     const status = error?.context?.status ?? error?.status;
     if (status === 401 || status === 403) {
