@@ -62,3 +62,12 @@ body{background:#070f1e}
 .page-header p{max-width:70ch}
 .notice,.security-note,.demo-note{background:#111e33}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* Hermes: formatação segura de respostas generativas */
+.hermes-interpretation{white-space:normal;overflow-wrap:anywhere;line-height:1.65}
+.hermes-interpretation-label{font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--cyan-400);margin-bottom:12px}
+.hermes-interpretation p{margin:0 0 12px;white-space:pre-wrap}
+.hermes-interpretation h4{font-size:14px;line-height:1.4;margin:16px 0 8px;color:var(--white)}
+.hermes-interpretation ul{margin:4px 0 14px;padding-left:20px}
+.hermes-interpretation li{margin:6px 0;overflow-wrap:anywhere}
+.hermes-interpretation strong{font-weight:750;color:var(--white)}
