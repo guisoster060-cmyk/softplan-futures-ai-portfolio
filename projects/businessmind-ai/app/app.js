@@ -306,6 +306,14 @@ function answer(q) {
   if (has(n, 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) return 'Posso responder, com base nas movimentações da sua empresa, sobre: lucro, receitas, despesas, margem, maiores receitas/despesas, categorias, tendência, previsão simples e recomendações.';
   if (!transactions.length) return 'Ainda não há movimentações cadastradas, então não tenho dados para analisar. Cadastre receitas e despesas em Indicadores.';
   const base = `\n\nBase: ${transactions.length} movimentações cadastradas (${a.cur.length} no mês atual).`;
+  // Perguntas abertas sobre a saúde da empresa devem receber um panorama, não um erro.
+  // Os valores vêm de analyze(); nenhuma inferência generativa é usada neste modo.
+  if (has(n, 'como esta', 'como vao', 'situacao', 'panorama', 'resumo geral', 'visao geral', 'dados da minha empresa', 'minha empresa', 'meu negocio', 'saude financeira', 'desempenho geral')) {
+    if (!a.cur.length) return 'Não há movimentações no mês atual para apresentar um panorama. Cadastre uma receita e uma despesa em Indicadores.' + base;
+    const margin = a.c.margin == null ? 'não calculável sem receitas' : fmtPct(a.c.margin);
+    const comparison = change(a.c.profit, a.p.profit);
+    return `Panorama financeiro do mês atual:\\n• Receitas: ${brl.format(a.c.income)}\\n• Despesas: ${brl.format(a.c.expense)}\\n• Resultado: ${brl.format(a.c.profit)}\\n• Margem: ${margin}.${comparison == null ? '' : `\\n• Resultado vs. mês anterior: ${comparison >= 0 ? '+' : '−'}${fmtPct(Math.abs(comparison))}.`}\\n\\nEsta é uma leitura dos registros cadastrados, não uma avaliação completa da saúde do negócio.` + base;
+  }
   if (has(n, 'previs', 'projec', 'proximo mes')) {
     const f = forecast(a);
     if (f == null) return 'Não há dados suficientes para estimar: preciso de receitas nos últimos 3 meses seguidos.' + base;
