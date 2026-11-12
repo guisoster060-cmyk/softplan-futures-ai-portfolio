@@ -9,9 +9,11 @@ const path = require('node:path');
 // Executa a função real do frontend em um contexto local, sem SDK ou rede.
 const source = fs.readFileSync(path.join(__dirname, '../app/app.js'), 'utf8');
 const start = source.indexOf('// Renderização restrita:');
+const helperEnd = source.indexOf('function setHermesStatus(', start);
+const askStart = source.indexOf('async function ask(q) {', helperEnd);
 const end = source.indexOf('/* ---------- Análises e recomendações ---------- */', start);
-assert.ok(start >= 0 && end > start && source.includes('async function ask(q) {'), 'função ask precisa existir');
-const askSource = source.slice(start, end);
+assert.ok(start >= 0 && helperEnd > start && askStart > helperEnd && end > askStart, 'função ask precisa existir');
+const askSource = source.slice(start, helperEnd) + '\n' + source.slice(askStart, end);
 const stagingUrl = 'https://ogypzmxnvjbomamkejkh.supabase.co';
 const summary = { transactionCount: 1, totals: { income: 20, expense: 0, profit: 20 } };
 
