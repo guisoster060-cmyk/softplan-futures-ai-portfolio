@@ -159,7 +159,7 @@ test('modo determinístico de staging retorna antes da RPC e do Gemini', () => {
   assert.ok(guard > functionSource.indexOf('aggregateTransactions(await completeTransactions('));
   assert.ok(guard < functionSource.indexOf("client.rpc('claim_hermes_test_once'"));
   assert.ok(guard < functionSource.indexOf('dependencies.fetch('));
-  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') > guard);
+  assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') > functionSource.indexOf('const client = dependencies.createClient('));
   assert.ok(functionSource.indexOf('supabaseUrl !== STAGING_SUPABASE_URL') < functionSource.indexOf("client.rpc('claim_hermes_test_once'"));
 });
 
