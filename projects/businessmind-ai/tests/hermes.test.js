@@ -167,7 +167,7 @@ test('segredo Gemini permanece no servidor e compartilhamento começa desabilita
   assert.doesNotMatch(frontendSource + configSource, /GEMINI_API_KEY|AIza[0-9A-Za-z_-]{20,}/);
   assert.match(functionSource, /Deno\.env\.get\('GEMINI_API_KEY'\)/);
   assert.match(functionSource, /HERMES_DATA_SHARING_APPROVED/);
-  assert.match(configSource, /hermesGenerativeEnabled: false/);
+  assert.match(configSource, /hermesGenerativeEnabled: true/);
 });
 
 test('frontend mantém fallback determinístico quando a função falha', () => {
