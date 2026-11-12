@@ -2,6 +2,8 @@
 
 > **COMECE AQUI (sem cadastro):** [Abrir demonstração imediata](https://businessmind-ai-demo.guisoster060.workers.dev) · [Ver as telas](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_GALLERY.md) · [Roteiro de 2 minutos](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/START_HERE_RECRUITER.md).
 
+**[Índice da documentação e organização do código](projects/businessmind-ai/docs/INDEX.md)** — ponto de entrada para recrutadores e avaliadores técnicos.
+
 **Resumo em uma frase:** MVP para organizar receitas e despesas de pequenos negócios, calcular indicadores e ajudar a interpretar os resultados com o assistente Hermes.
 
 **Para avaliar a IA generativa:** [Prévia isolada com cadastro e Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). É uma versão distinta da demo imediata; exige confirmação de e-mail, dados fictícios e está sujeita a quotas.
