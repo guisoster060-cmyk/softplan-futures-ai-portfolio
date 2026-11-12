@@ -1,6 +1,6 @@
 # BusinessMind AI — MVP para demonstração
 
-> **Para avaliadores da Softplan Futures:** [Comece aqui — teste guiado em 5–10 minutos](docs/START_HERE_RECRUITER.md) · [Conferência com requisitos oficiais](docs/SOFTPLAN_FUTURES_REQUIREMENTS_CHECK_2026-11-12.md) · [Prévia funcional com Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). Use dados fictícios. A demo pública separada não aciona Gemini.
+> **RECRUTADOR — TESTE AGORA SEM LOGIN:** [Abrir demonstração imediata](https://businessmind-ai-demo.guisoster060.workers.dev) · [Guia de 2 minutos](docs/START_HERE_RECRUITER.md). A demo usa dados fictícios locais e Hermes determinístico. **Para testar Gemini real**, use a [prévia com cadastro individual](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) (quota limitada). Não há senha compartilhada.
 
 **Leitura recomendada:** [Auditoria da experiência do recrutador](docs/RECRUITER_EXPERIENCE_AUDIT_2026-11-12.md) · [Resumo executivo de uma página](docs/RECRUITER_ONE_PAGE.md) · [Validação de impacto: evidência versus hipótese](docs/BUSINESS_IMPACT_VALIDATION.md).
 
