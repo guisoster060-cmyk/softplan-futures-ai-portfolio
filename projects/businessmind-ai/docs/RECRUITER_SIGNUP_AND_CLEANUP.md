@@ -4,7 +4,7 @@
 
 - **Demo pública sem cadastro:** https://businessmind-ai-demo.guisoster060.workers.dev — somente dados fictícios locais, Hermes determinístico.
 - **Staging com cadastro real:** https://businessmind-ai-staging.pages.dev — Supabase Auth, PostgreSQL e RLS; use somente dados fictícios. O formulário oferece **Criar uma conta**, nome, e-mail e senha. Após entrar, cada usuário cria seu próprio workspace.
-- **Prévia de melhorias:** https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev — branch isolada, não é a versão final da produção.
+- **Prévia para avaliação com Gemini limitado:** https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev — branch isolada, não é a versão final da produção. Usa `hermes-recruiter`, não a autorização única antiga. Limites persistentes: 3 chamadas/usuário/dia, mínimo 60 segundos entre chamadas, máximo global de 20/dia; após o limite, retorna análise determinística. **Não compartilhar o link como testado de ponta a ponta antes de validar um novo cadastro e uma resposta real nessa função.**
 
 ## Pré-requisitos para cadastro aberto
 
@@ -18,7 +18,7 @@
 
 - Não publicar senha da conta de demonstração no GitHub.
 - Não compartilhar contas reais ou movimentações reais; recrutador deve criar conta própria com dados fictícios.
-- Não reabrir a autorização única do Gemini; modo determinístico é suficiente para o teste público. Gemini foi validado uma vez em staging e está documentado separadamente.
+- Não reabrir a autorização única do Gemini; modo determinístico é suficiente para o teste público. Gemini foi validado uma vez na função anterior e está documentado separadamente. A nova função de recrutamento usa uma quota própria e não reabre a autorização antiga.
 - Evitar abrir o staging indiscriminadamente antes de verificar cadastro, SMTP, limites de criação de contas e políticas RLS.
 
 ## Limpeza posterior (NÃO EXECUTADA)
