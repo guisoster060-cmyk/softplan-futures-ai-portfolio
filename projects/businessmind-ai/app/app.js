@@ -497,9 +497,9 @@ async function onLogin(e) {
   if (authMode === 'signup') {
     const displayName = $('display-name').value.trim();
     if (!displayName) { $('login-error').textContent = 'Informe seu nome.'; return; }
-    const { data, error } = await withLoading('Criando sua conta...', () => supabase.auth.signUp({ email, password: pw, options: { data: { display_name: displayName.slice(0, 80) } } }));
+    const { data, error } = await withLoading('Criando sua conta...', () => supabase.auth.signUp({ email, password: pw, options: { emailRedirectTo: window.location.origin + window.location.pathname, data: { display_name: displayName.slice(0, 80) } } }));
     if (error) { $('login-error').textContent = messageFor(error, 'Não foi possível criar a conta.'); return; }
-    if (!data.session) { showModal('Confirme seu e-mail', 'Enviamos um link de confirmação. Depois de confirmar, volte e entre na sua conta.'); setAuthMode('login'); return; }
+    if (!data.session) { showModal('Confirmação de cadastro', 'Sua solicitação foi recebida. Se o envio de e-mails estiver habilitado, abra o link de confirmação recebido (verifique também o spam) e depois entre. Se não receber, avise o responsável pela demonstração.'); setAuthMode('login'); return; }
   } else {
     const { error } = await withLoading('Entrando no BusinessMind...', () => supabase.auth.signInWithPassword({ email, password: pw }));
     if (error) { $('login-error').textContent = messageFor(error, 'Não foi possível entrar.'); }
