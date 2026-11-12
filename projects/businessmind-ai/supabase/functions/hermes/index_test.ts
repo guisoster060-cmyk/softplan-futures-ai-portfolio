@@ -387,3 +387,26 @@ Deno.test('CORS rejeita origem não aprovada', async () => {
   try { assertEquals((await handleRequest(request('valid', company, 'https://evil.test'))).status, 403); assertEquals(calls.length, 0); }
   finally { restore(); }
 });
+
+
+Deno.test('diagnóstico distingue quota, resposta rejeitada e sucesso sem registrar dados', async () => {
+  const originalInfo = console.info;
+  const scenarios = [
+    { provider: 'quota' as const, expected: '"result":"quota"' },
+    { provider: 'numeric' as const, expected: '"result":"empty_or_rejected"' },
+    { provider: 'ok' as const, expected: '"result":"accepted"' }
+  ];
+  for (const scenario of scenarios) {
+    const lines: string[] = [];
+    const { calls } = setup({ staging: true, approved: true, companyApproved: true, provider: scenario.provider });
+    console.info = (...values: unknown[]) => { lines.push(values.map(String).join(' ')); };
+    try {
+      const response = await (await localExperimentalHandler(request())).json();
+      assertEquals(response.mode, scenario.provider === 'ok' ? 'generative' : 'deterministic');
+      assertEquals(calls.filter(call => call === 'gemini').length, 1);
+      assert(lines.some(line => line.includes(scenario.expected)));
+      assert(lines.every(line => line.includes('hermes_gemini_diagnostic')));
+      assert(lines.every(line => !line.includes(company) && !line.includes('Bearer valid') && !line.includes('Receitas superam despesas')));
+    } finally { console.info = originalInfo; restore(); }
+  }
+});
