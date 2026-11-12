@@ -26,3 +26,16 @@
 .demo-note,.security-note,.notice,.alerts-panel .muted{font-size:13px}
 @media(max-width:760px){.tx-row>.tx-date{font-size:12px}}
 @media(max-width:430px){.product-pill{font-size:11px}}
+
+/* Final mobile polish: readable Hermes chat, compact viewport, safe text wrapping. */
+@media(max-width:760px){
+  .chat-log{height:clamp(280px,44dvh,390px);min-height:280px;overscroll-behavior:contain}
+  .msg{max-width:94%;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+  .hermes-status{font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+  .chat-form{min-width:0}
+  .chat-form input{min-width:0;font-size:16px}
+  .chat-form button{flex-shrink:0;min-width:76px}
+  .chips .secondary-btn{font-size:12px;white-space:normal;text-align:left}
+  .panel,.intel-pane,.screen{min-width:0}
+}
+@media(max-width:360px){.chat-form{gap:6px}.chat-form button{min-width:70px;padding-inline:9px}.main{padding-inline:12px}.mobile-header{margin-inline:-12px;padding-inline:12px}}
