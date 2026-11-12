@@ -349,7 +349,7 @@ async function ask(q) {
   if (hermesOutOfScope(q)) { addMsg('bot', HERMES_SCOPE_MESSAGE); return; }
   const config = window.BUSINESSMIND_CONFIG;
   const localAnswer = () => addMsg('bot', answer(q));
-  if (!config?.hermesRemoteDeterministicEnabled || config.hermesGenerativeEnabled ||
+  if (!config?.hermesRemoteDeterministicEnabled ||
       config.supabaseUrl !== 'https://ogypzmxnvjbomamkejkh.supabase.co' ||
       !transactions.length || has(norm(q), 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) { localAnswer(); return; }
   if (!currentUser?.id || !currentCompany?.id || !availableCompanies.some(company => company.id === currentCompany.id)) {
@@ -376,10 +376,18 @@ async function ask(q) {
       setHermesStatus('Acesso não autorizado à função.', 'error'); return;
     }
     if (error || !data) throw error || new Error('Resposta vazia');
-    if (data.mode !== 'deterministic' || !Number.isInteger(data.summary?.transactionCount) ||
+    if (!['deterministic', 'generative'].includes(data.mode) || !Number.isInteger(data.summary?.transactionCount) ||
         data.summary.transactionCount !== transactions.length ||
         !['income', 'expense', 'profit'].every(key => Number.isFinite(data.summary?.totals?.[key]))) {
       throw Error('Resposta determinística inválida.');
+    }
+    if (data.mode === 'generative') {
+      if (!config.hermesGenerativeEnabled || typeof data.answer !== 'string' || !data.answer.trim() ||
+          data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) throw Error('Interpretação generativa inválida.');
+      localAnswer();
+      addMsg('bot', `Interpretação gerada por IA (não é cálculo): ${data.answer.trim()}`);
+      setHermesStatus('Cálculo local e interpretação remota identificados separadamente.');
+      return;
     }
     localAnswer();
     setHermesStatus('Consulta autenticada à função concluída; resposta calculada localmente.');
