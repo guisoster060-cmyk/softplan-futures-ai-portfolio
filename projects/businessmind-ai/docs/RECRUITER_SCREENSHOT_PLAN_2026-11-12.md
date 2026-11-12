@@ -21,8 +21,8 @@ Cinco capturas Android fornecidas pelo responsável às 19h49 BRT, referentes à
 ## Próximas verificações antes de enviar à Softplan
 
 - [ ] Incorporar as capturas tratadas ao repositório e trocar a galeria de imagens antigas, mantendo indicação de origem.
-- [ ] Verificar cadastro por e-mail em navegador limpo, confirmação, login e criação de empresa.
+- [x] Cadastro por e-mail, confirmação, login e criação de empresa confirmados pelo usuário com conta nova em 12/11/2026.
 - [ ] Verificar CSV, edição/exclusão de movimentações e logout.
-- [ ] Verificar limites do Gemini e fallback determinístico sem divulgar segredos.
+- [x] Fallback determinístico observado com 4 movimentações; mínimo reduzido de 5 para 1, e resposta Gemini validada com logs de provedor aceito e quotas (2/20 no dia).
 - [ ] Revisar critérios da vaga no anúncio oficial e confrontar requisitos com entregáveis.
 - [ ] Garantir que o README do branch escolhido para entrega é o mesmo que o recrutador abrirá no GitHub.
