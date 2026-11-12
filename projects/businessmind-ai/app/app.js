@@ -332,6 +332,40 @@ function answer(q) {
   return 'Pergunta não reconhecida. Exemplos: "lucro do mês", "maior despesa", "tendência da receita", "previsão" ou "recomendações". Digite "ajuda" para ver o que sei responder.';
 }
 function addMsg(role, text) { const m = el('div', 'msg ' + role, text); $('chat-log').append(m); $('chat-log').scrollTop = $('chat-log').scrollHeight; }
+// Renderização restrita: nenhuma string do provedor é interpretada como HTML.
+function addHermesInterpretation(raw) {
+  const msg = el('div', 'msg bot hermes-interpretation');
+  const heading = el('div', 'hermes-interpretation-label', 'Interpretação generativa · sem cálculo financeiro');
+  msg.append(heading);
+  const lines = raw.replace(/\\r\\n?/g, '\\n').split('\\n');
+  let list = null;
+  for (const original of lines) {
+    const line = original.trim();
+    if (!line) { list = null; continue; }
+    const bullet = /^(?:[-*•]\\s+)(.+)$/.exec(line);
+    if (bullet) {
+      if (!list) { list = document.createElement('ul'); msg.append(list); }
+      appendSafeEmphasis(elAndAppend(list, 'li'), bullet[1]);
+      continue;
+    }
+    list = null;
+    const match = /^#{1,4}\\s+(.+)$/.exec(line);
+    const node = el(match ? 'h4' : 'p');
+    appendSafeEmphasis(node, match ? match[1] : line);
+    msg.append(node);
+  }
+  $('chat-log').append(msg);
+  $('chat-log').scrollTop = $('chat-log').scrollHeight;
+}
+function elAndAppend(parent, tag) { const node = document.createElement(tag); parent.append(node); return node; }
+function appendSafeEmphasis(parent, source) {
+  const chunks = source.split(/(\\*\\*[^*\\n]+\\*\\*)/g);
+  for (const chunk of chunks) {
+    if (!chunk) continue;
+    if (chunk.startsWith('**') && chunk.endsWith('**')) parent.append(el('strong', '', chunk.slice(2, -2)));
+    else parent.append(document.createTextNode(chunk));
+  }
+}
 function setHermesStatus(text, kind = '') { const status = $('hermes-status'); status.textContent = text; status.className = 'hermes-status ' + kind; }
 const HERMES_SCOPE_MESSAGE = 'O Hermes responde a perguntas sobre indicadores, receitas, despesas, resultados e funções do BusinessMind AI.';
 function hermesOutOfScope(question) {
@@ -393,7 +427,7 @@ async function ask(q) {
         throw Error('Interpretação generativa inválida.');
       }
       localAnswer();
-      addMsg('bot', `Interpretação generativa (sem cálculo financeiro): ${data.answer.trim()}`);
+      addHermesInterpretation(data.answer.trim());
       setHermesStatus('Cálculo local e interpretação generativa exibidos separadamente.');
       return;
     }
