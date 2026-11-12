@@ -12,7 +12,7 @@ A demonstração utiliza dados fictícios armazenados no navegador. Permite nave
 
 **[Abrir ambiente de testes com Supabase](https://businessmind-ai-staging.pages.dev)**
 
-O staging utiliza autenticação e dados persistidos no PostgreSQL, com acesso controlado. Exige conta autorizada e deve receber **somente dados fictícios**. É um ambiente experimental, não uma aplicação de produção destinada a usuários finais.
+O staging utiliza Supabase Auth e dados persistidos no PostgreSQL. O formulário oferece **Criar uma conta**, mas o cadastro de novos usuários depende da confirmação de e-mail e da configuração de envio SMTP, ainda **não verificadas de ponta a ponta**. Use **somente dados fictícios**. Se não conseguir concluir o cadastro, utilize a demonstração pública sem cadastro acima.
 
 ## Interface
 
@@ -41,9 +41,15 @@ O staging utiliza autenticação e dados persistidos no PostgreSQL, com acesso c
 
 ## Estado de validação — 12/11/2026
 
-O staging foi publicado com sucesso no Cloudflare Pages. Em teste manual no Android, o Hermes consultou a Edge Function (HTTP 200) e exibiu análise determinística sobre movimentações fictícias. A autorização de teste único do Gemini foi consumida, **mas uma resposta generativa do Gemini não foi confirmada**. Portanto, a integração Gemini é **experimental**, não uma funcionalidade validada. A validação completa em Windows e Safari/iOS também permanece pendente.
+O Hermes foi validado **uma vez com o Gemini no staging controlado**: registros do servidor confirmaram autorização e resposta aceita pelo provedor, a requisição terminou em HTTP 200 e a interpretação generativa apareceu no navegador, separada do cálculo financeiro local. A autorização de uso único foi consumida. **A demo pública não usa Gemini** e não é necessário acesso ao staging para conhecer o projeto.
 
-As alterações finais de interface, testes e documentação estão em [revisão no PR #26](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/pull/26), **ainda não integradas à branch principal**. O [relatório de entrega nessa revisão](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/businessmind-final-staging-20261112/projects/businessmind-ai/docs/DELIVERY_STATUS_2026-11-12.md) distingue evidências, limitações e próximas etapas.
+- [Relatório técnico da integração Gemini (branch de validação)](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/HERMES_GEMINI_VALIDATION_2026-11-12.md).
+- [Guia de avaliação para recrutadores (branch de validação)](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_HANDOFF_2026-11-12.md).
+- [Histórico complementar de prompts de IA](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/PROMPT_LOG_2026-11-12.md) e [histórico anterior](docs/businessmind-ai/PROMPT_LOG.md).
+- [Plano de cadastro e limpeza posterior, sem exclusão de usuários](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_SIGNUP_AND_CLEANUP.md).
+- [Verificação automatizada da branch de melhorias](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/actions/workflows/businessmind-ci.yml) (consultar execução/commit antes de afirmar aprovação).
+
+**Limitações:** o cadastro de um usuário novo e a entrega do e-mail de confirmação ainda precisam de teste; a integração Gemini não está aberta a uso irrestrito; validação Windows/Safari ainda pendente. A branch de melhorias não foi incorporada à aplicação de produção.
 
 ## Executar localmente
 
