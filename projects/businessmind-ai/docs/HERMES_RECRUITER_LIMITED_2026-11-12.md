@@ -28,3 +28,7 @@ A consulta única anterior ao Gemini foi validada na função `hermes`, e está 
 
 ## Limpeza posterior
 Não excluir usuários automaticamente. Após a avaliação, preservar a conta de demonstração definida pelo proprietário, obter autorização específica e executar a limpeza segura conforme [RECRUITER_SIGNUP_AND_CLEANUP.md](RECRUITER_SIGNUP_AND_CLEANUP.md).
+
+## Ajuste para contas recém-criadas — 12/11/2026, 19h44 BRT
+
+Um teste com conta nova exibiu **4 movimentações**, resposta determinística e indicação explícita de que o Gemini não foi utilizado. A função de recrutamento v1 exigia pelo menos **5 movimentações**, impedindo essa conta de usar a IA. O limite mínimo foi reduzido para **1 movimentação**, mantendo autenticação, RLS, controle de compartilhamento e quotas por usuário e global. A função `hermes-recruiter` **v2** foi publicada no staging com status `ACTIVE`. **Ainda é necessário repetir uma consulta com a conta nova para comprovar a resposta generativa**; a publicação isolada não é evidência de uso do provedor.
