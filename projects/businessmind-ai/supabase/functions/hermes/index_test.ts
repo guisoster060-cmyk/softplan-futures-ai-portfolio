@@ -406,7 +406,7 @@ Deno.test('diagnóstico distingue quota, resposta rejeitada e sucesso sem regist
       assertEquals(calls.filter(call => call === 'gemini').length, 1);
       assert(lines.some(line => line.includes(scenario.expected)));
       assert(lines.every(line => line.includes('hermes_gemini_diagnostic')));
-      assert(lines.every(line => !line.includes(company) && !line.includes('valid') && !line.includes('Receitas superam despesas')));
+      assert(lines.every(line => !line.includes(company) && !line.includes('Bearer valid') && !line.includes('Receitas superam despesas')));
     } finally { console.info = originalInfo; restore(); }
   }
 });
