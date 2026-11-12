@@ -12,7 +12,7 @@ export function buildStagingPreview() {
   const config = readFileSync(stagingConfig, 'utf8');
   if (!config.includes('https://ogypzmxnvjbomamkejkh.supabase.co') ||
       !/sb_publishable_[A-Za-z0-9_-]+/.test(config) ||
-      !config.includes('hermesGenerativeEnabled: false') ||
+      !config.includes('hermesGenerativeEnabled: true') ||
       !config.includes('hermesRemoteDeterministicEnabled: true') ||
       config.includes('cqiuryqnsdmsjchejclo')) throw Error('Configuração de staging inválida.');
   rmSync(output, { recursive: true, force: true });

@@ -40,3 +40,13 @@ jobs:
         working-directory: projects/businessmind-ai/supabase/functions/hermes
       - run: deno test --allow-env index_test.ts
         working-directory: projects/businessmind-ai/supabase/functions/hermes
+
+      - name: Build isolated staging preview
+        run: npm run build:staging-preview
+      - name: Upload staging preview for manual Cloudflare deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: businessmind-ai-staging-preview
+          path: projects/businessmind-ai/dist-staging/
+          if-no-files-found: error
+          retention-days: 3

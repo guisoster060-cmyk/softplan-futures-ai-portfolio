@@ -1,5 +1,7 @@
 # Softplan Futures — BusinessMind AI
 
+> **Atualização verificada em 12/11/2026:** o staging recebeu novo deploy e uma consulta Hermes retornou HTTP 200, com resposta determinística observada no Android. A autorização única de teste Gemini foi consumida, mas **não há evidência de resposta generativa**. O Gemini permanece experimental e não deve ser anunciado como validado. As referências históricas abaixo descrevem versões anteriores. [Estado de entrega e evidências](projects/businessmind-ai/docs/DELIVERY_STATUS_2026-11-12.md).
+
 **Problema:** pequenos negócios podem registrar receitas e despesas em fontes dispersas e perder visibilidade do resultado. **Solução:** o BusinessMind AI reúne movimentações por empresa, calcula indicadores a partir dos registros carregados e oferece explicações determinísticas pelo Hermes. É um MVP de portfólio, não um produto comercial validado.
 
 > Estado em 11/11/2026: `new-branch` contém as atualizações de documentação e o MVP; o staging real foi testado manualmente com cadastro por e-mail, confirmação, criação de empresa e movimentação. O Hermes opera em modo determinístico; Gemini generativo não está ativado. A demonstração pública fictícia está publicada separadamente.

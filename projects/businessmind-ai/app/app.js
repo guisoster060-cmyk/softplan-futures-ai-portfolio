@@ -74,7 +74,7 @@ async function loadCompany(companyId) {
   selector.value = companyId;
   $('workspace-switch').hidden = availableCompanies.length < 2;
   $('chat-log').textContent = '';
-  addMsg('bot', 'Olá! Sou o Hermes. Respondo com base nas movimentações reais carregadas da empresa ativa.');
+  addMsg('bot', 'Hermes disponível. As respostas utilizam as movimentações carregadas da empresa ativa.');
   setHermesStatus('');
   showApp(currentUser.email);
 }
@@ -303,20 +303,20 @@ const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '
 const has = (n, ...words) => words.some(w => n.includes(w));
 function answer(q) {
   const n = norm(q), a = analyze();
-  if (has(n, 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) return 'Posso responder, com base nas movimentações da sua empresa, sobre: lucro, receitas, despesas, margem, maiores receitas/despesas, categorias, tendência, previsão simples e recomendações.';
+  if (has(n, 'ajuda', 'o que voce', 'o que vc', 'pode fazer')) return 'Consultas disponíveis: lucro, receitas, despesas, margem, maiores movimentações, categorias, tendência, projeção simples e recomendações baseadas em regras.';
   if (!transactions.length) return 'Ainda não há movimentações cadastradas, então não tenho dados para analisar. Cadastre receitas e despesas em Indicadores.';
   const base = `\n\nBase: ${transactions.length} movimentações cadastradas (${a.cur.length} no mês atual).`;
   if (has(n, 'previs', 'projec', 'proximo mes')) {
     const f = forecast(a);
     if (f == null) return 'Não há dados suficientes para estimar: preciso de receitas nos últimos 3 meses seguidos.' + base;
     const l3 = a.months.slice(-3).map(m => `${m.label}: ${brl.format(m.income)}`).join(' · ');
-    return `Estimativa simples (não é garantia): receita do próximo mês perto de ${brl.format(f)}.\nMétodo: continua a variação média dos últimos 3 meses, sem sazonalidade nem fatores externos.\n${l3}` + base;
+    return `Estimativa de receita para o próximo mês: ${brl.format(f)}.\nMétodo: continua a variação média dos últimos 3 meses, sem sazonalidade nem fatores externos.\n${l3}` + base;
   }
   if (has(n, 'tendencia', 'evolu', 'cresc', 'historico')) {
     const m = a.months.filter(x => x.income > 0);
     if (m.length < 3) return 'Não há dados suficientes para falar de tendência: preciso de receitas em pelo menos 3 meses.' + base;
     const first = m[0], last = m[m.length - 1], g = change(last.income, first.income);
-    return `Fato: a receita foi de ${brl.format(first.income)} em ${first.label} para ${brl.format(last.income)} em ${last.label} (${g >= 0 ? '+' : '−'}${fmtPct(Math.abs(g))} no período com dados).` + base;
+    return `Receita registrada: ${brl.format(first.income)} em ${first.label} para ${brl.format(last.income)} em ${last.label} (${g >= 0 ? '+' : '−'}${fmtPct(Math.abs(g))} no período com dados).` + base;
   }
   if (has(n, 'maior despesa', 'maior gasto', 'despesa mais alta')) { const t = extreme(a.cur, 'expense'); return t ? `A maior despesa do mês atual é "${t.desc}": ${brl.format(t.amount)} (${t.category}, ${fmtDate(t.date)}).` + base : 'Não há despesas no mês atual.' + base; }
   if (has(n, 'maior receita', 'maior venda')) { const t = extreme(a.cur, 'income'); return t ? `A maior receita do mês atual é "${t.desc}": ${brl.format(t.amount)} (${t.category}, ${fmtDate(t.date)}).` + base : 'Não há receitas no mês atual.' + base; }
@@ -327,13 +327,13 @@ function answer(q) {
   if (has(n, 'receita', 'faturamento', 'vendas', 'venda')) { const g = change(a.c.income, a.p.income); return `Receitas do mês: ${brl.format(a.c.income)}.${g == null ? '\nNão há receitas no mês anterior para comparar.' : `\nVariação vs mês anterior: ${g >= 0 ? '+' : '−'}${fmtPct(Math.abs(g))}.`}` + base; }
   if (has(n, 'recomend', 'dica', 'sugest', 'melhorar', 'o que fazer')) {
     const items = buildAnalysis(a).filter(i => i.kind === 'Recomendação' || i.kind === 'Risco');
-    return items.length ? items.map(i => `• [${i.kind}] ${i.title}: ${i.text}`).join('\n') + '\n\nSão regras simples sobre os dados cadastrados, não consultoria.' + base : 'Não há dados suficientes para gerar recomendações (preciso de pelo menos 5 movimentações).' + base;
+    return items.length ? items.map(i => `• [${i.kind}] ${i.title}: ${i.text}`).join('\n') + '\n\nRecomendações baseadas em regras sobre os dados cadastrados. Não substituem análise profissional.' + base : 'Não há dados suficientes para gerar recomendações (preciso de pelo menos 5 movimentações).' + base;
   }
-  return 'Não entendi a pergunta. Tente algo como: "lucro do mês", "maior despesa", "tendência da receita", "previsão" ou "recomendações". Digite "ajuda" para ver o que sei responder.';
+  return 'Pergunta não reconhecida. Exemplos: "lucro do mês", "maior despesa", "tendência da receita", "previsão" ou "recomendações". Digite "ajuda" para ver o que sei responder.';
 }
 function addMsg(role, text) { const m = el('div', 'msg ' + role, text); $('chat-log').append(m); $('chat-log').scrollTop = $('chat-log').scrollHeight; }
 function setHermesStatus(text, kind = '') { const status = $('hermes-status'); status.textContent = text; status.className = 'hermes-status ' + kind; }
-const HERMES_SCOPE_MESSAGE = 'Sou o Hermes, assistente empresarial do BusinessMind AI. Posso ajudar com indicadores, receitas, despesas, resultados, gestão e funcionalidades do sistema.';
+const HERMES_SCOPE_MESSAGE = 'O Hermes responde a perguntas sobre indicadores, receitas, despesas, resultados e funções do BusinessMind AI.';
 function hermesOutOfScope(question) {
   const text = norm(question);
   const business = /\b(receita|faturamento|venda|despesa|gasto|custo|lucro|margem|saldo|caixa|indicador|kpi|metrica|meta|orcamento|financeir|empresa|negocio|gestao|produtiv|eficienc|desempenho|rentabil|equipe|cliente|estoque|preco|marketing|estrategia|planejamento|processo|operac|recomend|previs|tendencia|ajuda|pode fazer|businessmind|dashboard|grafico|relatorio|csv|movimentac|categoria|hermes|sistema|funcionalidade)\w*\b/.test(text);
@@ -357,7 +357,7 @@ async function ask(q) {
   }
   const userId = currentUser.id, companyId = currentCompany.id;
   const stillActive = () => currentUser?.id === userId && currentCompany?.id === companyId;
-  const submit = $('chat-submit'); submit.disabled = true; setHermesStatus('Consultando o Hermes da empresa ativa…', 'loading');
+  const submit = $('chat-submit'); submit.disabled = true; setHermesStatus('Consultando a função remota…', 'loading');
   try {
     let authData, authError;
     try { ({ data: authData, error: authError } = await supabase.auth.getSession()); }
@@ -385,14 +385,14 @@ async function ask(q) {
       if (!config.hermesGenerativeEnabled || typeof data.answer !== 'string' || !data.answer.trim() ||
           data.answer.length > 4000 || /[0-9]|R\$|€|\$|https?:\/\/|@/.test(data.answer)) throw Error('Interpretação generativa inválida.');
       localAnswer();
-      addMsg('bot', `Interpretação gerada por IA (não é cálculo): ${data.answer.trim()}`);
-      setHermesStatus('Cálculo local e interpretação remota identificados separadamente.');
+      addMsg('bot', `Interpretação generativa (sem cálculo financeiro): ${data.answer.trim()}`);
+      setHermesStatus('Cálculo local e interpretação generativa exibidos separadamente.');
       return;
     }
     localAnswer();
-    setHermesStatus('Consulta autenticada à função concluída; resposta calculada localmente.');
+    setHermesStatus('Função remota consultada; cálculo financeiro realizado no navegador.');
   } catch {
-    if (stillActive()) { localAnswer(); setHermesStatus('Função indisponível; fallback determinístico ativo no navegador.', 'error'); }
+    if (stillActive()) { localAnswer(); setHermesStatus('Falha na consulta remota; resposta calculada no navegador.', 'error'); }
   } finally { submit.disabled = false; }
 }
 
@@ -404,8 +404,8 @@ function buildAnalysis(a) {
   if (a.cur.length) out.push({ kind: 'Fato', title: 'Resultado do mês', text: `Receitas ${brl.format(a.c.income)}, despesas ${brl.format(a.c.expense)}, lucro ${brl.format(a.c.profit)}${a.c.margin != null ? ` (margem ${fmtPct(a.c.margin)})` : ''}.`, basis: `${a.cur.length} movimentações do mês atual.` });
   const ms = a.months.filter(m => m.income > 0);
   if (ms.length >= 3) { const g = change(ms[ms.length - 1].income, ms[0].income); out.push({ kind: 'Fato', title: 'Tendência da receita', text: `Receita ${g >= 0 ? 'cresceu' : 'caiu'} ${fmtPct(Math.abs(g))} entre ${ms[0].label} e ${ms[ms.length - 1].label}.`, basis: `${ms.length} meses com receita.` }); }
-  const f = forecast(a); if (f != null) out.push({ kind: 'Estimativa', title: 'Receita do próximo mês', text: `Perto de ${brl.format(f)}, projetando a variação média dos últimos 3 meses.`, basis: 'Projeção linear simples, sem sazonalidade. Não é garantia.' });
-  if (a.cur.length && a.c.margin != null && a.c.margin < 20) out.push({ kind: 'Recomendação', title: 'Revisar margem', text: `Margem de ${fmtPct(a.c.margin)} no mês. Vale revisar preços e custos principais.`, basis: 'Regra: margem abaixo de 20%.' });
+  const f = forecast(a); if (f != null) out.push({ kind: 'Estimativa', title: 'Receita do próximo mês', text: `${brl.format(f)}, com base na variação média dos últimos 3 meses.`, basis: 'Projeção linear simples, sem sazonalidade. Não é garantia.' });
+  if (a.cur.length && a.c.margin != null && a.c.margin < 20) out.push({ kind: 'Recomendação', title: 'Revisar margem', text: `Margem de ${fmtPct(a.c.margin)} no mês. Verifique preços e custos principais.`, basis: 'Regra: margem abaixo de 20%.' });
   if (topEx && topEx.share > 40) out.push({ kind: 'Recomendação', title: `Revisar "${topEx.name}"`, text: `Concentra ${fmtPct(topEx.share)} das despesas do mês. Uma redução de 5% economizaria ${brl.format(topEx.value * 0.05)} (cenário hipotético).`, basis: 'Regra: categoria acima de 40% das despesas.' });
   if (topIn && topIn.share > 60) out.push({ kind: 'Risco', title: 'Receita concentrada', text: `"${topIn.name}" responde por ${fmtPct(topIn.share)} das receitas do mês.`, basis: 'Regra: categoria acima de 60% das receitas.' });
   if (a.cur.length && a.c.profit < 0) out.push({ kind: 'Risco', title: 'Resultado negativo', text: `As despesas superam as receitas em ${brl.format(Math.abs(a.c.profit))} no mês.`, basis: 'Regra: lucro do mês abaixo de zero.' });
@@ -556,7 +556,7 @@ function bind() {
 
 async function init() {
   loadState(); applyPrefs(); bind(); setAuthMode('login');
-  addMsg('bot', 'Olá! Sou o Hermes. Respondo com base nas movimentações reais carregadas da sua empresa. Digite "ajuda" ou toque em uma sugestão.');
+  addMsg('bot', 'Hermes disponível. Consulte receitas, despesas e resultados da empresa ativa. Digite "ajuda" ou selecione uma sugestão.');
   const config = window.BUSINESSMIND_CONFIG;
   if (!window.supabase?.createClient || !config?.supabaseUrl || !config?.supabasePublishableKey) {
     $('login-error').textContent = 'Configuração do Supabase indisponível.'; showLogin(); return;
