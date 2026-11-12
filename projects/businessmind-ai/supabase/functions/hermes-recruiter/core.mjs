@@ -1,6 +1,6 @@
 export const LIMITS = Object.freeze({ bodyBytes: 2048, questionChars: 500, responseBytes: 16384,
   responseChars: 4000, outputTokens: 500, providerTimeoutMs: 12000, requestTimeoutMs: 20000,
-  requestsPerMinute: 10, transactionRows: 5000, pageSize: 500, minRowsForGemini: 5 });
+  requestsPerMinute: 10, transactionRows: 5000, pageSize: 500, minRowsForGemini: 1 });
 
 export const OUT_OF_SCOPE_MESSAGE = 'Sou o Hermes, assistente empresarial do BusinessMind AI. Posso ajudar com indicadores, receitas, despesas, resultados, gestão e funcionalidades do sistema.';
 
