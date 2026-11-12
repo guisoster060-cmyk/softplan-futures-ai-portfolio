@@ -1,4 +1,19 @@
-# BusinessMind AI
+# BusinessMind AI — Portfólio Softplan Futures
+
+> **COMECE AQUI (sem cadastro):** [Abrir demonstração imediata](https://businessmind-ai-demo.guisoster060.workers.dev) · [Ver as telas](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_GALLERY.md) · [Roteiro de 2 minutos](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/START_HERE_RECRUITER.md).
+
+**Resumo em uma frase:** MVP para organizar receitas e despesas de pequenos negócios, calcular indicadores e ajudar a interpretar os resultados com o assistente Hermes.
+
+**Para avaliar a IA generativa:** [Prévia isolada com cadastro e Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). É uma versão distinta da demo imediata; exige confirmação de e-mail, dados fictícios e está sujeita a quotas.
+
+**Documentação preparada para avaliação:** [Resumo executivo](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_ONE_PAGE.md) · [Plano de validação de impacto](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/BUSINESS_IMPACT_VALIDATION.md) · [Código e documentação da versão completa](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai).
+
+**Transparência:** os resultados de impacto financeiro e economia de tempo ainda não foram medidos com empresas reais. As capturas publicadas na galeria mostram a demo fictícia. A prévia Gemini está em branch isolada e **não foi mesclada à `main`**.
+
+---
+
+## Documentação histórica da branch principal
+
 
 **MVP de gestão e análise financeira para pequenos negócios**, desenvolvido como projeto de portfólio para demonstrar desenvolvimento web, modelagem de dados, segurança e testes.
 
