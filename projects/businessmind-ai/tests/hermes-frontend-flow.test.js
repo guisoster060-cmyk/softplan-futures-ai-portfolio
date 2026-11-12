@@ -48,11 +48,19 @@ function harness({ remote = false, generative = false, url = stagingUrl,
   return { ask: context.ask, context, messages, calls, statuses, submit, chatLog };
 }
 
+test('recruiter mode calls isolated quota-protected endpoint', async () => {
+  const h = harness({ remote: true, generative: true, invoke: async () => ({ data: { mode: 'deterministic', summary }, error: null }) });
+  h.context.window.BUSINESSMIND_CONFIG.hermesRecruiterEnabled = true;
+  await h.ask('lucro do mês');
+  assert.equal(h.calls[0][0], 'hermes-recruiter');
+});
+
 test('modo local e produção nunca invocam a função', async () => {
   const stagingConfig = fs.readFileSync(path.join(__dirname, '../preview/staging-config.js'), 'utf8');
   const productionConfig = fs.readFileSync(path.join(__dirname, '../app/config.js'), 'utf8');
   assert.match(stagingConfig, /hermesRemoteDeterministicEnabled: true/);
   assert.match(stagingConfig, /hermesGenerativeEnabled: true/);
+  assert.match(stagingConfig, /hermesRecruiterEnabled: true/);
   assert.ok(productionConfig.includes('ogypzmxnvjbomamkejkh.supabase.co')); // configuração exclusiva de staging
   for (const options of [{}, { remote: true, url: 'https://outro-projeto.invalid' }, { generative: true }]) {
     const h = harness(options);
