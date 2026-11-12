@@ -192,7 +192,7 @@ Deno.test('ensaio local envia somente agregados, sem pergunta livre ou registro 
   const originalMockFetch = dependencies.fetch;
   dependencies.fetch = (async (url, init) => {
     const body = String(init?.body);
-    assertEquals(url, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent');
+    assertEquals(url, 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent');
     assertEquals(body.includes('customer-name'), false);
     assertEquals(body.includes('person@example.test'), false);
     assertEquals(body.includes('pergunta-original-privada'), false);
