@@ -5,7 +5,7 @@ type Transaction = { id: string; type: 'income' | 'expense'; category: string; a
 type RateEntry = { startedAt: number; count: number };
 const rateByUser = new Map<string, RateEntry>();
 export const dependencies = { createClient, fetch: globalThis.fetch };
-const STAGING_DETERMINISTIC_ONLY = false;
+const STAGING_DETERMINISTIC_ONLY = true;
 const STAGING_SUPABASE_URL = 'https://ogypzmxnvjbomamkejkh.supabase.co';
 
 // Apenas marcadores fixos: nunca registrar perguntas, IDs, tokens, respostas ou payloads.
