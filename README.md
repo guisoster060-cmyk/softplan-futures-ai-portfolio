@@ -2,7 +2,7 @@
 
 > **Para avaliadores da Softplan Futures:** [Comece aqui — teste guiado em 5–10 minutos](projects/businessmind-ai/docs/START_HERE_RECRUITER.md) · [Conferência com requisitos oficiais](projects/businessmind-ai/docs/SOFTPLAN_FUTURES_REQUIREMENTS_CHECK_2026-11-12.md) · [Prévia funcional com Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). Use dados fictícios. A demo pública separada não aciona Gemini.
 
-**Leitura recomendada:** [Resumo executivo de uma página](projects/businessmind-ai/docs/RECRUITER_ONE_PAGE.md) · [Validação de impacto: evidência versus hipótese](projects/businessmind-ai/docs/BUSINESS_IMPACT_VALIDATION.md).
+**Leitura recomendada:** [Auditoria da experiência do recrutador](projects/businessmind-ai/docs/RECRUITER_EXPERIENCE_AUDIT_2026-11-12.md) · [Resumo executivo de uma página](projects/businessmind-ai/docs/RECRUITER_ONE_PAGE.md) · [Validação de impacto: evidência versus hipótese](projects/businessmind-ai/docs/BUSINESS_IMPACT_VALIDATION.md).
 
 > **Estado atual — 12/11/2026:** a prévia isolada foi testada com cadastro e interpretação Gemini real, sujeita a quotas. Os registros de staging antigo e testes determinísticos permanecem em [evidências históricas](projects/businessmind-ai/docs/DELIVERY_STATUS_2026-11-12.md); não representam a versão mais recente. A demo pública sem cadastro **não** usa Gemini.
 
