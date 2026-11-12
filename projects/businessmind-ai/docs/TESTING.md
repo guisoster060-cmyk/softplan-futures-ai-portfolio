@@ -1,5 +1,13 @@
 # Estratégia e evidências de testes
 
+## Preparação do ensaio generativo isolado (12/11/2026)
+
+- `npm ci && npm run verify`: **54/54 testes Node aprovados**, análise sintática e 31 documentos com links válidos.
+- `deno check index.ts index_test.ts`: aprovado; `deno test --allow-env index_test.ts`: **44/44 testes Deno aprovados com mocks e dados fictícios**. O handler público mantém o bloqueio determinístico. Os testes exercitam o ramo desbloqueado por `createHermesHandler(false)` apenas em memória, sem chamada à API.
+- `node tests/hermes-one-shot-postgres.mjs`: aprovado em PostgreSQL local descartável, incluindo disputa de duas transações (uma única vencedora), ACL, RLS, autorização do proprietário e impossibilidade de repetir a reivindicação. Não comprova o estado da RPC no Supabase staging.
+- Cobertura nova: projeto não staging; membro não proprietário; JWT inválido; controles de compartilhamento ausentes; tema fora do escopo e paginação incompleta sem claim; RPC negada/indisponível; uma tentativa de provedor após claim; oito requisições simuladas concorrentes; dados individuais e pergunta livre fora do payload; erro, quota, timeout, redirect e resposta inválida com fallback sem segunda tentativa. Os mocks de concorrência não substituem o teste transacional PostgreSQL.
+- **Não executado:** consulta a secrets, chamada real ao Hermes ou Gemini, teste remoto RLS da Edge Function, confirmação de `verify_jwt`/versão/estado da linha de uso único no staging e validação de cobrança/quotas da conta Google. O plano de verificação humana está em [GEMINI_VALIDATION_PLAN.md](GEMINI_VALIDATION_PLAN.md).
+
 ## Revisão do Hermes para ensaio generativo (12/11/2026)
 
 - `npm ci && npm run verify`: **54/54 testes Node aprovados**, análise sintática aprovada e 31 documentos conferidos. Sem credenciais ou serviços remotos.
