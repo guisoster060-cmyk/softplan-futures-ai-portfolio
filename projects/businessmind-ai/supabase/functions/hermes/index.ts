@@ -146,7 +146,7 @@ return async function handleRequest(request: Request) {
   // Reivindicacao persistente e atomica sob JWT; erro, timeout ou disputa fecham o acesso.
   // A autorizacao e consumida antes do fetch e nao e rearmada se o provedor falhar.
   try {
-    const claim = await withTimeout(client.rpc('claim_hermes_test_once', { p_company_id: membership.company_id }), remaining());
+    const claim = await withTimeout(client.rpc('claim_hermes_test_second_once', { p_company_id: membership.company_id }), remaining());
     if (claim.error || claim.data !== true) {
       geminiDiagnostic('claim', claim.error ? 'rpc_error' : 'not_authorized');
       return json(request, { mode: 'deterministic', summary, message: 'Tentativa generativa indisponível; usei cálculos determinísticos.' });
