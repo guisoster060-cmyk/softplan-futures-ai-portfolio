@@ -32,3 +32,11 @@ Não excluir usuários automaticamente. Após a avaliação, preservar a conta d
 ## Ajuste para contas recém-criadas — 12/11/2026, 19h44 BRT
 
 Um teste com conta nova exibiu **4 movimentações**, resposta determinística e indicação explícita de que o Gemini não foi utilizado. A função de recrutamento v1 exigia pelo menos **5 movimentações**, impedindo essa conta de usar a IA. O limite mínimo foi reduzido para **1 movimentação**, mantendo autenticação, RLS, controle de compartilhamento e quotas por usuário e global. A função `hermes-recruiter` **v2** foi publicada no staging com status `ACTIVE`. **Ainda é necessário repetir uma consulta com a conta nova para comprovar a resposta generativa**; a publicação isolada não é evidência de uso do provedor.
+
+## Aceite do usuário novo e CI
+
+- Captura Android de 19h45 BRT: conta nova, 4 movimentações, cálculo local separado da interpretação generativa.
+- Logs de 22:45:11 UTC `claim=accepted` e 22:45:12 UTC `provider=accepted`; quota global de 2 consultas em 12/11/2026.
+- CI: [GitHub Actions #43322922898](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/actions/runs/43322922898), conclusão `success`, commit `175520d`.
+- O usuário confirmou que os dados da conta antiga não apareciam na conta nova. Isso é uma verificação funcional manual; não substitui uma auditoria independente de RLS.
+- A captura de Gemini foi enviada na conversa pelo usuário; ainda não há imagem nova do staging publicada neste repositório.
