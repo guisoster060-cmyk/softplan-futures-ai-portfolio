@@ -1,5 +1,16 @@
 # Diário de engenharia do BusinessMind AI
 
+## ENG-012 — Apresentação final e revisão de evidências (especificação técnica derivada)
+
+- **Objetivo/necessidade:** tornar o portfólio legível em poucos minutos sem sacrificar o MVP, o histórico e a transparência sobre dados fictícios.
+- **Critérios:** quatro telas principais visíveis nos READMEs; seis capturas rastreáveis; links, testes e segurança verificados; Gemini não apresentado como ativo.
+- **Solução/arquivos:** READMEs, galeria `screenshots/`, roteiro opcional em `RECRUITER_PRESENTATION.md`, correção de texto somente no build da demo e ajuste do mock E2E. Nenhuma migração ou funcionalidade autenticada foi alterada.
+- **Decisões:** preservar os documentos históricos e branches; não remover material cuja redundância ou dependência não foi comprovada; deixar a promoção de `new-branch` a `main` para PR revisado.
+- **Testes/resultados:** `TESTING.md` registra 54 testes Node, 28 Deno com mocks, dois E2E locais e verificações de navegador público. A primeira execução do E2E local encontrou evento de Auth indevido no mock; foi corrigido e repetido com sucesso.
+- **Limitações:** não houve revalidação autenticada remota nesta entrega; o site demo público ainda mostra texto antigo de Configurações até novo deploy; atualização da descrição do repositório retornou HTTP 403.
+- **Responsabilidades:** requisitos, capturas de celular e aprovação final vieram do responsável; análise, duas capturas adicionais do site público, edição e testes foram assistidos por IA. Este registro é especificação técnica derivada, não prompt literal.
+- **Referência:** PR desta entrega; SHA no histórico Git.
+
 ## ENG-011 — Demonstração isolada para avaliação (especificação técnica derivada)
 
 - **Objetivo e necessidade:** permitir inspeção do produto sem distribuir credenciais de staging e sem atribuir dados fictícios a clientes reais.

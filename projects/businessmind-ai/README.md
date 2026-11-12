@@ -15,6 +15,16 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. Ele reúne 
 - leitura paginada de movimentações, com validação de completude antes de calcular totais;
 - Hermes determinístico no staging e integração Gemini preparada no servidor, porém bloqueada.
 
+## Interface em quatro telas
+
+Estas são capturas da [demonstração pública fictícia](https://businessmind-ai-demo.guisoster060.workers.dev), não evidência de Auth ou RLS remotos. [Origem das imagens e galeria complementar](screenshots/README.md).
+
+| Visão geral — indicadores mensais | Indicadores — movimentações e filtros |
+| --- | --- |
+| ![Visão geral em celular](screenshots/01-visao-geral.png) | ![Indicadores em celular](screenshots/02-indicadores.png) |
+| Inteligência — Hermes determinístico | Configurações — perfil fictício |
+| ![Hermes em celular](screenshots/03-inteligencia.png) | ![Configurações em celular](screenshots/04-configuracoes.png) |
+
 ## Tecnologias e decisões
 
 | Camada | Tecnologia |
@@ -23,7 +33,7 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. Ele reúne 
 | Backend gerenciado | Supabase Auth, PostgREST, RPC e Edge Function Hermes |
 | Dados | PostgreSQL com RLS |
 | Qualidade | Node.js Test Runner, Deno, PostgreSQL local, verificações estáticas e GitHub Actions |
-| Preview | Cloudflare Pages |
+| Hospedagem de demonstração | Cloudflare Workers (demo fictícia) e Pages (staging conectado ao Supabase) |
 
 A aplicação permanece estática e sem framework. O build opcional de staging somente copia os arquivos para uma saída isolada com configuração pública de teste; não altera `app/config.js`. A avaliação de Apache ECharts concluiu que o gráfico SVG existente atende ao MVP com menor custo de dependência.
 

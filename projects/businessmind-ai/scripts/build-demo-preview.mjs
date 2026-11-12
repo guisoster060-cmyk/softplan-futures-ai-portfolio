@@ -23,7 +23,10 @@ export function buildDemoPreview() {
   const result = html.replace(cdn, '<script src="demo-sdk.js" defer></script>')
     .replace('<head>', '<head>\n<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'self\'; style-src \'self\'; img-src \'self\' data:; connect-src \'none\'; form-action \'none\'; base-uri \'none\'">\n<link rel="stylesheet" href="demo.css"><script src="demo-entry.js" defer></script>')
     .replace('<body>', '<body>\n<div class="demo-banner" role="note">DEMONSTRAÇÃO FICTÍCIA E LOCAL — sem Supabase ou IA externa. Não informe dados reais. Alterações ficam apenas neste navegador. <button id="demo-reset" type="button">Restaurar dados fictícios</button></div>')
-    .replace('<div class="demo-note">', '<button class="primary-btn" id="demo-enter" type="button">Entrar na demonstração</button><div class="demo-note">');
+    .replace('<div class="demo-note">', '<button class="primary-btn" id="demo-enter" type="button">Entrar na demonstração</button><div class="demo-note">')
+    .replace('Nome pessoal e empresa são salvos no Supabase.', 'Nome e empresa fictícios são salvos apenas neste navegador.')
+    .replace('Os dados são armazenados no PostgreSQL e isolados por políticas RLS. A exclusão das movimentações não pode ser desfeita.', 'Os dados fictícios ficam apenas neste navegador. Esta simulação não utiliza PostgreSQL nem RLS. A exclusão das movimentações não pode ser desfeita.')
+    .replace('<span>Supabase Auth · PostgreSQL · RLS</span>', '<span>Demonstração local · dados fictícios</span>');
   writeFileSync(resolve(output, 'index.html'), result);
   validateDemoPreview();
   return output;
@@ -33,6 +36,7 @@ export function validateDemoPreview() {
   const files = ['index.html', 'config.js', 'app.js', 'demo-sdk.js', 'demo-entry.js'];
   const contents = files.map(file => readFileSync(resolve(output, file), 'utf8'));
   if (!contents[0].includes("connect-src 'none'") || !contents[0].includes('DEMONSTRAÇÃO FICTÍCIA E LOCAL') ||
+      contents[0].includes('salvos no Supabase') || contents[0].includes('Supabase Auth · PostgreSQL · RLS') ||
       !contents[1].includes("https://demo.invalid") || !contents[1].includes('hermesGenerativeEnabled: false') ||
       contents[2].includes('movimentações reais carregadas') ||
       contents.some(content => /cqiuryqnsdmsjchejclo|ogypzmxnvjbomamkejkh|sb_(?:secret|publishable)_|service_role|GEMINI_API_KEY|https:\/\/cdn\./i.test(content))) {
