@@ -1,52 +1,104 @@
-# BusinessMind AI — Portfólio Softplan Futures
+# Softplan Futures — BusinessMind AI
 
-**Projeto principal de Guilherme Soster Santeti**, estudante de Análise e Desenvolvimento de Sistemas (UPF).
+Projeto de Guilherme Soster Santeti, estudante de Análise e Desenvolvimento de Sistemas (UPF).
 
-O **BusinessMind AI** é um MVP de apoio à gestão financeira de pequenos negócios. A proposta é reunir receitas, despesas, indicadores e recomendações em uma interface simples para apoiar a compreensão dos resultados.
+**Problema:** pequenos negócios podem registrar receitas e despesas em fontes dispersas e perder visibilidade do resultado. **Solução:** o BusinessMind AI reúne movimentações por empresa, calcula indicadores a partir dos registros carregados e oferece explicações determinísticas pelo Hermes. É um MVP de portfólio, não um produto comercial validado.
 
-## Comece por aqui
+> Estado em 11/11/2026: `new-branch` contém as atualizações de documentação e o MVP; o staging real foi testado manualmente com cadastro por e-mail, confirmação, criação de empresa e movimentação. O Hermes opera em modo determinístico; Gemini generativo não está ativado. A demonstração pública fictícia está publicada separadamente.
 
-| Recurso | Acesso |
+## Avaliação em dois minutos
+
+1. Abra a [demonstração pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev): os dados são fictícios e ficam somente no navegador. A versão com Supabase Auth e PostgreSQL está no [staging](https://businessmind-ai-staging.pages.dev); use apenas dados fictícios.
+2. Veja as quatro telas abaixo; depois, se quiser testar o fluxo, crie uma movimentação em **Indicadores**, confira o dashboard e pergunte ao Hermes em **Inteligência**.
+3. Para avaliar engenharia e limites, consulte o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md), a [arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) e as [evidências de testes](projects/businessmind-ai/docs/TESTING.md).
+
+## Quatro telas principais
+
+Capturas do **modo público fictício**, em celular. Não comprovam autenticação nem RLS remotos. [Galeria e origem das imagens](projects/businessmind-ai/screenshots/README.md).
+
+| Visão geral — resultado do mês | Indicadores — filtros e movimentações |
 | --- | --- |
-| **Demonstração pública — sem cadastro** | [Abrir BusinessMind AI](https://businessmind-ai-demo.guisoster060.workers.dev) |
-| **Código e documentação atualizados** | [BusinessMind AI na branch de desenvolvimento consolidada](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/new-branch/projects/businessmind-ai) |
-| **Apresentação de 5 minutos** | [Roteiro para recrutadores](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) |
-| **Roteiro de avaliação** | [Funcionalidades, testes e limitações](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/REVIEW_GUIDE.md) |
-| **Ambiente de testes com autenticação** | [Staging](https://businessmind-ai-staging.pages.dev) — use somente dados fictícios |
+| ![Visão geral no celular](projects/businessmind-ai/screenshots/01-visao-geral.png) | ![Indicadores no celular](projects/businessmind-ai/screenshots/02-indicadores.png) |
+| Inteligência — Hermes determinístico | Configurações — perfil de demonstração |
+| ![Hermes no celular](projects/businessmind-ai/screenshots/03-inteligencia.png) | ![Configurações no celular](projects/businessmind-ai/screenshots/04-configuracoes.png) |
 
-> **Importante:** a implementação e a documentação mais recentes estão na branch `new-branch`. A branch `main` é a página de entrada do portfólio, não a referência para executar o código atualizado.
+## Funcionalidades implementadas
 
-## Problema e solução
+- cadastro, login, restauração de sessão, recuperação de senha e logout;
+- criação inicial de empresa e associação do usuário;
+- CRUD de receitas e despesas persistidas no PostgreSQL, com paginação completa na leitura;
+- controle de acesso por JWT, associação à empresa e Row Level Security;
+- KPIs, evolução mensal, categorias, alertas e exportação CSV derivados dos dados carregados;
+- Hermes determinístico, que separa fatos, estimativas, riscos e recomendações;
+- dashboard responsivo com navegação por teclado e suporte a movimento reduzido;
+- testes automatizados e integração contínua sem credenciais privadas.
 
-Pequenos empreendedores podem ter dificuldade para consolidar e interpretar movimentações financeiras. O BusinessMind AI reúne os lançamentos em um painel com indicadores, gráficos e alertas. O assistente **Hermes**, na versão atual, produz análises e recomendações **determinísticas baseadas em regras**; **não** é um modelo generativo.
+## Tecnologias
 
-## O que foi desenvolvido
+HTML semântico, CSS, JavaScript, SVG, Supabase JS/Auth, PostgreSQL com RLS, Supabase Edge Functions, Deno, Node.js Test Runner e GitHub Actions. O staging usa Cloudflare Pages; a demonstração fictícia pública é servida por Cloudflare Workers.
 
-- Interface responsiva com visão geral, indicadores, inteligência e configurações.
-- Cadastro e autenticação no ambiente de testes.
-- Movimentações financeiras persistidas em PostgreSQL via Supabase.
-- Controle de acesso por empresa com políticas Row Level Security (RLS).
-- Indicadores, alertas, exportação CSV e Hermes determinístico.
-- Testes automatizados e documentação de arquitetura, segurança e limitações.
+Não foram introduzidos React ou Vite. A integração com Gemini está preparada no servidor, mas `STAGING_DETERMINISTIC_ONLY = true` impede chamadas ao provedor e o consumo da autorização única; nenhuma chave privada está no frontend.
 
-A demonstração pública funciona com **dados fictícios no navegador** e não depende do banco remoto. O staging permite testar o fluxo real de autenticação e persistência, sujeito aos limites dos serviços gratuitos.
+## Arquitetura resumida
 
-## Por que IA e qual foi meu papel?
+O navegador serve a aplicação estática e usa a publishable key para autenticar no Supabase. O JWT da sessão acompanha as consultas; policies RLS limitam o acesso à empresa associada. O cliente pagina e valida a leitura antes de calcular indicadores e gráficos. A Edge Function Hermes valida o usuário e a associação à empresa antes de produzir uma resposta determinística. Consulte a [arquitetura completa](projects/businessmind-ai/docs/ARCHITECTURE.md).
 
-A visão futura do produto inclui um assistente generativo que responda a dúvidas com base nos dados autorizados de cada empresa. **Essa integração ainda não está ativa.** A decisão foi priorizar um MVP verificável, com separação de dados, registros financeiros e análises determinísticas.
+## Demonstração
 
-**Contribuição humana:** definição do problema, escopo, prioridades, decisões de produto, acompanhamento das implementações e validação manual. **Apoio de IA:** pesquisa, planejamento técnico, geração e revisão de código, testes e documentação, utilizando ChatGPT, Claude e Codex.
+- [Demonstração pública, sem senha, com dados fictícios](https://businessmind-ai-demo.guisoster060.workers.dev)
+- [Sistema real de testes, com cadastro e PostgreSQL](https://businessmind-ai-staging.pages.dev)
+- [Galeria complementar: navegação mobile e indicadores em detalhe](projects/businessmind-ai/screenshots/README.md)
 
-O projeto demonstra tanto o que foi entregue quanto os limites e aprendizados. Os testes registrados não equivalem a uma auditoria de segurança completa.
+O staging é um ambiente de testes, não uma produção aprovada. Em 11/11/2026 foi confirmado um cadastro novo com e-mail, criação de empresa e persistência de uma movimentação. A disponibilidade de confirmação de e-mail continua sujeita aos limites do serviço. Não use dados financeiros reais.
 
-## Evidências visuais
+A demonstração pública está publicada separadamente, sem Supabase nem IA externa; ela não comprova Auth ou RLS remotos. Consulte o [roteiro do recrutador](projects/businessmind-ai/docs/REVIEW_GUIDE.md).
 
-As quatro telas podem ser exploradas na [demonstração pública](https://businessmind-ai-demo.guisoster060.workers.dev). Capturas reais da interface e eventual vídeo serão adicionados após registro e conferência, sem substituir imagens por representações artificiais.
+## Executar e verificar
 
-## Documentação técnica
+```bash
+cd projects/businessmind-ai
+npm ci
+python3 -m http.server 8080 --directory app
+```
 
-Acesse o [README técnico atualizado](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/README.md) e o [índice de evidências](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/new-branch/projects/businessmind-ai/docs/REVIEW_GUIDE.md).
+Acesse `http://localhost:8080`. Para executar as verificações que não usam credenciais privadas:
 
----
+```bash
+npm run verify
+```
 
-**Autor:** Guilherme Soster Santeti · [GitHub](https://github.com/guisoster060-cmyk)
+Para verificar a função separadamente:
+
+```bash
+cd supabase/functions/hermes
+deno check index.ts index_test.ts
+deno test --allow-env index_test.ts
+```
+
+Execute esses comandos a partir de `projects/businessmind-ai`. O teste de concorrência PostgreSQL local está documentado no [README do projeto](projects/businessmind-ai/README.md).
+
+Na Missão 2 (11/11/2026), passaram 54/54 testes Node e 28/28 testes Deno com mocks. O teste concorrente em PostgreSQL local foi aprovado anteriormente, mas não reexecutado nesta missão. Login, dashboard, indicadores, movimentações e Hermes determinístico foram aprovados manualmente no staging em validações anteriores; essas evidências não equivalem a uma auditoria completa nem a teste generativo real.
+
+## Documentação
+
+| Documento | Finalidade |
+| --- | --- |
+| [README do projeto](projects/businessmind-ai/README.md) | Execução, estrutura e limitações |
+| [Requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md) | Requisitos, prioridades e aceite |
+| [Arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) | Componentes, fluxos, dados e segurança |
+| [Decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md) | Decisões e trade-offs |
+| [Diário de engenharia](projects/businessmind-ai/docs/ENGINEERING_LOG.md) | Entregas, evidências e responsabilidades |
+| [Testes](projects/businessmind-ai/docs/TESTING.md) | Estratégia, resultados e limitações |
+| [Método de desenvolvimento com IA](projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md) | Processo e divisão real de responsabilidades |
+| [Estado atual](projects/businessmind-ai/docs/PROJECT_STATUS.md) | Concluído, pendências e riscos |
+| [Índice de tarefas delegadas](projects/businessmind-ai/docs/PROMPT_LOG.md) | Especificações técnicas derivadas, não prompts literais |
+| [Roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) | Caminho curto para demonstração e evidências |
+| [Apresentação para recrutador](projects/businessmind-ai/docs/RECRUITER_PRESENTATION.md) | Roteiros opcionais de 2–3 e 5 minutos; nenhum vídeo gravado |
+| [Plano de validação Gemini](projects/businessmind-ai/docs/GEMINI_VALIDATION_PLAN.md) | Condições para eventual ativação, ainda não autorizada |
+| [Acervo histórico](docs/businessmind-ai/README.md) | Planejamento, validação e registros preservados |
+
+## Autoria e transparência
+
+Guilherme Soster Santeti responde pela concepção, direcionamento, decisões de produto, ambiente externo e validação humana. Ferramentas de IA apoiaram análise, implementação, testes e redação técnica. Todo resultado permanece sujeito a revisão humana; a documentação não atribui experiência profissional ou testes sem evidência.
+
+[Perfil no GitHub](https://github.com/guisoster060-cmyk)

@@ -1,0 +1,4 @@
+.chart-line{fill:none;stroke:var(--blue-400);stroke-width:3;vector-effect:non-scaling-stroke}.chart-line.exp{stroke:var(--purple-400)}.chart-area{fill:url(#bluefill);opacity:.65}.chart-point{fill:var(--blue-400);stroke:var(--navy-800);stroke-width:2;cursor:pointer;transition:r var(--duration),opacity var(--duration)}.chart-point.expense{fill:var(--purple-400)}.chart-point:hover,.chart-point:focus{r:6;outline:none}
+.quick-row b{color:var(--text);font:700 15px Manrope,Inter,sans-serif}
+.login-card .primary-btn{width:100%}
+@media(max-width:760px){.page-header .icon-btn{margin-left:auto}}
