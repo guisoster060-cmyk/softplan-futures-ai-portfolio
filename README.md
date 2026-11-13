@@ -6,7 +6,7 @@
 
 A demonstração funciona com **dados fictícios armazenados no navegador**. Não utiliza autenticação, banco remoto nem IA generativa. É a melhor forma de conhecer o projeto rapidamente.
 
-[Ver as quatro telas](#interface) · [Roteiro de avaliação](#como-avaliar-em-2-minutos) · [Código e documentação técnica](projects/businessmind-ai/README.md) · [Índice técnico](projects/businessmind-ai/docs/INDEX.md)
+[Ver as quatro telas](#interface) · [Roteiro de avaliação](#como-avaliar-em-2-minutos) · [Validação manual no Android (13/11)](projects/businessmind-ai/docs/MANUAL_VALIDATION_2026-11-13.md) · [Código e documentação técnica](projects/businessmind-ai/README.md) · [Índice técnico](projects/businessmind-ai/docs/INDEX.md)
 
 ## O problema e a proposta
 
@@ -47,6 +47,12 @@ Pequenos negócios podem ter dificuldade para reunir movimentações e interpret
 | [Prévia Gemini isolada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) | Exploração experimental da integração generativa | Branch separada, cadastro e quotas; **não integra a demo pública nem a produção** |
 
 A integração Gemini teve **um ensaio controlado documentado**, com resposta HTTP 200 e interpretação exibida no navegador. Isso não representa disponibilidade geral nem validação de todos os fluxos. **Publicação confirmada em 13/11/2026:** GitHub Actions #3 aprovado; Cloudflare Workers registrou novo deploy às 23:25 UTC, com 100% do tráfego na nova versão. Isso não substitui testes em Windows e Safari, ainda pendentes.
+
+## Validação manual da demo — 13/11/2026
+
+O responsável testou a demonstração pública em smartphone Android e compartilhou capturas dos fluxos de criação, edição e exclusão de receitas, atualização dos indicadores, respostas do Hermes determinístico, preferências e alternância de empresas. A permanência dos dados após recarga foi confirmada pelo responsável. **Os resultados se limitam à demo local e não comprovam autenticação, RLS ou Gemini.**
+
+**[Consultar cenários, evidências, cálculos e pendências da validação manual](projects/businessmind-ai/docs/MANUAL_VALIDATION_2026-11-13.md)**.
 
 ## Documentação e processo
 
