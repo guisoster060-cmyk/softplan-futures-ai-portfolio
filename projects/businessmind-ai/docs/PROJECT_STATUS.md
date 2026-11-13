@@ -1,13 +1,19 @@
 # Estado atual do BusinessMind AI
 
-Atualizado em: 11/11/2026
+Atualizado em: **13/11/2026**. Esta seção é a fonte atual; o restante do documento preserva evidências e decisões históricas.
 
-Nota da Missão 2: o staging público ainda serve arquivos de interface idênticos aos do commit `d15282a`, não os ajustes do PR #10. Sua tela de login carregou em desktop e mobile; nenhum login remoto foi refeito nesta missão. Um modo de demonstração fictício, isolado e local foi preparado, mas não publicado. Consulte `REVIEW_GUIDE.md` e `TESTING.md` antes de oferecer acesso a avaliadores.
+## Estado atual para a candidatura
 
-## Resumo executivo
+- **Demo pública:** https://businessmind-ai-demo.guisoster060.workers.dev — acesso sem cadastro, dados fictícios locais, indicadores e Hermes determinístico. Não usa Supabase remoto nem Gemini generativo.
+- **Publicação:** GitHub Actions `Deploy BusinessMind public demo` **#3** aprovado em 13/11/2026. A Cloudflare registrou novo deploy do Worker `businessmind-ai-demo` às **23:25 UTC**, pelo Wrangler, com **100% do tráfego** na nova versão.
+- **Correção visual:** remoção do emoji 👋 integrada à `main` pelo PR **#33** antes do deploy.
+- **Staging:** Supabase Auth, PostgreSQL e RLS em ambiente de teste separado; as evidências de autenticação, SQL e HTTP documentadas referem-se às execuções históricas, não a um novo E2E remoto nesta revisão.
+- **Gemini:** permanece desativado na demo pública e no staging determinístico. Houve **ensaio remoto controlado em prévia isolada**, com HTTP 200 e interpretação no navegador. Não representa validação generativa completa nem ativação geral.
+- **Limitações:** testes Windows/Safari, E2E remoto contínuo, e-mail/SMTP, acessibilidade formal e privacidade/consentimento para uso de dados reais continuam pendentes.
 
-As entregas v0.4, v0.5 Visual, documentação profissional e Hermes foram integradas em `new-branch` pelos PRs #1–#4 e #8–#10; `main` permanece separada. A Edge Function Hermes v11 está ACTIVE exclusivamente no Supabase staging `ogypzmxnvjbomamkejkh`, com `verify_jwt=true` e `STAGING_DETERMINISTIC_ONLY=true`. O modo generativo está bloqueado: o retorno determinístico antecede a RPC de uso único e o fetch ao Gemini. A integração generativa existe no código, mas não foi validada remotamente nem ativada em produção.
+## Histórico técnico (até 11/11/2026)
 
+As menções abaixo a branch `new-branch`, demo não publicada e Gemini não testado remotamente descrevem **o estado anterior**, não o estado atual de 13/11/2026.
 ## Entregas concluídas
 
 - [x] Supabase Auth, sessão, recuperação e logout.
