@@ -16,6 +16,7 @@ Os documentos experimentais mais extensos de apresentação e impacto estão na 
 - [Arquitetura](ARCHITECTURE.md)
 - [Requisitos](REQUIREMENTS.md)
 - [Testes e limitações](TESTING.md)
+- [Validação manual no Android — 13/11/2026](MANUAL_VALIDATION_2026-11-13.md)
 - [Decisões técnicas](TECHNICAL_DECISIONS.md)
 - [Método de desenvolvimento com IA](AI_DEVELOPMENT_METHOD.md)
 - [Estado técnico](PROJECT_STATUS.md)
