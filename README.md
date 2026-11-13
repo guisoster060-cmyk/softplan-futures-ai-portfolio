@@ -36,7 +36,7 @@ Pequenos negócios podem ter dificuldade para reunir movimentações e interpret
 - **Funcionalidades:** movimentações financeiras, indicadores, séries mensais, categorias e exportação CSV.
 - **Backend de staging:** Supabase Auth, PostgreSQL, Row Level Security (RLS) e Edge Functions.
 - **Hermes na demo:** análises determinísticas; não é um modelo generativo.
-- **Qualidade:** testes automatizados em Node.js e Deno, verificações de segurança e workflows GitHub Actions. Consulte os [resultados e limites dos testes](projects/businessmind-ai/docs/TESTING.md), sem pressupor que o CI mais recente passou.
+- **Qualidade:** testes automatizados em Node.js e Deno, verificações de segurança e workflows GitHub Actions. Consulte os [resultados e limites dos testes](projects/businessmind-ai/docs/TESTING.md), com o workflow de publicação #3 aprovado em 13/11/2026.
 
 ## Ambientes e limites
 
@@ -46,7 +46,7 @@ Pequenos negócios podem ter dificuldade para reunir movimentações e interpret
 | [Staging Supabase](https://businessmind-ai-staging.pages.dev) | Testes de autenticação e persistência remota | Cadastro e entrega do e-mail de confirmação ainda exigem validação ponta a ponta; use somente dados fictícios |
 | [Prévia Gemini isolada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) | Exploração experimental da integração generativa | Branch separada, cadastro e quotas; **não integra a demo pública nem a produção** |
 
-A integração Gemini teve **um ensaio controlado documentado**, com resposta HTTP 200 e interpretação exibida no navegador. Isso não representa disponibilidade geral nem validação de todos os fluxos. O deploy público da demo pode estar em versão anterior às correções de código da `main`; **a publicação das últimas alterações ainda precisa ser confirmada**. Testes em Windows e Safari também permanecem pendentes.
+A integração Gemini teve **um ensaio controlado documentado**, com resposta HTTP 200 e interpretação exibida no navegador. Isso não representa disponibilidade geral nem validação de todos os fluxos. **Publicação confirmada em 13/11/2026:** GitHub Actions #3 aprovado; Cloudflare Workers registrou novo deploy às 23:25 UTC, com 100% do tráfego na nova versão. Isso não substitui testes em Windows e Safari, ainda pendentes.
 
 ## Documentação e processo
 
