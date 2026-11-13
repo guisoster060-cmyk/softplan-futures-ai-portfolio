@@ -1,30 +1,35 @@
 # Índice de documentação — BusinessMind AI
 
-**Comece aqui:** [README principal](../../../README.md) · [Demo pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)
+**Comece aqui:** [Apresentação para recrutadores](../../../README.md) · [Demonstração sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)
 
-## Para recrutadores (leitura em ordem)
-1. [Guia rápido — 2 minutos](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/START_HERE_RECRUITER.md)
-2. [Galeria de telas](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_GALLERY.md)
-3. [Resumo executivo](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_ONE_PAGE.md)
-4. [Plano de validação do impacto de negócio](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/BUSINESS_IMPACT_VALIDATION.md)
+## Para recrutadores
+
+1. [Resumo e roteiro de 2 minutos](../../../README.md#como-avaliar-em-2-minutos)
+2. [Capturas das quatro telas](../../../README.md#interface)
+3. [Funcionalidades, ambientes e limitações](../../../README.md#ambientes-e-limites)
+4. [Documentação técnica](../README.md)
+
+Os documentos experimentais mais extensos de apresentação e impacto estão na [branch de validação](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs). Não são necessários para a avaliação inicial e não devem ser confundidos com a versão da `main`.
 
 ## Para avaliadores técnicos
+
 - [Arquitetura](ARCHITECTURE.md)
 - [Requisitos](REQUIREMENTS.md)
-- [Testes](TESTING.md)
+- [Testes e limitações](TESTING.md)
 - [Decisões técnicas](TECHNICAL_DECISIONS.md)
 - [Método de desenvolvimento com IA](AI_DEVELOPMENT_METHOD.md)
+- [Estado técnico](PROJECT_STATUS.md)
 
 ## Organização do código
-- `app/`: interface, regras e componentes de frontend
-- `preview/`: adaptação para demonstração fictícia e prévia
+
+- `app/`: interface e lógica de frontend
+- `preview/`: adaptação para demonstração fictícia
 - `scripts/`: builds e verificações
 - `tests/`: testes automatizados
 - `supabase/`: banco, políticas e funções
 - `screenshots/`: capturas visuais
 - `docs/`: decisões, relatórios e histórico
 
-**Importante:** a prévia com Gemini está em uma branch isolada. A demo sem cadastro usa Hermes determinístico. Não mover arquivos executáveis sem atualizar imports, builds e testes.
+## Estado da publicação
 
-## Estado de publicação
-A correção do Hermes para perguntas abertas está no código da branch `main`, mas **a implantação Cloudflare ainda não foi atualizada nem validada**. Este índice organiza o material sem alterar caminhos da aplicação.
+A demo pública usa Hermes determinístico e dados locais. A prévia Gemini permanece isolada. Correções recentes do Hermes estão no código, mas **não há confirmação nesta revisão de que o deploy público da Cloudflare já foi atualizado**. Verifique a execução do deploy e teste a URL pública antes de afirmar equivalência com a `main`.
