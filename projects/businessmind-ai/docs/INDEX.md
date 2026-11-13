@@ -32,4 +32,4 @@ Os documentos experimentais mais extensos de apresentação e impacto estão na 
 
 ## Estado da publicação
 
-A demo pública usa Hermes determinístico e dados locais. A prévia Gemini permanece isolada. Correções recentes do Hermes estão no código, mas **não há confirmação nesta revisão de que o deploy público da Cloudflare já foi atualizado**. Verifique a execução do deploy e teste a URL pública antes de afirmar equivalência com a `main`.
+**Publicação confirmada em 13/11/2026:** GitHub Actions #3 aprovado e Cloudflare Workers atualizado às 23:25 UTC com 100% do tráfego na nova versão. O PR #33 removeu o emoji da saudação. A demo usa dados fictícios locais e Hermes determinístico. A prévia Gemini permanece isolada; o deploy não comprova validação generativa geral, RLS remoto ou compatibilidade com todos os navegadores.

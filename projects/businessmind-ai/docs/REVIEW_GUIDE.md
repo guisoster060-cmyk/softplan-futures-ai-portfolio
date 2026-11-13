@@ -1,5 +1,12 @@
 # Roteiro de avaliação — BusinessMind AI
 
+## Acesso recomendado — 13/11/2026
+
+**[Demo pública sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**: navegar pelas quatro telas, registrar movimentação fictícia, conferir indicadores e testar Hermes determinístico. GitHub Actions #3 e deploy Cloudflare Workers de 13/11 confirmados. A demo usa dados fictícios locais; não testa Supabase remoto ou Gemini generativo. O staging abaixo é separado e exige conta autorizada.
+
+**Nota histórica:** as referências abaixo a uma demo fictícia “não publicada” descrevem o estado em 11/11, anterior à publicação de 13/11.
+
+
 Estado de referência: staging validado manualmente em 11/11/2026; correção financeira documentada no PR #13 (merge `5b2a5898`). Este roteiro distingue observações atuais de resultados históricos.
 
 ## Em poucos minutos
