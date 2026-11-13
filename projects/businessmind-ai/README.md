@@ -131,6 +131,7 @@ A integração Gemini existe no código do servidor e não está habilitada na d
 - [Decisões](docs/TECHNICAL_DECISIONS.md)
 - [Diário de engenharia](docs/ENGINEERING_LOG.md)
 - [Estratégia de testes](docs/TESTING.md)
+- [Validação manual da demo no Android — 13/11/2026](docs/MANUAL_VALIDATION_2026-11-13.md)
 - [Desenvolvimento assistido por IA](docs/AI_DEVELOPMENT_METHOD.md)
 - [Estado atual](docs/PROJECT_STATUS.md)
 - [Índice de tarefas delegadas](docs/PROMPT_LOG.md)
