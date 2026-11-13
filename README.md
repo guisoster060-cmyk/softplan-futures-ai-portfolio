@@ -1,37 +1,24 @@
 # BusinessMind AI — Portfólio Softplan Futures
 
-> **COMECE AQUI (sem cadastro):** [Abrir demonstração imediata](https://businessmind-ai-demo.guisoster060.workers.dev) · [Ver as telas](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_GALLERY.md) · [Roteiro de 2 minutos](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/START_HERE_RECRUITER.md).
+**MVP web para pequenos negócios:** registro de receitas e despesas, indicadores financeiros e análises explicativas pelo assistente Hermes.
 
-**[Índice da documentação e organização do código](projects/businessmind-ai/docs/INDEX.md)** — ponto de entrada para recrutadores e avaliadores técnicos.
+**[▶ Experimentar a demonstração pública — sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**
 
-> **Estado da publicação (12/11/2026):** links públicos aprovados no teste HTTP automatizado; o Worker da demo ainda usa implantação de 11/11/2026. A melhoria de perguntas abertas do Hermes foi incorporada ao código da `main`, mas aguarda atualização segura dos assets da Cloudflare. A demo atual permanece disponível.
+A demonstração funciona com **dados fictícios armazenados no navegador**. Não utiliza autenticação, banco remoto nem IA generativa. É a melhor forma de conhecer o projeto rapidamente.
 
-**Resumo em uma frase:** MVP para organizar receitas e despesas de pequenos negócios, calcular indicadores e ajudar a interpretar os resultados com o assistente Hermes.
+[Ver as quatro telas](#interface) · [Roteiro de avaliação](#como-avaliar-em-2-minutos) · [Código e documentação técnica](projects/businessmind-ai/README.md) · [Índice técnico](projects/businessmind-ai/docs/INDEX.md)
 
-**Para avaliar a IA generativa:** [Prévia isolada com cadastro e Gemini limitado](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev). É uma versão distinta da demo imediata; exige confirmação de e-mail, dados fictícios e está sujeita a quotas.
+## O problema e a proposta
 
-**Documentação preparada para avaliação:** [Resumo executivo](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_ONE_PAGE.md) · [Plano de validação de impacto](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/BUSINESS_IMPACT_VALIDATION.md) · [Código e documentação da versão completa](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai).
+Pequenos negócios podem ter dificuldade para reunir movimentações e interpretar seus resultados. O BusinessMind AI explora uma solução simples: organizar receitas e despesas, calcular indicadores e explicar o que os dados permitem concluir. **É um MVP de portfólio, não um produto comercial validado**; ganhos de tempo ou financeiros ainda não foram medidos em empresas reais.
 
-**Transparência:** os resultados de impacto financeiro e economia de tempo ainda não foram medidos com empresas reais. As capturas publicadas na galeria mostram a demo fictícia. A prévia Gemini está em branch isolada e **não foi mesclada à `main`**.
+## Como avaliar em 2 minutos
 
----
-
-## Documentação histórica da branch principal
-
-
-**MVP de gestão e análise financeira para pequenos negócios**, desenvolvido como projeto de portfólio para demonstrar desenvolvimento web, modelagem de dados, segurança e testes.
-
-O sistema permite registrar receitas e despesas, visualizar indicadores financeiros e consultar o **Hermes**, assistente de análises determinísticas. É um MVP técnico, não um produto comercial validado.
-
-## Experimente o projeto
-
-**[Abrir demonstração pública — sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**
-
-A demonstração utiliza dados fictícios armazenados no navegador. Permite navegar pelas quatro telas, registrar movimentações ilustrativas e experimentar o Hermes determinístico. **Não utiliza autenticação, banco remoto ou IA generativa.**
-
-**[Abrir ambiente de testes com Supabase](https://businessmind-ai-staging.pages.dev)**
-
-O staging utiliza Supabase Auth e dados persistidos no PostgreSQL. O formulário oferece **Criar uma conta**, mas o cadastro de novos usuários depende da confirmação de e-mail e da configuração de envio SMTP, ainda **não verificadas de ponta a ponta**. Use **somente dados fictícios**. Se não conseguir concluir o cadastro, utilize a demonstração pública sem cadastro acima.
+1. Abra a **[demo pública](https://businessmind-ai-demo.guisoster060.workers.dev)**.
+2. Navegue por **Visão geral**, **Indicadores**, **Inteligência** e **Configurações**.
+3. Registre uma movimentação fictícia e observe os indicadores atualizados.
+4. Faça uma pergunta ao **Hermes** e veja a análise determinística.
+5. Para detalhes de implementação, consulte [arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md), [testes](projects/businessmind-ai/docs/TESTING.md) e [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md).
 
 ## Interface
 
@@ -41,34 +28,35 @@ O staging utiliza Supabase Auth e dados persistidos no PostgreSQL. O formulário
 | Inteligência | Configurações |
 | ![Hermes](projects/businessmind-ai/screenshots/03-inteligencia.png) | ![Configurações](projects/businessmind-ai/screenshots/04-configuracoes.png) |
 
-*Capturas da demonstração com dados fictícios; não comprovam integração remota.*
+*Capturas da demonstração com dados fictícios; não comprovam autenticação ou isolamento remoto.*
 
-## Funcionalidades e tecnologias
+## Implementação
 
-- **Frontend:** HTML semântico, CSS, JavaScript e SVG; navegação responsiva.
-- **Dados:** receitas e despesas, indicadores, séries mensais, categorias e exportação CSV.
-- **Backend do staging:** Supabase Auth, PostgreSQL, Row Level Security (RLS) e Edge Functions.
-- **Hermes:** análises determinísticas com limites explícitos quando faltam dados.
-- **Qualidade:** testes automatizados em Node.js e Deno, verificações de segurança e GitHub Actions.
+- **Frontend:** HTML, CSS, JavaScript e SVG; interface responsiva.
+- **Funcionalidades:** movimentações financeiras, indicadores, séries mensais, categorias e exportação CSV.
+- **Backend de staging:** Supabase Auth, PostgreSQL, Row Level Security (RLS) e Edge Functions.
+- **Hermes na demo:** análises determinísticas; não é um modelo generativo.
+- **Qualidade:** testes automatizados em Node.js e Deno, verificações de segurança e workflows GitHub Actions. Consulte os [resultados e limites dos testes](projects/businessmind-ai/docs/TESTING.md), sem pressupor que o CI mais recente passou.
 
-## Para quem está avaliando
+## Ambientes e limites
 
-1. Abra a **demonstração pública** acima para conhecer a experiência sem criar conta.
-2. Registre uma movimentação fictícia em **Indicadores** e confira o resultado em **Visão geral**.
-3. Abra **Inteligência** e faça uma pergunta ao Hermes.
-4. Consulte o [código da aplicação](projects/businessmind-ai/app), o [README técnico](projects/businessmind-ai/README.md), o [roteiro de avaliação](projects/businessmind-ai/docs/REVIEW_GUIDE.md) e os [testes](projects/businessmind-ai/tests).
+| Ambiente | Finalidade | Restrições |
+| --- | --- | --- |
+| [Demo pública](https://businessmind-ai-demo.guisoster060.workers.dev) | Avaliação imediata, sem cadastro | Dados fictícios locais; sem Supabase ou Gemini |
+| [Staging Supabase](https://businessmind-ai-staging.pages.dev) | Testes de autenticação e persistência remota | Cadastro e entrega do e-mail de confirmação ainda exigem validação ponta a ponta; use somente dados fictícios |
+| [Prévia Gemini isolada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) | Exploração experimental da integração generativa | Branch separada, cadastro e quotas; **não integra a demo pública nem a produção** |
 
-## Estado de validação — 12/11/2026
+A integração Gemini teve **um ensaio controlado documentado**, com resposta HTTP 200 e interpretação exibida no navegador. Isso não representa disponibilidade geral nem validação de todos os fluxos. O deploy público da demo pode estar em versão anterior às correções de código da `main`; **a publicação das últimas alterações ainda precisa ser confirmada**. Testes em Windows e Safari também permanecem pendentes.
 
-O Hermes foi validado **uma vez com o Gemini no staging controlado**: registros do servidor confirmaram autorização e resposta aceita pelo provedor, a requisição terminou em HTTP 200 e a interpretação generativa apareceu no navegador, separada do cálculo financeiro local. A autorização de uso único foi consumida. **A demo pública não usa Gemini** e não é necessário acesso ao staging para conhecer o projeto.
+## Documentação e processo
 
-- [Relatório técnico da integração Gemini (branch de validação)](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/HERMES_GEMINI_VALIDATION_2026-11-12.md).
-- [Guia de avaliação para recrutadores (branch de validação)](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_HANDOFF_2026-11-12.md).
-- [Histórico complementar de prompts de IA](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/PROMPT_LOG_2026-11-12.md) e [histórico anterior](docs/businessmind-ai/PROMPT_LOG.md).
-- [Plano de cadastro e limpeza posterior, sem exclusão de usuários](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/blob/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs/RECRUITER_SIGNUP_AND_CLEANUP.md).
-- [Verificação automatizada da branch de melhorias](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/actions/workflows/businessmind-ci.yml) (consultar execução/commit antes de afirmar aprovação).
+- [README técnico e estrutura do projeto](projects/businessmind-ai/README.md)
+- [Índice de documentação](projects/businessmind-ai/docs/INDEX.md)
+- [Arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md) · [Requisitos](projects/businessmind-ai/docs/REQUIREMENTS.md) · [Testes](projects/businessmind-ai/docs/TESTING.md)
+- [Método de desenvolvimento com apoio de IA](projects/businessmind-ai/docs/AI_DEVELOPMENT_METHOD.md) · [Histórico e decisões](projects/businessmind-ai/docs/ENGINEERING_LOG.md)
+- [Documentação histórica](docs/businessmind-ai/README.md), preservada para rastreabilidade e não como status atual.
 
-**Limitações:** o cadastro de um usuário novo e a entrega do e-mail de confirmação ainda precisam de teste; a integração Gemini não está aberta a uso irrestrito; validação Windows/Safari ainda pendente. A branch de melhorias não foi incorporada à aplicação de produção.
+Os materiais experimentais de recrutamento e da integração Gemini permanecem em uma [branch de validação separada](https://github.com/guisoster060-cmyk/softplan-futures-ai-portfolio/tree/fix/hermes-safe-diagnostics-20261112/projects/businessmind-ai/docs). Esses documentos **não são pré-requisitos para testar a demo**.
 
 ## Executar localmente
 
@@ -78,8 +66,8 @@ npm ci
 python3 -m http.server 8080 --directory app
 ```
 
-Abra `http://localhost:8080`. Para executar as verificações locais, use `npm run verify`. A configuração local pode exigir credenciais públicas de um projeto Supabase autorizado; **não adicione chaves administrativas ou de IA ao frontend**.
+Abra `http://localhost:8080`. Para verificações locais, use `npm run verify`. O ambiente de staging pode exigir configuração pública de Supabase autorizada. **Nunca coloque chaves administrativas ou de IA no frontend.**
 
 ---
 
-**Escopo:** MVP de portfólio. Não usar dados reais de clientes no ambiente de testes.
+**Escopo:** projeto de portfólio para demonstrar aprendizado e decisões de engenharia. Não inserir dados reais de clientes nos ambientes de demonstração ou testes.
