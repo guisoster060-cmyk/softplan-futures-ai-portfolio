@@ -1,5 +1,12 @@
 # Estratégia e evidências de testes
 
+## Atualização — 13/11/2026
+
+O workflow GitHub Actions **Deploy BusinessMind public demo #3** terminou com sucesso e a Cloudflare registrou novo deploy do Worker às **23:25 UTC**, com **100% do tráfego** na versão nova. Isso comprova publicação, não testes E2E remotos de Supabase, Gemini ou compatibilidade em todos os navegadores.
+
+Houve um **ensaio generativo remoto controlado em prévia isolada** (HTTP 200 e interpretação exibida). As referências abaixo a “nenhuma chamada remota” descrevem apenas as execuções específicas de testes de 10–12/11, não esse ensaio isolado posterior.
+
+
 ## Preparação final do GitHub (12/11/2026)
 
 - `npm ci` e `npm run verify` na branch de revisão: **54/54 testes Node aprovados**, análise sintática e **31 documentos** com links internos válidos; sem credenciais remotas.
@@ -9,7 +16,7 @@
 - Demonstração pública e staging responderam HTTP 200 em Chromium mobile (591/390 px), sem exceções JavaScript nem rolagem horizontal na tela verificada. O staging foi visto apenas até o login nesta revisão; o teste manual autenticado anterior não foi repetido.
 - Quatro JPGs recebidos foram convertidos a PNG com pixels decodificados idênticos; duas capturas adicionais foram obtidas do site público em Chromium, sem edição de valores. Proveniência em `screenshots/README.md`.
 
-O build de demonstração local passou a identificar corretamente o armazenamento fictício em Configurações e no rodapé. O site público ainda precisa de publicação autorizada para refletir essa redação. Nenhum deploy foi realizado nesta revisão.
+O build de demonstração local passou a identificar corretamente o armazenamento fictício em Configurações e no rodapé. Nenhum deploy foi realizado na revisão de 12/11; a publicação posterior de 13/11 está confirmada na atualização acima.
 
 ## Missão 2 — demonstração para avaliação (11/11/2026)
 
