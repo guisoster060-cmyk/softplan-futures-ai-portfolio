@@ -13,7 +13,7 @@ MVP web de inteligência empresarial em HTML, CSS e JavaScript puro. Ele reúne 
 - experiência responsiva para desktop, tablet e celular;
 - estados vazios, carregamento, erros, feedback, foco visível e `prefers-reduced-motion`;
 - leitura paginada de movimentações, com validação de completude antes de calcular totais;
-- Hermes determinístico no staging e integração Gemini preparada no servidor, porém bloqueada.
+- Hermes determinístico no staging principal; integração Gemini experimental habilitada apenas na prévia isolada `hermes-recruiter`, com quotas, autenticação e fallback.
 
 ## Interface em quatro telas
 
@@ -101,6 +101,7 @@ Na Missão 2 (11/11/2026), passaram **54/54 testes Node** e **28/28 testes Deno 
 
 - **[Demonstração pública — acesso imediato, sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**: dados fictícios armazenados somente no navegador, sem chamadas ao Supabase ou a IA externa. Use para conhecer as quatro telas e experimentar movimentações e Hermes determinístico.
 - **[Sistema real de testes — staging](https://businessmind-ai-staging.pages.dev)**: cadastro por e-mail, confirmação, criação de empresa e movimentações persistidas em PostgreSQL sob RLS. Use somente dados fictícios.
+- **[Prévia Gemini experimental](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev)**: conta autenticada e empresa fictícia para testar interpretação generativa sujeita a quotas; fallback determinístico quando a resposta não é aceita.
 - [Preview histórico da v0.5](https://1cd5c052.businessmind-ai.pages.dev)
 
 O staging é exclusivo para demonstração e validação com contas e dados fictícios; não é uma implantação de produção aprovada.
@@ -113,13 +114,13 @@ Em 11/11/2026, foi realizado no staging um teste manual completo de cadastro de 
 
 A análise determinística funciona no frontend e permanece como fallback. A Edge Function Hermes v11 está ACTIVE no Supabase staging: valida JWT, confirma a associação usuário–empresa sob RLS e calcula agregados em código. O `STAGING_DETERMINISTIC_ONLY = true` retorna antes da reivindicação de uso único e de qualquer chamada ao Gemini, inclusive se os demais controles generativos estiverem ativos.
 
-A integração Gemini existe no código do servidor e não está habilitada na demo pública nem no staging determinístico. Um ensaio generativo remoto controlado ocorreu em prévia isolada (HTTP 200 e interpretação no navegador), mas isso não equivale a validação completa ou ativação geral. Qualquer ativação futura requer revisão da proteção, autorização explícita para tratamento de dados e testes próprios; não é uma funcionalidade concluída do MVP. Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
+A integração Gemini não está habilitada na demo pública nem no staging determinístico. Na **[prévia experimental isolada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev)**, a função separada `hermes-recruiter` v3 foi validada com conta nova e interpretação generativa visível em 13/11/2026 às 21h12 (Brasília), com autorização e resposta do provedor aceitas nos logs. Uma tentativa anterior teve fallback por resposta inválida. A prévia exige conta autenticada, empresa própria e dados fictícios, com limites de até três tentativas por usuário/dia, sessenta segundos entre tentativas e vinte tentativas globais/dia. **Não é ativação geral nem garantia de disponibilidade.** Consulte o [guia da função principal](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md). Consulte o [guia da função](supabase/functions/hermes/README.md) e as [decisões técnicas](docs/TECHNICAL_DECISIONS.md).
 
 ## Limitações conhecidas
 
 - confirmação e recuperação por e-mail dependem do serviço de e-mail e de seus limites; o cadastro com confirmação foi testado manualmente no staging em 11/11/2026, mas não foi realizado teste de carga nem de recuperação;
 - E2E autenticado com conta real não integra a CI pública;
-- o modo generativo do Hermes permanece bloqueado na demo e no staging determinístico; houve um ensaio remoto controlado apenas em prévia isolada, e os testes Deno usam mocks;
+- o modo generativo permanece bloqueado na demo e no staging determinístico; a função separada da prévia isolada respondeu com Gemini em teste pontual, mas não há garantia de disponibilidade geral, e os testes Deno citados usam mocks;
 - a leitura é paginada, mas o limite de 5.000 movimentações e alterações simultâneas entre páginas exigem tratamento adicional para volumes maiores;
 - auditoria formal de acessibilidade e matriz cross-browser estão pendentes;
 - `new-branch` é a branch de trabalho e permanece separada de `main`; promoção a produção depende de revisão e autorização humana.
