@@ -15,22 +15,21 @@
 **Validação em 13/11/2026 (horário de Brasília):** na prévia experimental, uma conta de teste obteve resposta generativa visível às 21h12; os logs da Edge Function `hermes-recruiter` v3 registraram autorização e resposta do provedor aceitas. Uma tentativa anterior às 21h07 retornou fallback determinístico após validação de resposta inválida. **Isto comprova testes pontuais, não disponibilidade geral ou produção.** A quota do endpoint de testes limita até três tentativas por usuário por dia, com intervalo mínimo de sessenta segundos, e vinte tentativas globais por dia; tentativas malsucedidas também podem consumir quota. Utilize somente dados fictícios.
 
 
+A **demo pública** funciona com **dados fictícios armazenados no navegador**. Não utiliza autenticação, banco remoto nem IA generativa. É a melhor forma de conhecer o projeto rapidamente.
 
-A demonstração funciona com **dados fictícios armazenados no navegador**. Não utiliza autenticação, banco remoto nem IA generativa. É a melhor forma de conhecer o projeto rapidamente.
-
-[Ver as quatro telas](#interface) · [Roteiro de avaliação](#como-avaliar-em-2-minutos) · [Validação manual no Android (13/11)](projects/businessmind-ai/docs/MANUAL_VALIDATION_2026-11-13.md) · [Código e documentação técnica](projects/businessmind-ai/README.md) · [Índice técnico](projects/businessmind-ai/docs/INDEX.md)
+[Ver as quatro telas](#interface) · [Roteiro de avaliação](#como-avaliar-em-3-minutos) · [Validação manual no Android (13/11)](projects/businessmind-ai/docs/MANUAL_VALIDATION_2026-11-13.md) · [Código e documentação técnica](projects/businessmind-ai/README.md) · [Índice técnico](projects/businessmind-ai/docs/INDEX.md)
 
 ## O problema e a proposta
 
 Pequenos negócios podem ter dificuldade para reunir movimentações e interpretar seus resultados. O BusinessMind AI explora uma solução simples: organizar receitas e despesas, calcular indicadores e explicar o que os dados permitem concluir. **É um MVP de portfólio, não um produto comercial validado**; ganhos de tempo ou financeiros ainda não foram medidos em empresas reais.
 
-## Como avaliar em 2 minutos
+## Como avaliar em 3 minutos
 
-1. Abra a **[demo pública](https://businessmind-ai-demo.guisoster060.workers.dev)**.
-2. Navegue por **Visão geral**, **Indicadores**, **Inteligência** e **Configurações**.
-3. Registre uma movimentação fictícia e observe os indicadores atualizados.
-4. Faça uma pergunta ao **Hermes** e veja a análise determinística.
-5. Para detalhes de implementação, consulte [arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md), [testes](projects/businessmind-ai/docs/TESTING.md) e [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md).
+1. Abra a **[demo pública](https://businessmind-ai-demo.guisoster060.workers.dev)**, navegue pelas quatro telas, registre uma movimentação fictícia e consulte o Hermes determinístico.
+2. No **[staging](https://businessmind-ai-staging.pages.dev)**, crie uma conta própria, confirme o e-mail quando solicitado e registre uma movimentação em uma empresa fictícia.
+3. Na **[prévia Gemini](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev)**, entre com uma conta de teste, selecione a empresa e pergunte: *“Analise minhas receitas e despesas e sugira duas melhorias para a empresa.”* Confirme o rótulo **Interpretação generativa**; se houver fallback determinístico, a chamada generativa não foi utilizada nessa resposta.
+
+O roteiro é uma estimativa de tempo para exploração inicial; cadastro e confirmação de e-mail podem levar mais. Para detalhes, consulte [arquitetura](projects/businessmind-ai/docs/ARCHITECTURE.md), [testes](projects/businessmind-ai/docs/TESTING.md) e [decisões técnicas](projects/businessmind-ai/docs/TECHNICAL_DECISIONS.md).
 
 ## Interface
 
@@ -55,10 +54,10 @@ Pequenos negócios podem ter dificuldade para reunir movimentações e interpret
 | Ambiente | Finalidade | Restrições |
 | --- | --- | --- |
 | [Demo pública](https://businessmind-ai-demo.guisoster060.workers.dev) | Avaliação imediata, sem cadastro | Dados fictícios locais; sem Supabase ou Gemini |
-| [Staging Supabase](https://businessmind-ai-staging.pages.dev) | Testes de autenticação e persistência remota | Cadastro e entrega do e-mail de confirmação ainda exigem validação ponta a ponta; use somente dados fictícios |
+| [Staging Supabase](https://businessmind-ai-staging.pages.dev) | Testes de autenticação e persistência remota | Cadastro e confirmação testados manualmente em 11/11 e novamente relatados pelo responsável em 13/11; entrega de e-mail sujeita a limites; use somente dados fictícios |
 | [Prévia Gemini isolada](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev) | Exploração experimental da integração generativa | Branch separada, cadastro e quotas; **não integra a demo pública nem a produção** |
 
-A integração Gemini teve **um ensaio controlado documentado**, com resposta HTTP 200 e interpretação exibida no navegador. Isso não representa disponibilidade geral nem validação de todos os fluxos. **Publicação confirmada em 13/11/2026:** GitHub Actions #3 aprovado; Cloudflare Workers registrou novo deploy às 23:25 UTC, com 100% do tráfego na nova versão. Isso não substitui testes em Windows e Safari, ainda pendentes.
+A integração Gemini foi validada pontualmente na prévia isolada, inclusive com uma conta nova e resposta aceita nos logs da função `hermes-recruiter` v3 em 13/11, às 21h12 (Brasília). Isso não representa disponibilidade geral nem validação de todos os fluxos. **Publicação confirmada em 13/11/2026:** GitHub Actions #3 aprovado; Cloudflare Workers registrou novo deploy às 23:25 UTC, com 100% do tráfego na nova versão. Isso não substitui testes em Windows e Safari, ainda pendentes.
 
 ## Validação manual da demo — 13/11/2026
 
