@@ -2,6 +2,9 @@
 
 ## Atualização — 13/11/2026
 
+**Validação complementar do Gemini (prévia isolada, não produção):** em 13/11, às 21h07 (Brasília), a conta de teste recebeu fallback determinístico após log de validação `empty_or_rejected`. Após a publicação de `hermes-recruiter` v3 (aumento do limite de saída e reforço de instruções de formato), às 21h12 a mesma prévia exibiu interpretação generativa e os logs registraram `claim: accepted` e `provider: accepted`. Isso demonstra funcionamento pontual do caminho generativo com conta autenticada; não garante disponibilidade para todos, nem substitui E2E remoto completo. A função principal `hermes` e a demo pública permanecem determinísticas.
+
+
 O workflow GitHub Actions **Deploy BusinessMind public demo #3** terminou com sucesso e a Cloudflare registrou novo deploy do Worker às **23:25 UTC**, com **100% do tráfego** na versão nova. Isso comprova publicação, não testes E2E remotos de Supabase, Gemini ou compatibilidade em todos os navegadores.
 
 Houve um **ensaio generativo remoto controlado em prévia isolada** (HTTP 200 e interpretação exibida). As referências abaixo a “nenhuma chamada remota” descrevem apenas as execuções específicas de testes de 10–12/11, não esse ensaio isolado posterior.
