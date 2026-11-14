@@ -2,7 +2,19 @@
 
 **MVP web para pequenos negócios:** registro de receitas e despesas, indicadores financeiros e análises explicativas pelo assistente Hermes.
 
-**[▶ Experimentar a demonstração pública — sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)**
+## Experimente o BusinessMind AI — três caminhos
+
+| Acesso | O que testar | Limitações |
+| --- | --- | --- |
+| **[▶ Demo rápida — sem cadastro](https://businessmind-ai-demo.guisoster060.workers.dev)** | Quatro telas, movimentações fictícias, indicadores e Hermes determinístico | Dados locais ao navegador; sem autenticação remota ou Gemini |
+| **[▶ Criar conta — staging](https://businessmind-ai-staging.pages.dev)** | Cadastro, confirmação de e-mail, login, criação de empresa, movimentações persistidas no Supabase | Ambiente de testes; e-mails sujeitos a limites; Gemini generativo não é garantido neste endereço |
+| **[▶ Testar Gemini — prévia experimental](https://fix-hermes-safe-diagnostics.businessmind-ai.pages.dev)** | Entrar com conta de teste, criar empresa fictícia, registrar movimentações e solicitar interpretação generativa ao Hermes | Gemini sujeito a quota e disponibilidade; resposta determinística de segurança quando indisponível |
+
+**Roteiro de avaliação em aproximadamente 3 minutos:** (1) abra a demo sem cadastro para conhecer a interface; (2) abra o staging para criar sua própria conta e empresa; (3) na prévia experimental, entre com uma conta de teste, registre uma receita e uma despesa fictícias e pergunte ao Hermes: *“Analise minhas receitas e despesas e sugira duas melhorias para a empresa.”* Verifique se aparece **“Interpretação generativa”**. Se o Hermes informar modo determinístico, o Gemini não foi utilizado naquela resposta.
+
+**Validação em 13/11/2026 (horário de Brasília):** na prévia experimental, uma conta de teste obteve resposta generativa visível às 21h12; os logs da Edge Function `hermes-recruiter` v3 registraram autorização e resposta do provedor aceitas. Uma tentativa anterior às 21h07 retornou fallback determinístico após validação de resposta inválida. **Isto comprova testes pontuais, não disponibilidade geral ou produção.** A quota do endpoint de testes limita até três tentativas por usuário por dia, com intervalo mínimo de sessenta segundos, e vinte tentativas globais por dia; tentativas malsucedidas também podem consumir quota. Utilize somente dados fictícios.
+
+
 
 A demonstração funciona com **dados fictícios armazenados no navegador**. Não utiliza autenticação, banco remoto nem IA generativa. É a melhor forma de conhecer o projeto rapidamente.
 
